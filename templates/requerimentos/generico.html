@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ requerimento.nome }}{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/requerimento_detalhes.css' %}">
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+<div class="requerimento-detalhes">
+    <div class="requerimento-cabecalho">
+        <a href="{% url 'listar_requerimentos' %}" class="btn-voltar">&larr; Voltar para lista</a>
+
+        <h2>{{ requerimento.nome }}</h2>
+    </div>
+    
+    <div class="requerimento-conteudo">
+        <p class="requerimento-descricao">{{ requerimento.descricao }}</p>
+        
+        <div class="requerimento-secao">
+            <h3>Instruções</h3>
+            <p>Para abrir um requerimento de {{ requerimento.nome }}, siga as instruções abaixo:</p>
+            
+            <ol class="requerimento-instrucoes">
+                <li>Verifique se você possui todos os documentos necessários</li>
+                <li>Preencha o formulário com as informações solicitadas</li>
+                <li>Anexe a documentação exigida</li>
+                <li>Revise todas as informações antes de enviar</li>
+                <li>Clique em "Enviar Requerimento" para finalizar</li>
+            </ol>
+        </div>
+        
+        <div class="requerimento-secao">
+            <h3>Documentos Necessários</h3>
+            <ul class="requerimento-documentos">
+                <li>Documento de identificação com foto</li>
+                <li>CPF</li>
+                <li>Comprovante de residência</li>
+                <li>Documentação específica para {{ requerimento.nome }}</li>
+            </ul>
+        </div>
+        
+        <div class="requerimento-acoes">
+            <button class="btn-primario">Iniciar Requerimento</button>
+            <button class="btn-secundario">Ver Documentação</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

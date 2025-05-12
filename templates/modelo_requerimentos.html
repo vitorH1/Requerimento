@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Requerimentos{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/requerimentos.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="requerimentos-container">
+    <h2 class="requerimentos-titulo">Requerimentos</h2>
+    
+    <!-- Campo de busca -->
+    <div class="requerimentos-busca">
+        <form action="{% url 'listar_requerimentos' %}" method="GET">
+
+            <div class="input-group">
+                <input type="text" name="q" id="busca" placeholder="Buscar requerimentos..." 
+                       value="{{ search_query }}" autocomplete="off">
+                <button type="submit" class="btn-busca">Buscar</button>
+                {% if search_query %}
+                <a href="{% url 'listar_requerimentos' %}" class="btn-limpar">Limpar</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+    
+    <!-- Lista de requerimentos -->
+    <div class="requerimentos-lista">
+        {% if requerimentos %}
+            <ul>
+                {% for requerimento in requerimentos %}
+                <li>
+                    <a href="{% url 'requerimento_detalhes' requerimento.id %}" class="requerimento-item">
+                        <h3>{{ requerimento.nome }}</h3>
+                        <p>{{ requerimento.descricao }}</p>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="requerimentos-vazio">
+                <p>Nenhum requerimento encontrado para "{{ search_query }}".</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/requerimentos.js' %}" defer></script>
+{% endblock %}
