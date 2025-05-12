@@ -1,0 +1,343 @@
+/* Estilos para Escritura Pública - Sistema de Requerimentos */
+
+/* Reset e estilos gerais */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container-fluid {
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* Cabeçalho do formulário */
+  h6.font-weight-bold.text-primary {
+    color: #3f51b5 !important;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  
+  /* Título principal */
+  .card-header h6 {
+    font-weight: 600;
+    font-size: 1rem;
+    margin: 0;
+  }
+  
+  /* Cards e seções */
+  .card {
+    border: none;
+    box-shadow: none;
+    margin-bottom: 10px;
+    background-color: transparent;
+  }
+  
+  .card-header {
+    background-color: #5c6bc0;
+    padding: 10px 15px;
+    color: white;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .card-header i, .card-header .fas {
+    margin-right: 10px;
+  }
+  
+  .card-body {
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-top: none;
+    padding: 20px;
+    border-radius: 0 0 3px 3px;
+  }
+  
+  /* Campos de formulário */
+  .form-control {
+    height: 38px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 8px 12px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  select.form-control {
+    padding-right: 30px;
+    background: #fff url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23333' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat right 10px center;
+    background-size: 8px 10px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+  
+  textarea.form-control {
+    min-height: 80px;
+    resize: vertical;
+  }
+  
+  /* Alinhamento dos rótulos e campos */
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #444;
+  }
+  
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -10px;
+    margin-left: -10px;
+  }
+  
+  .col-md-4, .col-md-6, .col-md-8, .col-md-12, .col-md-3 {
+    padding-right: 10px;
+    padding-left: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .col-md-3 {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+  
+  .col-md-4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+  }
+  
+  .col-md-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+  
+  .col-md-8 {
+    flex: 0 0 66.666667%;
+    max-width: 66.666667%;
+  }
+  
+  .col-md-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  
+  /* Botões */
+  .btn {
+    padding: 8px 15px;
+    border-radius: 3px;
+    font-weight: 400;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    margin-right: 5px;
+  }
+  
+  .btn-primary {
+    background-color: #5c6bc0;
+    color: white;
+  }
+  
+  .btn-primary:hover {
+    background-color: #3f51b5;
+  }
+  
+  .btn-secondary {
+    background-color: #757575;
+    color: white;
+  }
+  
+  .btn-light {
+    background-color: #f5f5f5;
+    color: #333;
+    border: 1px solid #ddd;
+  }
+  
+  .btn-sm {
+    padding: 4px 10px;
+    font-size: 12px;
+  }
+  
+  /* Botão de adicionar parte */
+  #adicionar_parte {
+    background-color: white;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 4px 12px;
+    font-size: 12px;
+    margin-left: auto;
+  }
+  
+  /* Formatos específicos para partes e seções */
+  .parte-form {
+    margin-bottom: 15px;
+  }
+  
+  .parte-form .border {
+    border: 1px solid #ddd !important;
+    padding: 15px;
+    border-radius: 3px;
+    position: relative;
+  }
+  
+  .remover-parte {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 2px 6px;
+    font-size: 12px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 3px;
+  }
+  
+  /* Campos condicionais */
+  .outro-papel-container,
+  .regime-bens-container,
+  #outra_forma_pagamento,
+  #imovel_form {
+    display: none;
+  }
+  
+  /* Switch personalizado */
+  .custom-control {
+    position: relative;
+    z-index: 1;
+    display: block;
+    min-height: 1.5rem;
+    padding-left: 1.5rem;
+  }
+  
+  .custom-control-label {
+    position: relative;
+    margin-bottom: 0;
+    vertical-align: top;
+    color: white !important;
+  }
+  
+  /* Ícones */
+  .fas {
+    margin-right: 5px;
+  }
+  
+  /* Input de arquivo personalizado */
+  .custom-file {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+  }
+  
+  .custom-file-input {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: calc(1.5em + 0.75rem + 2px);
+    margin: 0;
+    opacity: 0;
+  }
+  
+  .custom-file-label {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1;
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+  }
+  
+  .custom-file-label::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3;
+    display: block;
+    height: calc(1.5em + 0.75rem);
+    padding: 0.375rem 0.75rem;
+    line-height: 1.5;
+    color: #495057;
+    content: "Procurar";
+    background-color: #f5f5f5;
+    border-left: inherit;
+    border-radius: 0 3px 3px 0;
+  }
+  
+  /* Estilo específico para o título da página */
+  h1.font-weight-bold.text-primary {
+    color: #3949ab !important;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  /* Estilo específico para Nova Escritura Pública */
+  .nova-escritura-titulo {
+    color: #3f51b5;
+    font-size: 1.2rem;
+    padding: 10px 0;
+    margin-bottom: 20px;
+    font-weight: 600;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  /* Específico para o formulário da Nova Escritura */
+  #escrituraPublicaForm {
+    margin-top: 10px;
+  }
+  
+  /* Estilos para campos obrigatórios */
+  label[for$="*"]::after,
+  label[for$="*"] {
+    content: " *";
+    color: #f44336;
+  }
+  
+  /* Layout grid para melhor organização dos campos */
+  .grid-container {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  /* Ajustes responsivos */
+  @media (max-width: 768px) {
+    .row {
+      display: block;
+    }
+    
+    .col-md-3, .col-md-4, .col-md-6, .col-md-8, .col-md-12 {
+      max-width: 100%;
+      flex: 0 0 100%;
+    }
+    
+    .grid-container {
+      grid-template-columns: 1fr;
+    }
+    
+    .card-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    #adicionar_parte {
+      margin-top: 10px;
+      margin-left: 0;
+    }
+  }

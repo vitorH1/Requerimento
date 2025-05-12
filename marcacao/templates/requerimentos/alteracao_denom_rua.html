@@ -1,0 +1,733 @@
+{% extends 'base.html' %}
+
+{% block title %}Requerimentos{% endblock %}
+
+{% block styles %}
+<style>
+    .container {
+        width: 100%;
+        max-width: 297mm;
+        /* Aumentado para largura máxima A4 paisagem */
+        margin: 0 auto;
+        font-family: Arial, sans-serif;
+        color: #333;
+        box-sizing: border-box;
+        background-color: #f5f7fa;
+        padding: 0 20px;
+        /* Adiciona padding nas laterais */
+    }
+
+    .header-bar {
+        background-color: #3b4a63;
+        color: white;
+        padding: 12px 15px;
+        margin-bottom: 20px;
+    }
+
+    .header-bar h1 {
+        font-size: 18px;
+        margin: 0;
+        font-weight: normal;
+    }
+
+    .form-wrapper {
+        background-color: #fff;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        margin-bottom: 20px;
+        max-width: 100%;
+    }
+
+    .form-header {
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    .form-header h2 {
+        font-size: 16px;
+        font-weight: bold;
+        color: #000000;
+        margin-bottom: 8px;
+    }
+
+    .form-header h3 {
+        font-size: 14px;
+        font-weight: bold;
+        color: #000000;
+        margin-top: 0;
+    }
+
+    .form-content {
+        font-size: 14px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-row {
+        display: flex;
+        gap: 10px;
+        /* Reduzido de 15px para 10px */
+        margin-bottom: 10px;
+        /* Reduzido de 15px para 10px */
+        align-items: flex-start;
+    }
+
+    .half {
+        flex: 1;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 3px;
+        /* Reduzido de 5px para 3px */
+        font-weight: normal;
+        color: #555;
+        font-size: 13px;
+        /* Reduzido de 14px para 13px */
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 8px;
+        /* Reduzido de 10px para 8px */
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 13px;
+        /* Reduzido de 14px para 13px */
+        box-sizing: border-box;
+    }
+
+    .form-control:focus {
+        border-color: #009fda;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(0, 159, 218, 0.2);
+    }
+
+    /* Ajuste para campos menores */
+    select[name="uf"] {
+        min-width: 80px;
+    }
+
+    input[name="numero"] {
+        min-width: 60px;
+    }
+
+    .vem-requerer {
+        margin: 10px 0 5px;
+        /* Reduzido de 20px 0 10px */
+    }
+
+    .vem-requerer p {
+        margin-bottom: 5px;
+        font-size: 13px;
+    }
+
+    .vem-requerer .form-control {
+        margin-bottom: 5px;
+        /* Adiciona pequena margem inferior */
+    }
+
+    /* Ajuste específico para o grupo de inputs sequenciais */
+    .vem-requerer+.vem-requerer {
+        margin-top: 5px;
+        /* Reduz espaço entre blocos vem-requerer consecutivos */
+    }
+
+    .option-group {
+        margin-bottom: 20px;
+    }
+
+    .option {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 10px;
+    }
+
+    .option input[type="radio"] {
+        margin-top: 3px;
+        margin-right: 10px;
+    }
+
+    .info-group {
+        margin-left: 25px;
+        margin-bottom: 20px;
+    }
+
+    .info-group p {
+        margin-bottom: 8px;
+    }
+
+    .hint {
+        font-size: 12px;
+        color: #666;
+        margin-left: 10px;
+    }
+
+    .form-footer {
+        margin-top: 15px;
+        /* Reduzido de 30px */
+    }
+
+    .date-section {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 25px;
+    }
+
+    .date-city {
+        width: 150px;
+    }
+
+    .date-day {
+        width: 40px;
+        text-align: center;
+    }
+
+    .date-month {
+        width: 100px;
+    }
+
+    .date-year {
+        width: 60px;
+        text-align: center;
+    }
+
+    .date-separator {
+        margin: 0 5px;
+    }
+
+    .signature-line {
+        width: 50%;
+        margin: 10px auto 0;
+        /* Reduzido o margin-top */
+        text-align: center;
+        position: relative;
+    }
+
+    .signature-line hr {
+        border: none;
+        border-top: 1px solid #000;
+    }
+
+    .signature-label {
+        font-size: 12px;
+        color: #666;
+        position: absolute;
+        right: 0;
+        bottom: -20px;
+    }
+
+    .observations {
+        margin-top: 40px;
+        border-top: 1px solid #ddd;
+        padding-top: 15px;
+    }
+
+    ol {
+        margin-left: 25px;
+        padding-left: 0;
+    }
+
+    li {
+        margin-bottom: 8px;
+        font-size: 12px;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .btn {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+    }
+
+    .btn-primary {
+        background-color: #00aaff;
+        color: white;
+    }
+
+    .btn-secondary {
+        background-color: #00a77d;
+        color: white;
+    }
+
+    .plus-icon {
+        margin-right: 5px;
+        font-style: normal;
+        font-weight: bold;
+    }
+
+    .print-date-row {
+        margin-bottom: 15px !important;
+        /* Reduzido de 25px */
+        margin-top: 10px !important;
+    }
+
+    /* Ajuste para impressão */
+    @media print {
+        .container {
+            max-width: 100%;
+            padding: 20px;
+        }
+
+        .form-wrapper {
+            padding: 0;
+            margin: 0;
+        }
+
+        .signature-line {
+            margin-top: 1.5cm !important;
+            /* Reduzido de 3cm para 1.5cm */
+        }
+
+        .observations {
+            margin-top: 1cm !important;
+            /* Reduzido de 2cm para 1cm */
+        }
+
+        .print-date-row {
+            margin-bottom: 1cm !important;
+        }
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <div class="header-bar">
+        <h1>Alteração de Denominação de Rua ou Logradouro Público</h1>
+    </div>
+
+    <div class="form-wrapper">
+        <div class="form-header">
+            <h2>REQUERIMENTO – ALTERAÇÃO DE DENOMINAÇÃO DE RUA OU LOGRADOURO PÚBLICO</h2>
+            <h3>ILUSTRÍSSIMA OFICIALA DE REGISTRO DE IMÓVEIS DE MONTE CARMELO</h3>
+        </div>
+
+        <!-- Rest of your form content -->
+        <form id="form-cadastro">
+            <div class="form-row">
+                <div class="half">
+                    <label for="nome">Nome:</label>
+                    <input type="text" name="nome" id="nome" class="form-control" required>
+                </div>
+                <div class="half">
+                    <label for="rg">RG:</label>
+                    <input type="text" name="rg" id="rg" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="half">
+                    <label for="cpf">CPF (MF):</label>
+                    <input type="text" name="cpf" id="cpf" class="form-control" required>
+                </div>
+                <div class="half">
+                    <label for="telefone">Whatsapp/Telefone:</label>
+                    <input type="text" name="telefone" id="telefone" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div style="flex: 1;">
+                    <label for="nacionalidade">Nacionalidade:</label>
+                    <input type="text" name="nacionalidade" id="nacionalidade" class="form-control" required>
+                </div>
+                <div style="flex: 1;">
+                    <label for="estado_civil">Estado Civil:</label>
+                    <input type="text" name="estado_civil" id="estado_civil" class="form-control" required>
+                </div>
+                <div style="flex: 1;">
+                    <label for="profissao">Profissão:</label>
+                    <input type="text" name="profissao" id="profissao" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div style="flex: 2;">
+                    <label for="endereco">Residente e domiciliado(a) na Av. /Rua /AL:</label>
+                    <input type="text" name="endereco" id="endereco" class="form-control" required>
+                </div>
+                <div style="flex: 0.2;">
+                    <label for="numero">Nº:</label>
+                    <input type="text" name="numero" id="numero" class="form-control" required>
+                </div>
+                <div style="flex: 1;">
+                    <label for="complemento">Complemento:</label>
+                    <input type="text" name="complemento" id="complemento" class="form-control" required>
+                </div>
+                <div style="flex: 1;">
+                    <label for="bairro">Bairro:</label>
+                    <input type="text" name="bairro" id="bairro" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+
+                <div style="flex: 1;">
+                    <label for="cidade">Cidade:</label>
+                    <input type="text" name="cidade" id="cidade" class="form-control" required>
+                </div>
+
+                <div style="flex: 0.2;">
+                    <label for="uf">UF:</label>
+                    <select name="uf" id="uf" class="form-control" required>
+                        <option value="">Selecione</option>
+                        <option value="MG">MG</option>
+                        <option value="SP">SP</option>
+                    </select>
+                </div>
+
+                <div style="flex: 1;">
+                    <label for="email">Email:</label>
+                    <input type="email" name="email" id="email" class="form-control" required>
+                </div>
+            </div>
+
+
+
+            <div class="vem-requerer">
+                <p>vem requerer a Vossa Senhoria se digne AVERBAR na(s) matrícula(s) número(s),</p>
+                <input type="text" name="matriculas" class="form-control">
+            </div>
+
+            <div class="vem-requerer">
+                <p>desse Registro a alteração do nome do logradouro de</p>
+                <input type="text" name="conjuge" class="form-control">
+            </div>
+
+            <div class="vem-requerer">
+                <p>para</p>
+                <input type="text" name="regime" class="form-control">
+            </div>
+
+            <div class="option-group">
+                <p>Como prova do acima requerido anexa o(s) seguinte(s) documento(s):</p>
+                <div class="option" style="display: flex; align-items: center;">
+                    <input type="checkbox" name="certidao" style="margin-right: 5px;">
+                    <label> - Certidão de dados cadastrais expedida pela Prefeitura do Município de São Paulo.</label>
+                </div>
+                <div class="option" style="display: flex; align-items: center;">
+                    <input type="checkbox" name="certidao" style="margin-right: 5px;">
+                    <label> - Outro documento expedido pela Prefeitura do Município de São Paulo:</label>
+                </div>
+            </div>
+
+            <input type="text" name="documento" class="form-control" placeholder="especifique o documento"
+                style="margin-bottom: 35px; width: 80%;">
+
+            <div class="row mb-3 print-date-row" style="text-align: center;">
+                <div class="col-md-12">
+                    <p id="cidade-data" class="form-control-plaintext"></p>
+                </div>
+            </div>
+            <div class="form-footer">
+                <div class="signature-line">
+                    <hr>
+                    <span class="signature-label">(assinatura)</span>
+                </div>
+            </div>
+            <div class="observations">
+                <p><strong>Obs:</strong></p>
+                <ol>
+                    <li>As xerox devem ser autenticadas</li>
+                    <li>Reconhecer a firma do(a) requerente ou assinar o requerimento perante funcionário do cartório
+                    </li>
+                </ol>
+            </div>
+
+            <div class="no-print" style="display: flex; justify-content: center; gap: 10px; margin-top: 1rem;">
+                <button type="button" class="btn btn-primary" onclick="printRequerimento()">Imprimir</button>
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Modal de sucesso -->
+<div id="modalSucesso" style="display: none; position: fixed; top: 0; left: 0;
+     width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1000;
+     display: flex; align-items: center; justify-content: center;">
+
+    <div style="background: white; padding: 30px; border-radius: 10px; text-align: center; width: 300px;">
+        <p id="mensagemModal" style="margin-bottom: 20px; font-size: 18px;">Cadastro salvo com sucesso!</p>
+        <button onclick="fecharModal()"
+            style="padding: 8px 20px; border: none; background-color: #007bff; color: white; border-radius: 5px; cursor: pointer;">OK</button>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/validacoes.js') }}"></script>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const cidade = "Monte Carmelo";  // Cidade fixa (pode ser modificada se necessário)
+
+        // Data atual
+        const hoje = new Date();
+        const dia = String(hoje.getDate()).padStart(2, '0');
+        const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+        const ano = hoje.getFullYear();
+
+        // Formatação final da data
+        const dataFormatada = cidade + " - " + dia + "/" + mes + "/" + ano;
+
+        // Exibir a cidade e data no elemento <p>
+        document.getElementById('cidade-data').textContent = dataFormatada;
+    });
+
+    function printRequerimento() {
+        // Elementos que queremos ocultar durante a impressão
+        const printButton = document.querySelector('.no-print');
+        const headerBar = document.querySelector('.header-bar');
+
+        // Guarda o estado original
+        const originalPrintDisplay = printButton.style.display;
+        const originalHeaderDisplay = headerBar.style.display;
+
+        // Oculta os elementos
+        printButton.style.display = 'none';
+        headerBar.style.display = 'none';
+
+        // Cria e aplica os estilos de impressão
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @media print {
+                @page {
+                    size: A4;
+                    margin: 1.5cm;
+                }
+                espaco-impresso {
+                    height: 2cm;
+                }
+                
+                html, body {
+                    margin: 0 !important;
+                    padding: 0 !important;
+                    background: none !important;
+                    background-color: white !important;
+                }
+                
+                body * {
+                    visibility: hidden;
+                }
+                
+                .form-wrapper, .form-wrapper * {
+                    visibility: visible;
+                }
+                
+                .form-wrapper {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    width: 100%;
+                    background: white !important;
+                    box-shadow: none !important;
+                    padding: 0 !important;
+                    margin: 0 !important;
+                    border: none !important;
+                }
+                
+                .container {
+                    background: none !important;
+                    width: 100% !important;
+                    max-width: none !important;
+                    margin: 0 !important;
+                    padding: 0 !important;
+                }
+                
+                .header-bar, .no-print {
+                    display: none !important;
+                }
+                
+                .form-control {
+                    border: none !important;
+                    border-bottom: 1px solid #999 !important;
+                    padding: 4px 0 !important;
+                    background: transparent !important;
+                }
+                
+                .form-row {
+                    page-break-inside: avoid;
+                    margin-bottom: 1em !important;
+                }
+                
+                .signature-line {
+                    margin-top: 1.5cm !important; /* Reduzido de 3cm para 1.5cm */
+                }
+                
+                .observations {
+                    margin-top: 1cm !important; /* Reduzido de 2cm para 1cm */
+                }
+                
+                .print-date-row {
+                    margin-bottom: 1cm !important;
+                }
+            }
+        `;
+
+        document.head.appendChild(style);
+
+        // Aguarda um momento para os estilos serem aplicados
+        setTimeout(() => {
+            // Imprime
+            window.print();
+
+            // Remove os estilos de impressão
+            document.head.removeChild(style);
+
+            // Restaura a visibilidade dos elementos
+            printButton.style.display = originalPrintDisplay;
+            headerBar.style.display = originalHeaderDisplay;
+        }, 100);
+    }
+
+    window.addEventListener('load', () => {
+        document.getElementById('modalSucesso').style.display = 'none';
+    });
+
+    // Modificação no evento blur do campo CPF
+// Adicione este script na sua página HTML, substituindo o evento de blur atual do CPF
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Outras inicializações que você já tem
+    
+    const cpfInput = document.getElementById('cpf');
+    if (cpfInput) {
+        cpfInput.addEventListener('blur', function() {
+            const cpf = this.value;
+            if (!cpf || cpf.length < 11) return; // Ignora CPFs incompletos
+            
+            console.log("Buscando cliente com CPF:", cpf);
+            
+            // Adiciona um indicador de carregamento (opcional)
+            const form = document.getElementById('form-cadastro');
+            if (form) form.classList.add('loading');
+            
+            fetch(`/buscar_cliente/${cpf}`)
+                .then(response => {
+                    // Registre o status da resposta para depuração
+                    console.log("Status da resposta:", response.status);
+                    
+                    if (response.status === 404) {
+                        console.log("Cliente não encontrado");
+                        return null;
+                    }
+                    
+                    if (!response.ok) {
+                        throw new Error(`Erro na requisição: ${response.status}`);
+                    }
+                    
+                    return response.json();
+                })
+                .then(data => {
+                    // Remove o indicador de carregamento
+                    if (form) form.classList.remove('loading');
+                    
+                    console.log("Dados recebidos:", data);
+                    
+                    if (data) {
+                        // Preencher os campos do formulário com os dados recebidos
+                        document.getElementById('nome').value = data.nome || '';
+                        document.getElementById('rg').value = data.rg || '';
+                        document.getElementById('telefone').value = data.telefone || '';
+                        document.getElementById('nacionalidade').value = data.nacionalidade || '';
+                        document.getElementById('estado_civil').value = data.estado_civil || '';
+                        document.getElementById('profissao').value = data.profissao || '';
+                        document.getElementById('endereco').value = data.endereco || '';
+                        document.getElementById('numero').value = data.numero || '';
+                        document.getElementById('complemento').value = data.complemento || '';
+                        document.getElementById('bairro').value = data.bairro || '';
+                        document.getElementById('cidade').value = data.cidade || '';
+                        document.getElementById('uf').value = data.uf || '';
+                        document.getElementById('email').value = data.email || '';
+                    }
+                })
+                .catch(error => {
+                    console.error("Erro ao buscar cliente:", error);
+                    if (form) form.classList.remove('loading');
+                });
+        });
+    }
+    
+    // Configuração do envio do formulário
+    const formCadastro = document.getElementById('form-cadastro');
+    if (formCadastro) {
+        formCadastro.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Coletar todos os dados do formulário
+            const formData = new FormData(this);
+            const jsonData = {};
+            
+            formData.forEach((value, key) => { 
+                jsonData[key] = value;
+            });
+            
+            console.log("Enviando dados:", jsonData);
+            
+            // Enviar requisição para salvar os dados
+            fetch('/cadastro', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(jsonData)
+            })
+            .then(response => {
+                console.log("Status da resposta:", response.status);
+                return response.json();
+            })
+            .then(data => {
+                console.log("Resposta do servidor:", data);
+                if (data.erro) {
+                    mostrarModal(`Erro: ${data.erro}`);
+                } else {
+                    mostrarModal(data.mensagem || 'Cadastro salvo com sucesso!');
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao salvar:', error);
+                mostrarModal('Erro ao salvar os dados. Tente novamente.');
+            });
+        });
+    }
+});
+
+// Função de validação e formatação do CPF
+function formatarCPF(e) {
+    let valor = e.target.value.replace(/\D/g, '');
+    if (valor.length > 11) valor = valor.slice(0, 11);
+    valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+    valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+    valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+    e.target.value = valor;
+}
+
+// Função para exibir modal
+function mostrarModal(mensagem) {
+    const modalElement = document.getElementById('modalSucesso');
+    const mensagemElement = document.getElementById('mensagemModal');
+    
+    if (mensagemElement) mensagemElement.textContent = mensagem;
+    if (modalElement) modalElement.style.display = 'flex';
+}
+
+// Função para fechar modal
+function fecharModal() {
+    const modalElement = document.getElementById('modalSucesso');
+    if (modalElement) modalElement.style.display = 'none';
+}
+</script>
+
+{% endblock %}

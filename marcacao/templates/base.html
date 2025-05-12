@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sistema de Requerimentos{% endblock %}</title>
+    
+    <!-- CSS Base -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- CSS Específico -->
+    {% block styles %}{% endblock %}
+    
+</head>
+<body>
+    <div class="sistema-container">
+        <!-- Simulação da estrutura do sistema maior -->
+        <header class="sistema-header">
+            <h1>Sistema Principal</h1>
+            <!-- Botão fixo para acessar requerimentos, visível em todo o sistema -->
+            <a href="{{ url_for('requerimento.requerimentos') }}" class="btn-requerimentos">
+
+                <span class="icon">📝</span> Requerimentos
+            </a>
+        </header>
+        
+        <div class="sistema-content">
+            <!-- Menu lateral (simulando o menu do sistema principal) -->
+            <nav class="sistema-sidebar">
+                <ul>
+                    <li><a href="#" class="active">Início</a></li>
+                    <li><a href="{{ url_for('requerimento.requerimentos') }}">Requerimentos</a></li>
+                    
+                </ul>
+            </nav>
+            
+            <!-- Área de conteúdo principal - onde os templates específicos serão renderizados -->
+            <main class="sistema-main">
+                <!-- Mensagens de alerta -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="mensagens">
+                            {% for categoria, mensagem in messages %}
+                                <div class="mensagem {{ categoria }}">{{ mensagem }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                
+                <!-- Conteúdo específico da página -->
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+        
+        <footer class="sistema-footer">
+            <p>&copy; 2025 Sistema de Requerimentos</p>
+        </footer>
+    </div>
+    
+    <!-- JavaScript Base -->
+    <script src="{{ url_for('static', filename='js/base.js') }}" defer></script>
+    
+    <!-- JavaScript Específico -->
+    {% block scripts %}{% endblock %}
+</body>
+</html>
