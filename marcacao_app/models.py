@@ -23,3 +23,11 @@ class Cliente(models.Model):
 
     def __str__(self):
         return self.nome
+
+class ArquivoPDF(models.Model):
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, related_name='pdfs')
+    nome_arquivo = models.CharField(max_length=255)
+    data_upload = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.nome_arquivo} ({self.cliente.nome})"

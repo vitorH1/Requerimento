@@ -368,6 +368,7 @@
             <div class="no-print" style="display: flex; justify-content: center; gap: 10px; margin-top: 1rem;">
                 <button type="button" class="btn btn-primary" onclick="printRequerimento()">Imprimir</button>
                 <button type="submit" class="btn btn-primary">Cadastrar</button>
+                <button type="button" class="btn btn-primary" id="btn-gerar-pdf-html2pdf">upload pdf</button>
             </div>
         </form>
     </div>
@@ -729,4 +730,102 @@ function fecharModal() {
 
 </script>
 <script src="{% static 'js/validacoes.js' %}"></script>
+
+
+<!-- CSS para PDF e impressão -->
+<style>
+.hide-on-pdf {
+    display: none !important;
+}
+.pdf-clean {
+    border: none !important;
+    box-shadow: none !important;
+}
+.pdf-clean, .pdf-clean * {
+    box-shadow: none !important;
+    background: white !important;
+}
+.pdf-clean .form-control {
+    border: none !important;
+    border-bottom: 1px solid #000 !important;
+    background: white !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+.pdf-clean .form-wrapper,
+.pdf-clean .container {
+    border: none !important;
+}
+.pdf-clean .signature-line {
+    margin-top: 1.5cm !important; /* ajuste conforme necessário */
+}
+.pdf-clean .signature-line hr {
+    border: none !important;
+    border-top: 2px solid #000 !important;
+    height: 1px !important;
+    margin: 0 !important;
+    background: none !important;
+    display: block !important;
+}
+</style>
+
+<!-- Bibliotecas necessárias -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<!-- SCRIPT PDF -->
+<script>
+document.getElementById('btn-gerar-pdf-html2pdf').onclick = function() {
+    const formWrapper = document.querySelector('.form-wrapper');
+    formWrapper.classList.add('pdf-clean');
+
+    // Oculta botões e elementos indesejados
+    document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.add('hide-on-pdf'));
+
+    const element = document.querySelector('.form-wrapper');
+    const cpf = document.getElementById('cpf').value.replace(/\D/g, '');
+    if (!cpf) {
+        alert('Preencha o CPF antes de gerar o PDF.');
+        document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
+        formWrapper.classList.remove('pdf-clean');
+        return;
+    }
+
+    const nome_pdf = `requerimento-averbacao-demolicao-${cpf}.pdf`;
+    const opt = {
+        margin: 0.2,
+        filename: nome_pdf,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, scrollY: 0 },
+        jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+    };
+
+    html2pdf().set(opt).from(element).outputPdf('blob').then(function(pdfBlob) {
+        const formData = new FormData();
+        formData.append('pdf', pdfBlob, nome_pdf);
+        formData.append('cpf', cpf);
+
+        fetch('/upload_pdf/', {
+            method: 'POST',
+            body: formData
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.erro) {
+                alert('Erro: ' + data.erro);
+            } else {
+                alert(data.mensagem || 'PDF gerado e enviado com sucesso!');
+            }
+        })
+        .catch(() => {
+            alert('Erro ao enviar o PDF.');
+        });
+    }).finally(() => {
+        // Remove as classes após gerar o PDF
+        formWrapper.classList.remove('pdf-clean');
+        document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
+    });
+};
+</script>
 {% endblock %}

@@ -1,12 +1,18 @@
-from .models import Cliente
+from .models import Cliente, ArquivoPDF
 from django.shortcuts import render, redirect
 from django.template import TemplateDoesNotExist
 import os
 from config import REQUERIMENTOS, TEMPLATES_DETALHES_PATH
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
+from django.http import JsonResponse, FileResponse
 import json
 from marcacao_app.utils import limpar_cpf
+from django.views.decorators.http import require_GET
+from django.template.loader import render_to_string
+from django.conf import settings
+import tempfile
+from django.core.mail import EmailMessage
+from django.core.mail import get_connection
 
 # Create your views here.
 
@@ -46,6 +52,9 @@ def cadastro(request):
         try:
             data = json.loads(request.body)
             cpf_limpo = limpar_cpf(data.get('cpf', ''))
+            # Verifica se já existe um cliente com esse CPF
+            if Cliente.objects.filter(cpf=cpf_limpo).exists():
+                return JsonResponse({'erro': 'CPF já cadastrado!'}, status=400)
             cliente = Cliente.objects.create(
                 nome=data.get('nome', ''),
                 rg=data.get('rg', ''),
@@ -66,3 +75,125 @@ def cadastro(request):
         except Exception as e:
             return JsonResponse({'erro': f'Erro ao salvar: {str(e)}'}, status=400)
     return JsonResponse({'erro': 'Método não permitido'}, status=405)
+
+@require_GET
+def buscar_cliente(request, cpf):
+    from marcacao_app.utils import limpar_cpf
+    cpf_limpo = limpar_cpf(cpf)
+    try:
+        cliente = Cliente.objects.get(cpf=cpf_limpo)
+        return JsonResponse({
+            "nome": cliente.nome,
+            "rg": cliente.rg,
+            "telefone": cliente.telefone,
+            "nacionalidade": cliente.nacionalidade,
+            "estado_civil": cliente.estado_civil,
+            "profissao": cliente.profissao,
+            "endereco": cliente.endereco,
+            "numero": cliente.numero,
+            "complemento": cliente.complemento,
+            "bairro": cliente.bairro,
+            "cidade": cliente.cidade,
+            "uf": cliente.uf,
+            "email": cliente.email,
+        })
+    except Cliente.DoesNotExist:
+        return JsonResponse({"erro": "Cliente não encontrado"}, status=404)
+
+PDF_UPLOAD_DIR = r"C:\documentos_cartorio\pdfs"
+
+import re
+
+@csrf_exempt
+def upload_pdf(request):
+    if request.method == 'POST':
+        cpf = request.POST.get('cpf')
+        if not cpf:
+            return JsonResponse({'erro': 'CPF não informado'}, status=400)
+        try:
+            cliente = Cliente.objects.get(cpf=cpf)
+        except Exception as e:
+            return JsonResponse({'erro': f'Erro ao buscar cliente: {str(e)}'}, status=400)
+
+        # Verifica se um arquivo foi enviado
+        arquivo = request.FILES.get('pdf')
+        if not arquivo or not arquivo.name.lower().endswith('.pdf'):
+            return JsonResponse({'erro': 'Arquivo PDF não enviado'}, status=400)
+        try:
+            # Gera nome único para o arquivo
+            nome_base = f"{cpf}.pdf"
+            caminho = os.path.join(PDF_UPLOAD_DIR, nome_base)
+            contador = 1
+            while os.path.exists(caminho):
+                nome_base = f"{cpf}({contador}).pdf"
+                caminho = os.path.join(PDF_UPLOAD_DIR, nome_base)
+                contador += 1
+
+            # Salva o arquivo PDF enviado
+            with open(caminho, 'wb') as destino:
+                for chunk in arquivo.chunks():
+                    destino.write(chunk)
+
+            # Salva no banco
+            ArquivoPDF.objects.create(cliente=cliente, nome_arquivo=nome_base)
+            return JsonResponse({'mensagem': 'Upload realizado com sucesso!', 'nome_pdf': nome_base})
+        except Exception as e:
+            return JsonResponse({'erro': f'Erro ao salvar PDF: {str(e)}'}, status=500)
+    return JsonResponse({'erro': 'Arquivo não enviado'}, status=400)
+
+def exibir_pdf(request, nome_pdf):
+    caminho = os.path.join(PDF_UPLOAD_DIR, nome_pdf)
+    if os.path.exists(caminho):
+        return FileResponse(open(caminho, 'rb'), content_type='application/pdf')
+    return JsonResponse({'erro': 'Arquivo não encontrado'}, status=404)
+
+def consultar_pdfs(request, cpf):
+    try:
+        cliente = Cliente.objects.get(cpf=cpf)
+        pdfs = cliente.pdfs.all()
+        return render(request, 'consultar_pdfs.html', {'cliente': cliente, 'pdfs': pdfs})
+    except Cliente.DoesNotExist:
+        return render(request, 'erro.html', {'mensagem': 'Cliente não encontrado'})
+
+def buscar_cliente_pdfs(request):
+    if request.method == 'POST':
+        cpf = request.POST.get('cpf')
+        if cpf:
+            return redirect('consultar_pdfs', cpf=cpf)
+    return render(request, 'buscar_cliente_pdfs.html')
+
+@csrf_exempt
+def enviar_pdf_email(request):
+    if request.method == 'POST':
+        cpf = request.POST.get('cpf')
+        email_destino = request.POST.get('email')
+        if not cpf or not email_destino:
+            return JsonResponse({'erro': 'CPF e email são obrigatórios.'}, status=400)
+        try:
+            cliente = Cliente.objects.get(cpf=cpf)
+        except Exception as e:
+            return JsonResponse({'erro': f'Erro ao buscar cliente: {str(e)}'}, status=400)
+        arquivo = request.FILES.get('pdf')
+        if not arquivo or not arquivo.name.lower().endswith('.pdf'):
+            return JsonResponse({'erro': 'Arquivo PDF não enviado'}, status=400)
+        try:
+            # Salva o PDF temporariamente
+            with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as temp:
+                for chunk in arquivo.chunks():
+                    temp.write(chunk)
+                temp_path = temp.name
+            # Usa conexão padrão (TLS)
+            connection = get_connection()
+            email = EmailMessage(
+                subject='Requerimento em PDF',
+                body=f'Olá,\n\nSegue em anexo o PDF do requerimento gerado para o CPF {cpf}.',
+                to=[email_destino],
+                connection=connection
+            )
+            email.attach(arquivo.name, open(temp_path, 'rb').read(), 'application/pdf')
+            email.send()
+            os.remove(temp_path)
+            return JsonResponse({'mensagem': 'PDF enviado por email com sucesso!'})
+        except Exception as e:
+            return JsonResponse({'erro': f'Erro ao enviar email: {str(e)}'}, status=500)
+    return JsonResponse({'erro': 'Arquivo não enviado'}, status=400)

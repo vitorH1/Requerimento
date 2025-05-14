@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>PDFs do cliente: {{ cliente.nome }} (CPF: {{ cliente.cpf }})</h2>
+<ul>
+    {% for pdf in pdfs %}
+        <li>
+            <a href="/pdfs/{{ pdf.nome_arquivo }}" target="_blank">{{ pdf.nome_arquivo }}</a>
+            (enviado em {{ pdf.data_upload|date:"d/m/Y H:i" }})
+        </li>
+    {% empty %}
+        <li>Nenhum PDF encontrado para este cliente.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

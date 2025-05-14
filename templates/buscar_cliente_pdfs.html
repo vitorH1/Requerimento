@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Consultar PDFs por CPF</h2>
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="cpf" placeholder="Digite o CPF do cliente" required pattern="\d{11}" maxlength="" oninput="this.value = this.value.replace(/\D/g, '')">
+    <button type="submit">Consultar</button>
+</form>
+{% endblock %}

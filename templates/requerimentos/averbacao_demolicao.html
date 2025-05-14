@@ -264,27 +264,74 @@ li {
 
 /* Ajuste para impressão */
 @media print {
-    .container {
-        max-width: 100%;
-        padding: 20px;
+    html, body {
+        width: 210mm;
+        height: 297mm;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
     }
-    
+    .container, .form-wrapper {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0.2cm !important;
+        background: white !important;
+        box-sizing: border-box;
+    }
+    .form-row, .vem-requerer, .option-group, .form-footer {
+        page-break-inside: avoid;
+    }
     .form-wrapper {
-        padding: 0;
-        margin: 0;
+        page-break-after: always;
     }
-    
-    .signature-line {
-        margin-top: 1.5cm !important; /* Reduzido de 3cm para 1.5cm */
+    .no-print {
+        display: none !important;
     }
-    
-    .observations {
-        margin-top: 1cm !important; /* Reduzido de 2cm para 1cm */
+    .nao-imprimir {
+        display: none !important;
     }
-    
-    .print-date-row {
-        margin-bottom: 1cm !important;
-    }
+}
+.hide-on-pdf {
+    display: none !important;
+}
+.pdf-clean {
+    border: none !important;
+    box-shadow: none !important;
+}
+.pdf-clean, .pdf-clean * {
+    box-shadow: none !important;
+    background: white !important;
+    /* NÃO coloque border: none aqui! */
+}
+/* Remove bordas dos campos, mas NÃO da linha de assinatura */
+.pdf-clean .form-control,
+.pdf-clean .form-wrapper,
+.pdf-clean .container {
+    border: none !important;
+}
+/* Garante que a linha de assinatura permaneça */
+.signature-line hr {
+    border: none;
+    border-top: 2px solid #000 !important;
+    height: 1px !important;
+    margin: 0 !important;
+    background: none !important;
+    display: block !important;
+}
+.pdf-clean .form-control {
+    border: none !important;
+    border-bottom: 1px solid #000 !important;
+    background: white !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+.pdf-clean .form-wrapper,
+.pdf-clean .container {
+    border: none !important;
+}
+.pdf-clean .signature-line {
+    margin-top: 1.5cm !important; /* ajuste o valor conforme desejar */
 }
 </style>
 {% endblock %}
@@ -381,23 +428,26 @@ li {
                 </div>
             </div> 
 
-            <div class="vem-requerer">
-                <p>vem requerer a Vossa Senhoria se digne AVERBAR na(s) matrícula(s) número(s),</p>
-                <input type="text" name="matriculas" class="form-control">
-            </div>
+       
+                <div class="vem-requerer">
+                    <p>vem requerer a Vossa Senhoria se digne AVERBAR na(s) matrícula(s) número(s),</p>
+                    <input type="text" name="matriculas" class="form-control">
+                </div>  
 
-            <div class="vem-requerer">
-                <p>desse Registro a demolição do(s) prédio(s) número(s)</p>
-                <input type="text" name="conjuge" class="form-control">
-            </div>
+            <div class="form-row" style="align-items: flex-end;">
+                <div class="half vem-requerer">
+                    <p>desse Registro a demolição do(s) prédio(s) número(s)</p>
+                    <input type="text" name="numero_predio" class="form-control">
+                </div>
+                <div class="half vem-requerer">
+                    <p>da Av./Rua/Al.</p>
+                    <input type="text" name="logradouro_predio" class="form-control">
+                </div>
 
-            <div class="vem-requerer">
-                <p>da Av./Rua/Al.</p>
-                <input type="text" name="regime" class="form-control">
-            </div>
-            <div class="vem-requerer">
-                <p>com a área construída de</p>
-                <input type="text" name="regime" class="form-control">
+                <div class="vem-requerer">
+                    <p>com a área construída de</p>
+                    <input type="text" name="regime" class="form-control">
+                </div>
             </div>
 
             <div class="option-group">
@@ -440,8 +490,9 @@ li {
             <div class="no-print" style="display: flex; justify-content: center; gap: 10px; margin-top: 1rem;">
                 <button type="button" class="btn btn-primary" onclick="printRequerimento()">Imprimir</button>
                 <button type="submit" class="btn btn-primary">Cadastrar</button>
+                <button type="button" class="btn btn-primary" id="btn-gerar-pdf-html2pdf">upload pdf</button>
+                <button type="button" class="btn btn-primary" id="btn-enviar-email">Enviar Email</button>
             </div>
-
         </form>
     </div>
 </div>
@@ -500,6 +551,7 @@ li {
                 espaco-impresso {
                     height: 1.5cm;
                 }
+                    
                 
                 html, body {
                     margin: 0 !important;
@@ -727,6 +779,119 @@ function fecharModal() {
     if (modalElement) modalElement.style.display = 'none';
 }
 
+// --- NOVA FUNÇÃO: Enviar PDF por email ---
+document.getElementById('btn-enviar-email').onclick = function() {
+    const formWrapper = document.querySelector('.form-wrapper');
+    formWrapper.classList.add('pdf-clean');
+    document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.add('hide-on-pdf'));
+
+    const element = document.querySelector('.form-wrapper');
+    const cpf = document.getElementById('cpf').value.replace(/\D/g, '');
+    const email = document.getElementById('email').value;
+    if (!cpf) {
+        mostrarModal('Preencha o CPF antes de enviar o PDF por email.');
+        document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
+        formWrapper.classList.remove('pdf-clean');
+        return;
+    }
+    if (!email) {
+        mostrarModal('Preencha o email antes de enviar o PDF.');
+        document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
+        formWrapper.classList.remove('pdf-clean');
+        return;
+    }
+    const nome_pdf = `requerimento-averbacao-demolicao-${cpf}.pdf`;
+    const opt = {
+        margin: 0.2,
+        filename: nome_pdf,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, scrollY: 0 },
+        jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+    };
+    html2pdf().set(opt).from(element).outputPdf('blob').then(function(pdfBlob) {
+        const formData = new FormData();
+        formData.append('pdf', pdfBlob, nome_pdf);
+        formData.append('cpf', cpf);
+        formData.append('email', email);
+        fetch('/enviar_pdf_email/', {
+            method: 'POST',
+            body: formData
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.erro) {
+                mostrarModal('Erro: ' + data.erro);
+            } else {
+                mostrarModal(data.mensagem || 'PDF enviado por email com sucesso!');
+            }
+        })
+        .catch(() => {
+            mostrarModal('Erro ao enviar o PDF por email.');
+        });
+    }).finally(() => {
+        formWrapper.classList.remove('pdf-clean');
+        document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
+    });
+};
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="{% static 'js/validacoes.js' %}"></script>
+<script src="{% static 'js/upload_pdf.js' %}"></script>
+<script>
+document.getElementById('btn-gerar-pdf-html2pdf').onclick = function() {
+    // Remove bordas e sombras do form-wrapper
+    const formWrapper = document.querySelector('.form-wrapper');
+    formWrapper.classList.add('pdf-clean');
+
+    // Oculta todos os elementos com as classes .no-print e .nao-imprimir
+    document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.add('hide-on-pdf'));
+
+    const element = document.querySelector('.form-wrapper');
+    const cpf = document.getElementById('cpf').value.replace(/\D/g, '');
+    if (!cpf) {
+        mostrarModal('Preencha o CPF antes de gerar o PDF.');
+        // Mostra novamente os botões caso CPF esteja vazio
+        document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
+        return;
+    }
+
+    const nome_pdf = `requerimento-averbacao-demolicao-${cpf}.pdf`;
+    const opt = {
+        margin: 0.2,
+        filename: nome_pdf,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, scrollY: 0 },
+        jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+    };
+
+    html2pdf().set(opt).from(element).outputPdf('blob').then(function(pdfBlob) {
+        const formData = new FormData();
+        formData.append('pdf', pdfBlob, nome_pdf);
+        formData.append('cpf', cpf);
+
+        fetch('/upload_pdf/', {
+            method: 'POST',
+            body: formData
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.erro) {
+                mostrarModal('Erro: ' + data.erro);
+            } else {
+                mostrarModal(data.mensagem || 'PDF gerado e enviado com sucesso!');
+            }
+        })
+        .catch(() => {
+            mostrarModal('Erro ao enviar o PDF.');
+        });
+    }).finally(() => {
+        // Remove a classe após gerar o PDF
+        formWrapper.classList.remove('pdf-clean');
+        document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
+    });
+};
+</script>
 {% endblock %}
