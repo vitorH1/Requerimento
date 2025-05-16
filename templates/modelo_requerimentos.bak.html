@@ -122,11 +122,16 @@
       <!-- Lista de requerimentos -->
     <div class="requerimentos-lista">        <!-- Painel de diagnóstico - pode ser removido depois -->
         <div style="padding: 15px; background: #f0f4ff; margin-bottom: 20px; border-radius: 8px; border: 1px solid #c7d2fe;">
+            <h4 style="margin-top: 0; color: #4338ca;">Diagnóstico da Página</h4>
+            <p><strong>Total de requerimentos:</strong> {% if requerimentos %}{{ requerimentos|length }}{% else %}Nenhum{% endif %}</p>            {% if requerimentos and requerimentos|length > 0 %}
+            <p><strong>Primeiro requerimento:</strong> {{ requerimentos.0.nome }} (ID: {{ requerimentos.0.id }})</p>
+            <p><strong>Último requerimento:</strong> {{ requerimentos|last|get_item:'nome' }}</p>
+            {% endif %}
               <!-- Lista de backup caso o grid não funcione -->
             {% if requerimentos %}
             <div style="margin-top: 20px;">
-                <h5 style="color: #4338ca;">Lista de Requerimentos:</h5>
-                
+                <h5 style="color: #4338ca;">Lista de Requerimentos (versão alternativa):</h5>
+                <p style="color: #4b5563; font-size: 0.9em; margin-bottom: 10px;">Dados dos requerimentos:</p>
                 <ul style="padding-left: 20px;">
                     {% for req in requerimentos %}
                     <li style="margin-bottom: 10px;">
@@ -142,6 +147,13 @@
             {% endif %}
             
             <!-- Informação adicional de debug -->
+            <div style="margin-top: 20px; padding: 10px; background: #fff7ed; border: 1px solid #fdba74; border-radius: 8px;">
+                <h5 style="margin-top: 0; color: #c2410c;">Informações Técnicas:</h5>
+                <p>Versão do Django: {{ django_version }}</p>
+                <p>Caminho do Projeto: {{ base_dir }}</p>
+                <p>Requerimentos estão vazios? {% if requerimentos|length == 0 %}Sim{% else %}Não{% endif %}</p>
+                <p>Acesso ao primeiro requerimento? {% if requerimentos.0 %}Sucesso{% else %}Falha{% endif %}</p>
+            </div>
         </div>        {% if requerimentos %}
             <!-- Forçar exibição dos cards com estilo inline -->
             <div class="requerimentos-grid" style="display: grid !important; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important; gap: 1.5rem !important;">
@@ -284,14 +296,13 @@
                     this.style.borderColor = '#e2e8f0';
                 });
             });
-        }
-
+        
         // Apply forced styles
         aplicarEstilosForcados();
-
+        
         // Make sure styles are applied after a short delay (for late loading CSS)
         setTimeout(aplicarEstilosForcados, 500);
-
+        
         // Limpar busca com o botão X
         const clearSearchButton = document.getElementById('clearSearch');
         if (clearSearchButton) {
@@ -299,12 +310,12 @@
                 window.location.href = "{% url 'listar_requerimentos' %}";
             });
         }
-
+        
         // Modal de ajuda
         const ajudaModal = document.getElementById('ajudaModal');
         const btnAjuda = document.getElementById('btnAjuda');
         const closeModal = document.getElementById('closeModal');
-
+        
         if (btnAjuda && ajudaModal && closeModal) {
             btnAjuda.addEventListener('click', function() {
                 ajudaModal.classList.add('active');
@@ -312,14 +323,14 @@
                 ajudaModal.style.visibility = 'visible';
                 document.body.style.overflow = 'hidden';
             });
-
+            
             closeModal.addEventListener('click', function() {
                 ajudaModal.classList.remove('active');
                 ajudaModal.style.opacity = '0';
                 ajudaModal.style.visibility = 'hidden';
                 document.body.style.overflow = '';
             });
-
+            
             // Fechar modal clicando fora
             window.addEventListener('click', function(event) {
                 if (event.target === ajudaModal) {
@@ -329,7 +340,7 @@
                     document.body.style.overflow = '';
                 }
             });
-
+            
             // Fechar modal com ESC
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape' && ajudaModal.classList.contains('active')) {

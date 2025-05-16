@@ -14,19 +14,19 @@
         color: #333;
         box-sizing: border-box;
         background-color: #f5f7fa;
-        padding: 0 20px;
+        padding: 0 18px;
         /* Adiciona padding nas laterais */
     }
 
     .header-bar {
         background-color: #3b4a63;
         color: white;
-        padding: 12px 15px;
+        padding: 13px 15px;
         margin-bottom: 20px;
     }
 
     .header-bar h1 {
-        font-size: 18px;
+        font-size: 15px;
         margin: 0;
         font-weight: normal;
     }
@@ -35,36 +35,36 @@
         background-color: #fff;
         border-radius: 4px;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        padding: 30px;
-        margin-bottom: 20px;
+        padding: 22px;
+        margin-bottom: 16px;
         max-width: 100%;
     }
 
     .form-header {
         text-align: center;
-        margin-bottom: 25px;
+        margin-bottom: 22px;
     }
 
     .form-header h2 {
-        font-size: 16px;
+        font-size: 14px;
         font-weight: bold;
         color: #000000;
-        margin-bottom: 8px;
+        margin-bottom: 6px;
     }
 
     .form-header h3 {
-        font-size: 14px;
+        font-size: 13px;
         font-weight: bold;
         color: #000000;
         margin-top: 0;
     }
 
     .form-content {
-        font-size: 14px;
+        font-size: 13px;
     }
 
     .form-group {
-        margin-bottom: 15px;
+        margin-bottom: 13px;
     }
 
     .form-row {
@@ -96,7 +96,7 @@
         /* Reduzido de 10px para 8px */
         border: 1px solid #ccc;
         border-radius: 4px;
-        font-size: 13px;
+        font-size: 12px;
         /* Reduzido de 14px para 13px */
         box-sizing: border-box;
     }
@@ -218,8 +218,9 @@
         font-size: 12px;
         color: #666;
         position: absolute;
-        right: 0;
+        left: 50%;
         bottom: -20px;
+        transform: translateX(-50%);
     }
 
     .observations {
@@ -316,7 +317,6 @@
             <h2>REQUERIMENTO – AVERBAÇÃO DE CONSTRUÇÃO</h2>
             <h3>ILUSTRÍSSIMA OFICIALA DE REGISTRO DE IMÓVEIS DE MONTE CARMELO</h3>
         </div>
-
         <!-- Rest of your form content -->
         <form id="form-cadastro">
             <div class="form-row">
@@ -376,12 +376,10 @@
             </div>
 
             <div class="form-row">
-
                 <div style="flex: 1;">
                     <label for="cidade">Cidade:</label>
                     <input type="text" name="cidade" id="cidade" class="form-control" required>
                 </div>
-
                 <div style="flex: 0.2;">
                     <label for="uf">UF:</label>
                     <select name="uf" id="uf" class="form-control" required>
@@ -390,31 +388,29 @@
                         <option value="SP">SP</option>
                     </select>
                 </div>
-
                 <div style="flex: 1;">
                     <label for="email">Email:</label>
                     <input type="email" name="email" id="email" class="form-control">
                 </div>
             </div>
+            <div class="vem-requerer">
+                <p>vem requerer a Vossa Senhoria se digne AVERBAR na(s) matrícula(s) número(s),</p>
+                <input type="text" name="matriculas" class="form-control">
+            </div>
+            <div class="vem-requerer">
+                <p>desse Registro a construção do(s) prédio(s) que recebeu(ram) o(s) número(s)</p>
+                <input type="text" name="conjuge" class="form-control">
+            </div>
 
-            <div class="form-row">
-                <div class="vem-requerer" style="flex: 1;"></div>
-                    <p>vem requerer a Vossa Senhoria se digne AVERBAR na(s) matrícula(s) número(s),</p>
-                    <input type="text" name="matriculas" class="form-control">
+            <div class="form-row" style="align-items: flex-end;">
+                <div class="vem-requerer" style="flex: 2;">
+                    <p>da Av./Rua/Al.</p>
+                    <input type="text" name="regime_endereco" class="form-control">
                 </div>
                 <div class="vem-requerer" style="flex: 1;">
-                    <p>desse Registro a construção do(s) prédio(s) que recebeu(ram) o(s) número(s)</p>
-                    <input type="text" name="conjuge" class="form-control">
+                    <p>com a área construída de</p>
+                    <input type="text" name="regime_area" class="form-control">
                 </div>
-            </div>
-
-            <div class="vem-requerer">
-                <p>da Av./Rua/Al.</p>
-                <input type="text" name="regime" class="form-control">
-            </div>
-            <div class="vem-requerer">
-                <p>com a área construída de</p>
-                <input type="text" name="regime" class="form-control">
             </div>
 
             <div class="option-group">
@@ -462,7 +458,6 @@
                     </li>
                 </ol>
             </div>
-
             <div class="no-print" style="display: flex; justify-content: center; gap: 10px; margin-top: 1rem;">
                 <button type="button" class="btn btn-primary" onclick="printRequerimento()">Imprimir</button>
                 <button type="submit" class="btn btn-primary">Cadastrar</button>
@@ -712,7 +707,7 @@
                 console.log("Status da resposta:", response.status);
                 return response.json();
             })
-            .then(data => {
+            .then(function(data) {
                 console.log("Resposta do servidor:", data);
                 if (data.erro) {
                     mostrarModal(`Erro: ${data.erro}`);

@@ -5,7 +5,7 @@ SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:admin12@localhost:5432/requerim
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # Caminho base para os templates de detalhes
-TEMPLATES_DETALHES_PATH = "marcacao/templates/requerimentos"
+TEMPLATES_DETALHES_PATH = "templates/requerimentos"  # Este é o caminho relativo correto
 
 # Lista de requerimentos disponíveis
 REQUERIMENTOS = [

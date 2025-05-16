@@ -20,12 +20,12 @@
 .header-bar {
     background-color: #3b4a63;
     color: white;
-    padding: 12px 15px;
-    margin-bottom: 20px;
+    padding: 11px 12px;
+    margin-bottom: 17px;
 }
 
 .header-bar h1 {
-    font-size: 18px;
+    font-size: 16px;
     margin: 0;
     font-weight: normal;
 }
@@ -34,21 +34,21 @@
     background-color: #fff;
     border-radius: 4px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    padding: 30px;
-    margin-bottom: 20px;
+    padding: 25px;
+    margin-bottom: 17px;
     max-width: 100%;
 }
 
 .form-header {
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .form-header h2 {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: bold;
     color: #000000;
-    margin-bottom: 8px;
+    margin-bottom: 7px;
 }
 
 .form-header h3 {
@@ -59,11 +59,11 @@
 }
 
 .form-content {
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 
 .form-row {
@@ -206,8 +206,9 @@ input[name="numero"] {
     font-size: 12px;
     color: #666;
     position: absolute;
-    right: 0;
+    left: 50%;
     bottom: -20px;
+    transform: translateX(-50%);
 }
 
 .observations {
@@ -325,6 +326,10 @@ li {
                     <label for="telefone">Whatsapp/Telefone:</label>
                     <input type="text" name="telefone" id="telefone" class="form-control" required>
                 </div>
+                <div style="flex: 1;">
+                    <label for="email">Email:</label>
+                    <input type="email" name="email" id="email" class="form-control">
+                </div>
             </div>
 
             <p style="margin-top: 18px; margin-bottom: 18px;">
@@ -360,7 +365,9 @@ li {
                 <button type="button" class="btn btn-primary" onclick="printRequerimento()">Imprimir</button>
                 <button type="submit" class="btn btn-primary">Cadastrar</button>
                 <button type="button" class="btn btn-primary" id="btn-gerar-pdf-html2pdf">upload pdf</button>
+                <button type="button" class="btn btn-primary" id="btn-enviar-email">Enviar Email</button>
             </div>
+            
         </form>
     </div>
 </div>
@@ -376,12 +383,7 @@ li {
             style="padding: 8px 20px; border: none; background-color: #007bff; color: white; border-radius: 5px; cursor: pointer;">OK</button>
     </div>
 </div>
-
-<div style="flex: 1;">
-                    <label for="email">Email:</label>
-                    <input type="email" name="email" id="email" class="form-control" required>
-</div>
-
+    
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const cidade = "Monte Carmelo";  // Cidade fixa (pode ser modificada se necessário)
@@ -571,6 +573,7 @@ li {
                         document.getElementById('nome').value = data.nome || '';
                         document.getElementById('rg').value = data.rg || '';
                         document.getElementById('telefone').value = data.telefone || '';
+                        document.getElementById('email').value = data.email || '';
 
                     }
                 })
@@ -692,60 +695,117 @@ function fecharModal() {
 <!-- Bibliotecas necessárias -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-<!-- SCRIPT PDF -->
+<script src="{% static 'js/validacoes.js' %}"></script>
+<script src="{% static 'js/upload_pdf.js' %}"></script>
+<script src="{% static 'js/enviar_pdf_email.js' %}"></script>
 <script>
-document.getElementById('btn-gerar-pdf-html2pdf').onclick = function() {
+// Corrige bug: garantir que botões e layout voltem ao normal mesmo em caso de erro no envio por email
+const btnEnviarEmail = document.getElementById('btn-enviar-email');
+if (btnEnviarEmail) {
+  btnEnviarEmail.onclick = function() {
     const formWrapper = document.querySelector('.form-wrapper');
     formWrapper.classList.add('pdf-clean');
-
-    // Oculta botões e elementos indesejados
     document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.add('hide-on-pdf'));
-
+    const element = document.querySelector('.form-wrapper');
+    const cpf = document.getElementById('cpf').value.replace(/\D/g, '');
+    const email = document.getElementById('email') ? document.getElementById('email').value : '';
+    if (!cpf) {
+      mostrarModal('Preencha o CPF antes de enviar o PDF por email.');
+      document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
+      formWrapper.classList.remove('pdf-clean');
+      return;
+    }
+    if (!email) {
+      mostrarModal('Preencha o email antes de enviar o PDF.');
+      document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
+      formWrapper.classList.remove('pdf-clean');
+      return;
+    }
+    const nome_pdf = `requerimento-averbacao-demolicao-${cpf}.pdf`;
+    const opt = {
+      margin: 0.2,
+      filename: nome_pdf,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, scrollY: 0 },
+      jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' },
+      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+    };
+    html2pdf().set(opt).from(element).outputPdf('blob').then(function(pdfBlob) {
+      const formData = new FormData();
+      formData.append('pdf', pdfBlob, nome_pdf);
+      formData.append('cpf', cpf);
+      formData.append('email', email);
+      fetch('/enviar_pdf_email/', {
+        method: 'POST',
+        body: formData
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.erro) {
+          mostrarModal('Erro: ' + data.erro);
+        } else {
+          mostrarModal(data.mensagem || 'PDF enviado por email com sucesso!');
+        }
+      })
+      .catch(() => {
+        mostrarModal('Erro ao enviar o PDF por email.');
+      });
+    }).finally(() => {
+      formWrapper.classList.remove('pdf-clean');
+      document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
+    });
+  };
+}
+// Corrige bug: garantir que o botão upload pdf funcione mesmo após sobrescrever onclick do email
+const btnUploadPdf = document.getElementById('btn-gerar-pdf-html2pdf');
+if (btnUploadPdf) {
+  btnUploadPdf.onclick = null; // Remove qualquer sobrescrita anterior
+  btnUploadPdf.addEventListener('click', function() {
+    if (typeof window.html2pdf === 'undefined') return;
+    const formWrapper = document.querySelector('.form-wrapper');
+    formWrapper.classList.add('pdf-clean');
+    document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.add('hide-on-pdf'));
     const element = document.querySelector('.form-wrapper');
     const cpf = document.getElementById('cpf').value.replace(/\D/g, '');
     if (!cpf) {
-        alert('Preencha o CPF antes de gerar o PDF.');
-        document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
-        formWrapper.classList.remove('pdf-clean');
-        return;
+      alert('Preencha o CPF antes de gerar o PDF.');
+      document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
+      formWrapper.classList.remove('pdf-clean');
+      return;
     }
-
     const nome_pdf = `requerimento-averbacao-demolicao-${cpf}.pdf`;
     const opt = {
-        margin: 0.2,
-        filename: nome_pdf,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, scrollY: 0 },
-        jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' },
-        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+      margin: 0.2,
+      filename: nome_pdf,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, scrollY: 0 },
+      jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' },
+      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
     };
-
     html2pdf().set(opt).from(element).outputPdf('blob').then(function(pdfBlob) {
-        const formData = new FormData();
-        formData.append('pdf', pdfBlob, nome_pdf);
-        formData.append('cpf', cpf);
-
-        fetch('/upload_pdf/', {
-            method: 'POST',
-            body: formData
-        })
-        .then(r => r.json())
-        .then(data => {
-            if (data.erro) {
-                alert('Erro: ' + data.erro);
-            } else {
-                alert(data.mensagem || 'PDF gerado e enviado com sucesso!');
-            }
-        })
-        .catch(() => {
-            alert('Erro ao enviar o PDF.');
-        });
+      const formData = new FormData();
+      formData.append('pdf', pdfBlob, nome_pdf);
+      formData.append('cpf', cpf);
+      fetch('/upload_pdf/', {
+        method: 'POST',
+        body: formData
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.erro) {
+          mostrarModal('Erro: ' + data.erro);
+        } else {
+          mostrarModal(data.mensagem || 'PDF gerado e enviado com sucesso!');
+        }
+      })
+      .catch(() => {
+        mostrarModal('Erro ao enviar o PDF.');
+      });
     }).finally(() => {
-        // Remove as classes após gerar o PDF
-        formWrapper.classList.remove('pdf-clean');
-        document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
+      formWrapper.classList.remove('pdf-clean');
+      document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
     });
-};
+  });
+}
 </script>
 {% endblock %}

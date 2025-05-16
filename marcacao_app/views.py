@@ -2,7 +2,10 @@ from .models import Cliente, ArquivoPDF
 from django.shortcuts import render, redirect
 from django.template import TemplateDoesNotExist
 import os
+import django
 from config import REQUERIMENTOS, TEMPLATES_DETALHES_PATH
+from django.template.defaultfilters import register
+from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, FileResponse
 import json
@@ -16,30 +19,79 @@ from django.core.mail import get_connection
 
 # Create your views here.
 
+# Filtro personalizado para template para mostrar o tipo de um objeto
+@register.filter(name='type_name')
+def type_name(value):
+    return type(value).__name__
+
+# Filtro para acessar item de dicionário por chave
+@register.filter(name='get_item')
+def get_item(dictionary, key):
+    if dictionary is None:
+        return ''
+    if isinstance(dictionary, dict):
+        return dictionary.get(key, '')
+    return ''
+
+# Filtro para obter o nome do último item de uma lista
+@register.filter(name='get_last_name')
+def get_last_name(items):
+    if not items or len(items) == 0:
+        return ''
+    last_item = items[-1]
+    if isinstance(last_item, dict) and 'nome' in last_item:
+        return last_item['nome']
+    return str(last_item)
+
 # View para listar todos os requerimentos
 def listar_requerimentos(request):
     search_query = request.GET.get('q', '')
+    
+    # Garantir que estamos carregando os requerimentos corretamente
+    from config import REQUERIMENTOS as CONFIG_REQUERIMENTOS
+    
+    # Diagnóstico detalhado
+    print(f"Total de requerimentos em CONFIG: {len(CONFIG_REQUERIMENTOS)}")
+    if len(CONFIG_REQUERIMENTOS) > 0:
+        print(f"Primeiro requerimento: {CONFIG_REQUERIMENTOS[0]['nome']}")
+    
     if search_query:
         filtered_requerimentos = [
-            req for req in REQUERIMENTOS
+            req for req in CONFIG_REQUERIMENTOS
             if search_query.lower() in req['nome'].lower() or search_query.lower() in req['descricao'].lower()
         ]
     else:
-        filtered_requerimentos = REQUERIMENTOS
-    return render(request, 'modelo_requerimentos.html', {
+        filtered_requerimentos = CONFIG_REQUERIMENTOS.copy()  # Fazer uma cópia para evitar problemas
+    
+    # Print para diagnóstico
+    print(f"Total de requerimentos filtrados: {len(filtered_requerimentos)}")
+    
+    # Informações adicionais para diagnóstico
+    context = {
         'requerimentos': filtered_requerimentos,
-        'search_query': search_query
-    })
+        'search_query': search_query,
+        'django_version': django.get_version(),
+        'base_dir': settings.BASE_DIR,
+    }
+    
+    return render(request, 'modelo_requerimentos.html', context)
 
 # View para exibir detalhes de um requerimento específico
 def requerimento_detalhes(request, req_id):
-    requerimento = next((req for req in REQUERIMENTOS if req['id'] == req_id), None)
+    from config import REQUERIMENTOS as CONFIG_REQUERIMENTOS
+    
+    requerimento = next((req for req in CONFIG_REQUERIMENTOS if req['id'] == req_id), None)
     if requerimento:
+        template_path = f"requerimentos/{req_id}.html"
+        print(f"Tentando carregar template: {template_path}")
+        
         try:
-            return render(request, f"requerimentos/{req_id}.html", {'requerimento': requerimento})
+            return render(request, template_path, {'requerimento': requerimento})
         except TemplateDoesNotExist:
+            print(f"Template {template_path} não encontrado. Usando template genérico.")
             return render(request, 'requerimentos/generico.html', {'requerimento': requerimento})
     else:
+        print(f"Requerimento com ID '{req_id}' não encontrado")
         return render(request, 'erro.html', {'mensagem': "Requerimento não encontrado"}, status=404)
 
 # View para redirecionar a raiz para a lista de requerimentos

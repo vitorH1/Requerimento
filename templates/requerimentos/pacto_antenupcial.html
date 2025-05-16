@@ -15,19 +15,19 @@
         color: #333;
         box-sizing: border-box;
         background-color: #f5f7fa;
-        padding: 0 20px;
+        padding: 0 15px;
         /* Adiciona padding nas laterais */
     }
 
     .header-bar {
         background-color: #3b4a63;
         color: white;
-        padding: 12px 15px;
-        margin-bottom: 20px;
+        padding: 10px 12px;
+        margin-bottom: 17px;
     }
 
     .header-bar h1 {
-        font-size: 18px;
+        font-size: 16px;
         margin: 0;
         font-weight: normal;
     }
@@ -36,19 +36,19 @@
         background-color: #fff;
         border-radius: 4px;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        padding: 30px;
+        padding: 25px;
         /* Aumenta o padding interno */
-        margin-bottom: 20px;
+        margin-bottom: 17px;
         max-width: 100%;
     }
 
     .form-header {
         text-align: center;
-        margin-bottom: 25px;
+        margin-bottom: 20px;
     }
 
     .form-header h2 {
-        font-size: 16px;
+        font-size: 15px;
         font-weight: bold;
         color: #000000;
         margin-bottom: 8px;
@@ -62,17 +62,17 @@
     }
 
     .form-content {
-        font-size: 14px;
+        font-size: 13px;
     }
 
     .form-group {
-        margin-bottom: 15px;
+        margin-bottom: 6px;
     }
 
     .form-row {
         display: flex;
-        gap: 15px;
-        margin-bottom: 15px;
+        gap: 7px;
+        margin-bottom: 6px;
     }
 
     .half {
@@ -81,18 +81,19 @@
 
     label {
         display: block;
-        margin-bottom: 5px;
+        margin-bottom: 2px;
         font-weight: normal;
         color: #555;
     }
 
     .form-control {
         width: 100%;
-        padding: 10px;
+        padding: 5px 8px;
         border: 1px solid #ccc;
         border-radius: 4px;
-        font-size: 14px;
+        font-size: 13px;
         box-sizing: border-box;
+        margin-bottom: 2px;
     }
 
     .form-control:focus {
@@ -102,11 +103,11 @@
     }
 
     .vem-requerer {
-        margin: 20px 0 10px;
+        margin: 17px 0 9px;
     }
 
     .option-group {
-        margin-bottom: 20px;
+        margin-bottom: 17px;
     }
 
     .option {
@@ -121,12 +122,12 @@
     }
 
     .info-group {
-        margin-left: 25px;
-        margin-bottom: 20px;
+        margin-left: 22px;
+        margin-bottom: 17px;
     }
 
     .info-group p {
-        margin-bottom: 8px;
+        margin-bottom:6px;
     }
 
     .hint {
@@ -143,7 +144,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 25px;
+        margin-bottom: 22px;
     }
 
     .date-city {
@@ -185,14 +186,15 @@
         font-size: 12px;
         color: #666;
         position: absolute;
-        right: 0;
+        left: 50%;
         bottom: -20px;
+        transform: translateX(-50%);
     }
 
     .observations {
-        margin-top: 40px;
+        margin-top: 35px;
         border-top: 1px solid #ddd;
-        padding-top: 15px;
+        padding-top: 12px;
     }
 
     ol {
@@ -247,6 +249,29 @@
             padding: 0;
             margin: 0;
         }
+    }
+
+    /* Espaçamento compacto para campos do formulário */
+    .form-group {
+        margin-bottom: 6px;
+    }
+    .form-row {
+        gap: 7px;
+        margin-bottom: 6px;
+    }
+    label {
+        margin-bottom: 2px;
+    }
+    .form-control {
+        padding: 5px 8px;
+        font-size: 13px;
+        margin-bottom: 2px;
+    }
+    /* Classe utilitária para ajuste fino de espaçamento */
+    .espaco-reduzido {
+        margin-bottom: 2px !important;
+        padding-top: 1px !important;
+        padding-bottom: 1px !important;
     }
 </style>
 {% endblock %}
@@ -369,6 +394,7 @@
                 <button type="button" class="btn btn-primary" onclick="printRequerimento()">Imprimir</button>
                 <button type="submit" class="btn btn-primary">Cadastrar</button>
                 <button type="button" class="btn btn-primary" id="btn-gerar-pdf-html2pdf">upload pdf</button>
+                <button type="button" class="btn btn-primary" id="btn-enviar-email">Enviar Email</button>
             </div>
         </form>
     </div>
@@ -519,8 +545,9 @@
                 font-size: 10pt;
                 color: #666;
                 position: absolute;
-                right: 0;
+                left: 50%;
                 bottom: -20px;
+                transform: translateX(-50%);
             }
             
             .observations {
@@ -687,7 +714,7 @@
                 console.log("Status da resposta:", response.status);
                 return response.json();
             })
-            .then(data => {
+            .then(function(data) {
                 console.log("Resposta do servidor:", data);
                 if (data.erro) {
                     mostrarModal(`Erro: ${data.erro}`);
@@ -772,6 +799,9 @@ function fecharModal() {
 <!-- Bibliotecas necessárias -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="{% static 'js/validacoes.js' %}"></script>
+<script src="{% static 'js/upload_pdf.js' %}"></script>
+<script src="{% static 'js/enviar_pdf_email.js' %}"></script>
 
 <!-- SCRIPT PDF -->
 <script>

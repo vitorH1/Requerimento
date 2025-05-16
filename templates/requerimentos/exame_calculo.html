@@ -7,7 +7,7 @@
 <style>
   /* Estilo para o card principal */
   .card {
-    border: 1px solid #dee2e6;
+    border: 4px solid #dee2e6;
     border-radius: 8px;
     background-color: #ffffff;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -17,8 +17,8 @@
   h4 {
     color: #343a40;
     font-weight: 600;
-    padding: 12px 15px;
-    margin: -16px -16px 20px -16px;
+    padding: 10px 13px; /* reduzido */
+    margin: -14px -14px 14px -14px; /* reduzido */
     border-bottom: 1px solid #dee2e6;
     background-color: #f8f9fa;
   }
@@ -27,15 +27,16 @@
   .form-label {
     color: #495057;
     font-weight: 500;
-    margin-bottom: 5px;
+    margin-bottom: 1px;
   }
 
   /* Estilo para os campos de entrada */
   .form-control {
     border: 1px solid #ced4da;
     border-radius: 4px;
-    padding: 8px 12px;
+    padding: 4px 8px;
     color: #212529;
+    margin-bottom: 3px;
   }
 
   /* Estilo para o texto em destaque */
@@ -53,47 +54,39 @@
   .btn-primary {
     background-color: #0d6efd;
     border-color: #0d6efd;
-    padding: 8px 20px;
+    padding: 4px 10px;
     font-weight: 500;
   }
 
   /* Estilo para a linha de assinatura */
   .signature-line {
     border-top: 1px solid #212529;
-    margin: 20px auto;
-    padding-top: 5px;
+    margin: 6px auto;
+    padding-top: 1px;
   }
 
   /* Melhor espaçamento geral */
   .row.mb-3 {
-    margin-bottom: 1.5rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+  .mt-3, .mt-4 {
+    margin-top: 0.4rem !important;
+  }
+  .mb-3, .mb-4 {
+    margin-bottom: 0.4rem !important;
   }
 
-  /* Estilo para o parágrafo de cidade e data */
-  #cidade-data {
-    font-size: 1.2rem;
-    color: #343a40;
-    font-weight: 500;
-    text-align: center;
-    margin-top: 1.5rem;
+  /* Reduz altura do espaço impresso */
+  .espaco-impresso {
+    height: 40px !important;
+    display: block !important;
   }
 
-  .title-header {
-    background-color: #404d67;
-    /* Azul bem clarinho */
-    padding: 12px 15px;
-    margin: -16px -16px 20px -16px;
-    border-bottom: 1px solid #c2d4e8;
-    color: #f0f0f0;
-    /* Azul escuro para o texto */
-    font-weight: 600;
-  }
-
-  .cortexto {
-    font-family: "Open Sans", HelveticaNeue, Helvetica, Arial;
-    font-size: 0.875rem;
-    color: #212529;
-    position: relative;
+  /* Classe utilitária para redução de espaçamento, caso queira aplicar em pontos específicos */
+  .espaco-reduzido {
+    margin-bottom: 0.3rem !important;
+    padding-top: 1px !important;
+    padding-bottom: 1px !important;
   }
 
   /* Estilos específicos para impressão */
@@ -253,9 +246,9 @@
 {% block content %}
 {% load static %}
 <div class="card card-requerimento mt-4 p-4 shadow-sm cortexto">
-  <h4 class="mb-3 border-bottom pb-2 bg-light faixa-titulo">Requerimento – Exame e Cálculo</h4>
+  <h4 class="mb-3 border-bottom pb-2 bg-light faixa-titulo" style="font-size: 15;text-align: center;">Requerimento – Exame e Cálculo</h4>
 
-  <p class="fw-bold text-dark" style="font-size: 18px; text-align: center;">Ilustríssima Senhora Oficiala de Registro de
+  <p class="fw-bold text-dark" style="font-size: 14px; text-align: center;">Ilustríssima Senhora Oficiala de Registro de
     Imóveis de Monte Carmelo</p>
 
   <form id="form-cadastro">
@@ -349,6 +342,7 @@
       <button type="button" class="btn btn-primary" onclick="printRequerimento()">Imprimir</button>
       <button type="submit" class="btn btn-primary">Cadastrar</button>
       <button type="button" class="btn btn-primary" id="btn-gerar-pdf-html2pdf">upload pdf</button>
+      <button type="button" class="btn btn-primary" id="btn-enviar-email">Enviar Email</button>
     </div>
   </form>
 </div>
@@ -662,7 +656,7 @@
                 console.log("Status da resposta:", response.status);
                 return response.json();
             })
-            .then(data => {
+            .then(function(data) {
                 console.log("Resposta do servidor:", data);
                 if (data.erro) {
                     mostrarModal(`Erro: ${data.erro}`);
@@ -704,7 +698,7 @@ function fecharModal() {
 }
 
 </script>
-<script src="{% static 'js/validacoes.js' %}"></script>
+
 
 
 <!-- CSS para PDF e impressão -->
@@ -744,20 +738,21 @@ function fecharModal() {
 }
 </style>
 
+
 <!-- Bibliotecas necessárias -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="{% static 'js/validacoes.js' %}"></script>
+<script src="{% static 'js/upload_pdf.js' %}"></script>
+<script src="{% static 'js/enviar_pdf_email.js' %}"></script>
 
 <!-- SCRIPT PDF -->
 <script>
 document.getElementById('btn-gerar-pdf-html2pdf').onclick = function() {
-    const formWrapper = document.querySelector('.form-wrapper');
+    const formWrapper = document.querySelector('.card-requerimento');
     formWrapper.classList.add('pdf-clean');
-
-    // Oculta botões e elementos indesejados
     document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.add('hide-on-pdf'));
-
-    const element = document.querySelector('.form-wrapper');
+    const element = document.querySelector('.card-requerimento');
     const cpf = document.getElementById('cpf').value.replace(/\D/g, '');
     if (!cpf) {
         alert('Preencha o CPF antes de gerar o PDF.');
@@ -765,8 +760,7 @@ document.getElementById('btn-gerar-pdf-html2pdf').onclick = function() {
         formWrapper.classList.remove('pdf-clean');
         return;
     }
-
-    const nome_pdf = `requerimento-averbacao-demolicao-${cpf}.pdf`;
+    const nome_pdf = `requerimento-exame-calculo-${cpf}.pdf`;
     const opt = {
         margin: 0.2,
         filename: nome_pdf,
@@ -797,10 +791,117 @@ document.getElementById('btn-gerar-pdf-html2pdf').onclick = function() {
             alert('Erro ao enviar o PDF.');
         });
     }).finally(() => {
-        // Remove as classes após gerar o PDF
         formWrapper.classList.remove('pdf-clean');
         document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
     });
 };
+
+// Corrige o botão de upload PDF para funcionar com .card-requerimento
+const btnUpload = document.getElementById('btn-gerar-pdf-html2pdf');
+if (btnUpload) {
+  btnUpload.onclick = function() {
+    const formWrapper = document.querySelector('.card-requerimento');
+    formWrapper.classList.add('pdf-clean');
+    document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.add('hide-on-pdf'));
+    const element = document.querySelector('.card-requerimento');
+    const cpf = document.getElementById('cpf').value.replace(/\D/g, '');
+    if (!cpf) {
+      alert('Preencha o CPF antes de gerar o PDF.');
+      document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
+      formWrapper.classList.remove('pdf-clean');
+      return;
+    }
+    const nome_pdf = `requerimento-exame-calculo-${cpf}.pdf`;
+    const opt = {
+      margin: 0.2,
+      filename: nome_pdf,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, scrollY: 0 },
+      jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' },
+      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+    };
+    html2pdf().set(opt).from(element).outputPdf('blob').then(function(pdfBlob) {
+      const formData = new FormData();
+      formData.append('pdf', pdfBlob, nome_pdf);
+      formData.append('cpf', cpf);
+      fetch('/upload_pdf/', {
+        method: 'POST',
+        body: formData
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.erro) {
+          alert('Erro: ' + data.erro);
+        } else {
+          alert(data.mensagem || 'PDF gerado e enviado com sucesso!');
+        }
+      })
+      .catch(() => {
+        alert('Erro ao enviar o PDF.');
+      });
+    }).finally(() => {
+      formWrapper.classList.remove('pdf-clean');
+      document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
+    });
+  };
+}
+
+// Corrige o botão de enviar email PDF para funcionar com .card-requerimento
+const btnEmail = document.getElementById('btn-enviar-email');
+if (btnEmail) {
+  btnEmail.onclick = function() {
+    const formWrapper = document.querySelector('.card-requerimento');
+    formWrapper.classList.add('pdf-clean');
+    document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.add('hide-on-pdf'));
+    const element = document.querySelector('.card-requerimento');
+    const cpf = document.getElementById('cpf').value.replace(/\D/g, '');
+    const email = document.getElementById('email').value;
+    if (!cpf) {
+      mostrarModal('Preencha o CPF antes de enviar o PDF por email.');
+      document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
+      formWrapper.classList.remove('pdf-clean');
+      return;
+    }
+    if (!email) {
+      mostrarModal('Preencha o email antes de enviar o PDF.');
+      document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
+      formWrapper.classList.remove('pdf-clean');
+      return;
+    }
+    const nome_pdf = `requerimento-exame-calculo-${cpf}.pdf`;
+    const opt = {
+      margin: 0.2,
+      filename: nome_pdf,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, scrollY: 0 },
+      jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' },
+      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+    };
+    html2pdf().set(opt).from(element).outputPdf('blob').then(function(pdfBlob) {
+      const formData = new FormData();
+      formData.append('pdf', pdfBlob, nome_pdf);
+      formData.append('cpf', cpf);
+      formData.append('email', email);
+      fetch('/enviar_pdf_email/', {
+        method: 'POST',
+        body: formData
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.erro) {
+          mostrarModal('Erro: ' + data.erro);
+        } else {
+          mostrarModal(data.mensagem || 'PDF enviado por email com sucesso!');
+        }
+      })
+      .catch(() => {
+        mostrarModal('Erro ao enviar o PDF por email.');
+      });
+    }).finally(() => {
+      formWrapper.classList.remove('pdf-clean');
+      document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
+    });
+  };
+}
 </script>
 {% endblock %}

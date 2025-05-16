@@ -5,299 +5,314 @@
 
 {% block styles %}
 <style>
-.container {
-    width: 100%;
-    max-width: 297mm; /* Aumentado para largura máxima A4 paisagem */
-    margin: 0 auto;
-    font-family: Arial, sans-serif;
-    color: #333;
-    box-sizing: border-box;
-    background-color: #f5f7fa;
-    padding: 0 20px; /* Adiciona padding nas laterais */
-}
-
-.header-bar {
-    background-color: #3b4a63;
-    color: white;
-    padding: 12px 15px;
-    margin-bottom: 20px;
-}
-
-.header-bar h1 {
-    font-size: 18px;
-    margin: 0;
-    font-weight: normal;
-}
-
-.form-wrapper {
-    background-color: #fff;
-    border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    padding: 30px;
-    margin-bottom: 20px;
-    max-width: 100%;
-}
-
-.form-header {
-    text-align: center;
-    margin-bottom: 25px;
-}
-
-.form-header h2 {
-    font-size: 16px;
-    font-weight: bold;
-    color: #000000;
-    margin-bottom: 8px;
-}
-
-.form-header h3 {
-    font-size: 14px;
-    font-weight: bold;
-    color: #000000;
-    margin-top: 0;
-}
-
-.form-content {
-    font-size: 14px;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-row {
-    display: flex;
-    gap: 5px; /* Reduzido de 15px para 10px */
-    margin-bottom: 5px; /* Reduzido de 15px para 10px */
-    align-items: flex-start;
-}
-
-.half {
-    flex: 1;
-}
-
-label {
-    display: block;
-    margin-bottom: 3px; /* Reduzido de 5px para 3px */
-    font-weight: normal;
-    color: #555;
-    font-size: 13px; /* Reduzido de 14px para 13px */
-}
-
-.form-control {
-    width: 100%;
-    padding: 5px; /* Reduzido de 10px para 8px */
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 13px; /* Reduzido de 14px para 13px */
-    box-sizing: border-box;
-}
-
-.form-control:focus {
-    border-color: #009fda;
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(0, 159, 218, 0.2);
-}
-
-/* Ajuste para campos menores */
-select[name="uf"] {
-    min-width: 80px;
-}
-
-input[name="numero"] {
-    min-width: 60px;
-}
-
-.vem-requerer {
-    margin: 10px 0 5px; /* Reduzido de 20px 0 10px */
-}
-
-.vem-requerer p {
-    margin-bottom: 5px;
-    font-size: 13px;
-}
-
-.vem-requerer .form-control {
-    margin-bottom: 5px; /* Adiciona pequena margem inferior */
-}
-
-/* Ajuste específico para o grupo de inputs sequenciais */
-.vem-requerer + .vem-requerer {
-    margin-top: 5px; /* Reduz espaço entre blocos vem-requerer consecutivos */
-}
-
-.option-group {
-    margin-bottom: 20px;
-}
-
-.option {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 10px;
-}
-
-.option input[type="radio"] {
-    margin-top: 3px;
-    margin-right: 10px;
-}
-
-.info-group {
-    margin-left: 25px;
-    margin-bottom: 20px;
-}
-
-.info-group p {
-    margin-bottom: 8px;
-}
-
-.hint {
-    font-size: 12px;
-    color: #666;
-    margin-left: 10px;
-}
-
-.form-footer {
-    margin-top: 15px; /* Reduzido de 30px */
-}
-
-.date-section {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 25px;
-}
-
-.date-city {
-    width: 150px;
-}
-
-.date-day {
-    width: 40px;
-    text-align: center;
-}
-
-.date-month {
-    width: 100px;
-}
-
-.date-year {
-    width: 60px;
-    text-align: center;
-}
-
-.date-separator {
-    margin: 0 5px;
-}
-
-.signature-line {
-    width: 50%;
-    margin: 10px auto 0; /* Reduzido o margin-top */
-    text-align: center;
-    position: relative;
-}
-
-.signature-line hr {
-    border: none;
-    border-top: 1px solid #000;
-}
-
-.signature-label {
-    font-size: 12px;
-    color: #666;
-    position: absolute;
-    right: 0;
-    bottom: -20px;
-}
-
-.observations {
-    margin-top: 40px;
-    border-top: 1px solid #ddd;
-    padding-top: 15px;
-}
-
-ol {
-    margin-left: 25px;
-    padding-left: 0;
-}
-
-li {
-    margin-bottom: 8px;
-    font-size: 12px;
-}
-
-.action-buttons {
-    display: flex;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.btn {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-}
-
-.btn-primary {
-    background-color: #00aaff;
-    color: white;
-}
-
-.btn-secondary {
-    background-color: #00a77d;
-    color: white;
-}
-
-.plus-icon {
-    margin-right: 5px;
-    font-style: normal;
-    font-weight: bold;
-}
-
-.print-date-row {
-    margin-bottom: 15px !important; /* Reduzido de 25px */
-    margin-top: 10px !important;
-}
-
-/* Ajuste para impressão */
-@media print {
     .container {
-        max-width: 100%;
-        padding: 20px;
+        width: 100%;
+        max-width: 297mm;
+        margin: 0 auto;
+        font-family: Arial, sans-serif;
+        color: #333;
+        box-sizing: border-box;
+        background-color: #f5f7fa;
+        padding: 0 10px; /* Reduzido de 17px para 10px */
     }
-    
-    .form-wrapper {
-        padding: 0;
+
+    .header-bar {
+        background-color: #3b4a63;
+        color: white;
+        padding: 11px 13px;
+        margin-bottom: 17px;
+    }
+
+    .header-bar h1 {
+        font-size: 17px;
         margin: 0;
+        font-weight: normal;
     }
-    
+
+    .form-wrapper {
+        background-color: #fff;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        padding: 25px;
+        margin-bottom: 17px;
+        max-width: 100%;
+    }
+
+    .form-header {
+        text-align: center;
+        margin-bottom: 22px;
+    }
+
+    .form-header h2 {
+        font-size: 15px;
+        font-weight: bold;
+        color: #000000;
+        margin-bottom: 8px;
+    }
+
+    .form-header h3 {
+        font-size: 13px;
+        font-weight: bold;
+        color: #000000;
+        margin-top: 0;
+    }
+
+    .form-content {
+        font-size: 14px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-row {
+        display: flex;
+        gap: 5px;
+        /* Reduzido de 15px para 10px */
+        margin-bottom: 5px;
+        /* Reduzido de 15px para 10px */
+        align-items: flex-start;
+    }
+
+    .half {
+        flex: 1;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 3px;
+        /* Reduzido de 5px para 3px */
+        font-weight: normal;
+        color: #555;
+        font-size: 13px;
+        /* Reduzido de 14px para 13px */
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 5px;
+        /* Reduzido de 10px para 8px */
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 13px;
+        /* Reduzido de 14px para 13px */
+        box-sizing: border-box;
+    }
+
+    .form-control:focus {
+        border-color: #009fda;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(0, 159, 218, 0.2);
+    }
+
+    /* Ajuste para campos menores */
+    select[name="uf"] {
+        min-width: 80px;
+    }
+
+    input[name="numero"] {
+        min-width: 60px;
+    }
+
+    .vem-requerer {
+        margin: 10px 0 5px;
+        /* Reduzido de 20px 0 10px */
+    }
+
+    .vem-requerer p {
+        margin-bottom: 5px;
+        font-size: 13px;
+    }
+
+    .vem-requerer .form-control {
+        margin-bottom: 5px;
+        /* Adiciona pequena margem inferior */
+    }
+
+    /* Ajuste específico para o grupo de inputs sequenciais */
+    .vem-requerer+.vem-requerer {
+        margin-top: 5px;
+        /* Reduz espaço entre blocos vem-requerer consecutivos */
+    }
+
+    .option-group {
+        margin-bottom: 17px;
+    }
+
+    .option {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 8px;
+    }
+
+    .option input[type="radio"] {
+        margin-top: 3px;
+        margin-right: 8px;
+    }
+
+    .info-group {
+        margin-left: 20px;
+        margin-bottom: 17px;
+    }
+
+    .info-group p {
+        margin-bottom: 8px;
+    }
+
+    .hint {
+        font-size: 12px;
+        color: #666;
+        margin-left: 10px;
+    }
+
+    .form-footer {
+        margin-top: 15px;
+        /* Reduzido de 30px */
+    }
+
+    .date-section {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 25px;
+    }
+
+    .date-city {
+        width: 150px;
+    }
+
+    .date-day {
+        width: 40px;
+        text-align: center;
+    }
+
+    .date-month {
+        width: 100px;
+    }
+
+    .date-year {
+        width: 60px;
+        text-align: center;
+    }
+
+    .date-separator {
+        margin: 0 5px;
+    }
+
     .signature-line {
-        margin-top: 1.5cm !important; /* Reduzido de 3cm para 1.5cm */
+        width: 50%;
+        margin: 10px auto 0;
+        /* Reduzido o margin-top */
+        text-align: center;
+        position: relative;
     }
-    
+
+    .signature-line hr {
+        border: none;
+        border-top: 1px solid #000;
+    }
+
+    .signature-label {
+        font-size: 12px;
+        color: #666;
+        position: absolute;
+        left: 50%;
+        bottom: -20px;
+        transform: translateX(-50%);
+    }
+
     .observations {
-        margin-top: 1cm !important; /* Reduzido de 2cm para 1cm */
+        margin-top: 30px;
+        border-top: 1px solid #ddd;
+        padding-top: 10px;
     }
-    
+
+    ol {
+        margin-left: 25px;
+        padding-left: 0;
+    }
+
+    li {
+        margin-bottom: 8px;
+        font-size: 12px;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .btn {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+    }
+
+    .btn-primary {
+        background-color: #00aaff;
+        color: white;
+    }
+
+    .btn-secondary {
+        background-color: #00a77d;
+        color: white;
+    }
+
+    .plus-icon {
+        margin-right: 5px;
+        font-style: normal;
+        font-weight: bold;
+    }
+
     .print-date-row {
-        margin-bottom: 1cm !important;
+        margin-bottom: 15px !important;
+        /* Reduzido de 25px */
+        margin-top: 10px !important;
     }
-}
+
+    /* Ajuste para impressão */
+    @media print {
+        .container {
+            max-width: 100%;
+            padding: 20px;
+        }
+
+        .form-wrapper {
+            padding: 0;
+            margin: 0;
+        }
+
+        .signature-line {
+            margin-top: 1.5cm !important;
+            /* Reduzido de 3cm para 1.5cm */
+        }
+
+        .observations {
+            margin-top: 1cm !important;
+            /* Reduzido de 2cm para 1cm */
+        }
+
+        .print-date-row {
+            margin-bottom: 1cm !important;
+        }
+    }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="header-bar">
-        <h1>Averbação de Demolição e Nova Construção</h1>
+        <h1>Averbação de Acréscimo de Área construida</h1>
     </div>
-    
+
     <div class="form-wrapper">
         <div class="form-header">
-            <h2>REQUERIMENTO – AVERBAÇÃO DE DEMOLIÇÃO E NOVA CONSTRUÇÃO</h2>
+            <h2>REQUERIMENTO – AVERBAÇÃO DE ACRÉSCIMO DE ÁREA CONSTRUIDA</h2>
             <h3>ILUSTRÍSSIMA OFICIALA DE REGISTRO DE IMÓVEIS DE MONTE CARMELO</h3>
         </div>
 
@@ -377,46 +392,49 @@ li {
 
                 <div style="flex: 1;">
                     <label for="email">Email:</label>
-                    <input type="email" name="email" id="email" class="form-control" >
+                    <input type="email" name="email" id="email" class="form-control">
                 </div>
-            </div> 
-
-            <div class="vem-requerer">
-                <p>vem requerer a Vossa Senhoria se digne AVERBAR na(s) matrícula(s) número(s),</p>
-                <input type="text" name="matriculas" class="form-control">
             </div>
 
             <div class="vem-requerer">
-                <p>desse Registro a demolição do prédio número</p>
-                <input type="text" name="conjuge" class="form-control">
+                <label style="display: flex; align-items: center;"></label>
+                    <span>Vem requerer a Vossa Senhoria se digne AVERBAR na(s) matrícula(s) número(s),&nbsp;</span>
+                    <input type="text" name="matriculas" class="form-control" style="width: 200px;">
+                </label>
             </div>
 
-            <div class="vem-requerer">
-                <p>da Av./Rua/Al.</p>
-                <input type="text" name="regime" class="form-control">
+            <div class="form-row">
+                <div class="vem-requerer" >
+                    <label style="display: flex; align-items: center;">
+                        <span>desse Registro a demolição do prédio número&nbsp;</span>
+                        <input type="text" name="conjuge" class="form-control" style="width: 120px;">
+                    </label>
+                </div>
+                <div class="vem-requerer" >
+                    <label style="display: flex; align-items: center;">
+                        <span>e a construção no mesmo imóvel do(s) prédio(s) que recebeu(ram) o(s) número(s)&nbsp;</span>
+                        <input type="text" name="nova_area_total" class="form-control" style="width: 80px; margin-right: 5px;">
+                        
+                    </label>
+                </div>
             </div>
             <div class="vem-requerer">
-                <p>e a construção no mesmo imóvel do(s) prédio(s) que recebeu(ram) o(s) número(s)</p>
-                <input type="text" name="regime" class="form-control">
+                <label style="display: flex; align-items: center;">
+                    <span>de mencionada via pública, com a área construída de</span>
+                    <input type="text" name="area_total_construida" class="form-control" style="width: 120px; margin: 0 5px;">
+                    <span>m2, atribuindo-se para a construçao o valor de R$</span>
+                    <input type="text" name="valor_fiscal" class="form-control" style="width: 120px; margin: 0 5px;" placeholder="R$ 0,00" oninput="formatarMoeda(this)">
+                </label>
             </div>
-            <div class="vem-requerer">
-                <p>de mencionada via pública, com a área construída de</p>
-                <input type="text" name="regime" class="form-control">
-            </div>
-            <div class="vem-requerer">
-                <p>m2, atribuindo-se para a construçao o valor de R$</p>
-                <input type="text" name="regime" class="form-control">
-            </div>
-
             <div class="option-group">
                 <p class="tamanho">Como prova do acima requerido anexa o(s) seguinte(s) documento(s):</p>
                 <div class="option" style="display: flex; align-items: center;">
                     <input type="checkbox" name="certidao" style="margin-right: 5px;">
-                    <label> - Auto de Conclus~ao de Demolição ou documento equivalente expedido pela Prefeitura do Município de Monte Carmelo</label>
+                    <label>- Auto de Conclus~ao de Demolição ou documento equivalente expedido pela Prefeitura do Município de Monte Carmelo</label>
                 </div>
                 <div class="option" style="display: flex; align-items: center;">
                     <input type="checkbox" name="certidao" style="margin-right: 5px;">
-                    <label> - CND do INSS referente a demolição</label>
+                    <label>- CND do INSS referente a demolição</label>
                 </div>
                 <div class="option" style="display: flex; align-items: center;">
                     <input type="checkbox" name="certidao" style="margin-right: 5px;">
@@ -424,15 +442,15 @@ li {
                 </div>
                 <div class="option" style="display: flex; align-items: center;">
                     <input type="checkbox" name="certidao" style="margin-right: 5px;">
-                    <label> - Certificado de Regularidade de Construção</label>
+                    <label>- Certificado de Regularidade de Construção</label>
                 </div>
                 <div class="option" style="display: flex; align-items: center;">
                     <input type="checkbox" name="certidao" style="margin-right: 5px;">
-                    <label> - CND do INSS referente a construção (obrigatória para todas as construções concluídas após 21/11/1966)</label>
+                    <label>- CND do INSS referente a construção (obrigatória para todas as construções concluídas após 21/11/1966)</label>
                 </div>
                 <div class="option" style="display: flex; align-items: center;">
                     <input type="checkbox" name="certidao" style="margin-right: 5px;">
-                    <label>  - Auto de Regularização de Construção</label>
+                    <label>- Auto de Regularização de Construção</label>
                 </div>
                 <div class="option" style="display: flex; align-items: center;">
                     <input type="checkbox" name="certidao" style="margin-right: 5px;">
@@ -442,24 +460,29 @@ li {
                     <input type="checkbox" name="certidao" style="margin-right: 5px;">
                     <label>- IPTU ou certidão de Valor Venal.</label>
                 </div>
+
+
+
             </div>
             <div class="row mb-3 print-date-row" style="text-align: center;">
                 <div class="col-md-12">
-                  <p id="cidade-data" class="form-control-plaintext"></p>
+                    <p id="cidade-data" class="form-control-plaintext"></p>
                 </div>
             </div>
             <div class="form-footer">
                 <div class="signature-line">
                     <hr>
-                    <span class="signature-label"  >(assinatura)</span>
+                    <span class="signature-label">(assinatura)</span>
                 </div>
             </div>
             <div class="observations">
-                <div style="display: flex; align-items: center; gap: 20px; font-size: 12px; margin-bottom: 10px;">
-                    <strong>Obs:</strong>
-                    <span>. As xerox devem ser autenticadas</span>
-                    <span style="margin-left: 1px;">. Reconhecer a firma do(a) requerente ou assinar o requerimento perante funcionário do cartório</span>
-                </div>
+                <p style="font-size: 12px;"><strong>OBS:</strong></p>
+                <ol>
+                    <div style="display: flex; gap: 24px;">
+                        <li style="margin-bottom: 0;">As xerox devem ser autenticadas</li>
+                        <li style="margin-bottom: 0;">Reconhecer a firma do(a) requerente ou assinar o requerimento perante funcionário do cartório</li>
+                    </div>
+                </ol>
             </div>
 
             <div class="no-print" style="display: flex; justify-content: center; gap: 10px; margin-top: 1rem;">
@@ -488,33 +511,33 @@ li {
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const cidade = "Monte Carmelo";  // Cidade fixa (pode ser modificada se necessário)
-        
+
         // Data atual
         const hoje = new Date();
         const dia = String(hoje.getDate()).padStart(2, '0');
         const mes = String(hoje.getMonth() + 1).padStart(2, '0');
         const ano = hoje.getFullYear();
-        
+
         // Formatação final da data
         const dataFormatada = cidade + " - " + dia + "/" + mes + "/" + ano;
-        
+
         // Exibir a cidade e data no elemento <p>
         document.getElementById('cidade-data').textContent = dataFormatada;
-      });
+    });
 
     function printRequerimento() {
         // Elementos que queremos ocultar durante a impressão
         const printButton = document.querySelector('.no-print');
         const headerBar = document.querySelector('.header-bar');
-        
+
         // Guarda o estado original
         const originalPrintDisplay = printButton.style.display;
         const originalHeaderDisplay = headerBar.style.display;
-        
+
         // Oculta os elementos
         printButton.style.display = 'none';
         headerBar.style.display = 'none';
-        
+
         // Cria e aplica os estilos de impressão
         const style = document.createElement('style');
         style.innerHTML = `
@@ -613,29 +636,28 @@ li {
             }
             }
         `;
-        
+
         document.head.appendChild(style);
-        
+
         // Aguarda um momento para os estilos serem aplicados
         setTimeout(() => {
             // Imprime
             window.print();
-            
+
             // Remove os estilos de impressão
             document.head.removeChild(style);
-            
+
             // Restaura a visibilidade dos elementos
             printButton.style.display = originalPrintDisplay;
             headerBar.style.display = originalHeaderDisplay;
         }, 100);
     }
 
-
     window.addEventListener('load', () => {
         document.getElementById('modalSucesso').style.display = 'none';
     });
 
-    const cpfInput = document.getElementById('cpf');
+   const cpfInput = document.getElementById('cpf');
     if (cpfInput) {
         cpfInput.addEventListener('blur', function() {
             const cpf = this.value;
@@ -760,9 +782,21 @@ function fecharModal() {
     if (modalElement) modalElement.style.display = 'none';
 }
 
+// Função para formatar moeda brasileira (R$)
+function formatarMoeda(input) {
+    let v = input.value.replace(/\D/g, '');
+    v = (v / 100).toFixed(2) + '';
+    v = v.replace('.', ',');
+    v = v.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+    input.value = 'R$ ' + v;
+}
 </script>
+<!-- Bibliotecas necessárias -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="{% static 'js/validacoes.js' %}"></script>
-
+<script src="{% static 'js/upload_pdf.js' %}"></script>
+<script src="{% static 'js/enviar_pdf_email.js' %}"></script>
 
 <!-- CSS para PDF e impressão -->
 <style>
@@ -800,13 +834,6 @@ function fecharModal() {
     display: block !important;
 }
 </style>
-
-<!-- Bibliotecas necessárias -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<script src="{% static 'js/validacoes.js' %}"></script>
-<script src="{% static 'js/upload_pdf.js' %}"></script>
-<script src="{% static 'js/enviar_pdf_email.js' %}"></script>
 
 <!-- SCRIPT PDF -->
 <script>
