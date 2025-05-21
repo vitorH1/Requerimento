@@ -16,6 +16,7 @@ from django.conf import settings
 import tempfile
 from django.core.mail import EmailMessage
 from django.core.mail import get_connection
+from unicodedata import normalize
 
 # Create your views here.
 
@@ -45,36 +46,19 @@ def get_last_name(items):
 
 # View para listar todos os requerimentos
 def listar_requerimentos(request):
-    search_query = request.GET.get('q', '')
-    
-    # Garantir que estamos carregando os requerimentos corretamente
     from config import REQUERIMENTOS as CONFIG_REQUERIMENTOS
-    
-    # Diagnóstico detalhado
-    print(f"Total de requerimentos em CONFIG: {len(CONFIG_REQUERIMENTOS)}")
-    if len(CONFIG_REQUERIMENTOS) > 0:
-        print(f"Primeiro requerimento: {CONFIG_REQUERIMENTOS[0]['nome']}")
-    
+    search_query = request.GET.get('q', '')
     if search_query:
         filtered_requerimentos = [
             req for req in CONFIG_REQUERIMENTOS
             if search_query.lower() in req['nome'].lower() or search_query.lower() in req['descricao'].lower()
         ]
     else:
-        filtered_requerimentos = CONFIG_REQUERIMENTOS.copy()  # Fazer uma cópia para evitar problemas
-    
-    # Print para diagnóstico
-    print(f"Total de requerimentos filtrados: {len(filtered_requerimentos)}")
-    
-    # Informações adicionais para diagnóstico
-    context = {
+        filtered_requerimentos = CONFIG_REQUERIMENTOS.copy()
+    return render(request, 'modelo_requerimentos.html', {
         'requerimentos': filtered_requerimentos,
-        'search_query': search_query,
-        'django_version': django.get_version(),
-        'base_dir': settings.BASE_DIR,
-    }
-    
-    return render(request, 'modelo_requerimentos.html', context)
+        'search_query': search_query
+    })
 
 # View para exibir detalhes de um requerimento específico
 def requerimento_detalhes(request, req_id):
@@ -249,3 +233,28 @@ def enviar_pdf_email(request):
         except Exception as e:
             return JsonResponse({'erro': f'Erro ao enviar email: {str(e)}'}, status=500)
     return JsonResponse({'erro': 'Arquivo não enviado'}, status=400)
+
+# Função para normalizar o nome do arquivo
+import unicodedata
+def normalizar(texto):
+    if not texto:
+        return ''
+    # Remove acentos e troca ç por c
+    texto = unicodedata.normalize('NFKD', texto).encode('ASCII', 'ignore').decode('ASCII')
+    return texto.replace('ç', 'c').replace('Ç', 'C').lower()
+
+def listar_requerimentos(request):
+    from config import REQUERIMENTOS as CONFIG_REQUERIMENTOS
+    search_query = request.GET.get('q', '')
+    if search_query:
+        search_norm = normalizar(search_query)
+        filtered_requerimentos = [
+            req for req in CONFIG_REQUERIMENTOS
+            if search_norm in normalizar(req['nome']) or search_norm in normalizar(req['descricao'])
+        ]
+    else:
+        filtered_requerimentos = CONFIG_REQUERIMENTOS.copy()
+    return render(request, 'modelo_requerimentos.html', {
+        'requerimentos': filtered_requerimentos,
+        'search_query': search_query
+    })

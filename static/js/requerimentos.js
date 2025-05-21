@@ -48,3 +48,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }, 300);
 });
+
+document.getElementById('busca').addEventListener('input', function () {
+    const termoBusca = removerAcentos(this.value.toLowerCase());
+    const itens = document.querySelectorAll('#lista-requerimentos li');
+
+    itens.forEach(item => {
+        const textoItem = removerAcentos(item.textContent.toLowerCase());
+        item.style.display = textoItem.includes(termoBusca) ? '' : 'none';
+    });
+});
+
+function removerAcentos(texto) {
+    return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
