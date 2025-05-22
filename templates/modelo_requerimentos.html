@@ -52,6 +52,7 @@ dsdsaasddas3123
         border-color: #bfdbfe !important;
         text-decoration: none !important;
     }
+
 </style>
 {% endblock %}
 
@@ -96,12 +97,14 @@ dsdsaasddas3123
         
         <!-- Filtros rápidos -->
         <div class="filtros-rapidos">
-            <span class="filtro-label">Filtros rápidos:</span>
-            <div class="filtro-tags">
-                <a href="{% url 'listar_requerimentos' %}?q=averbação" class="filtro-tag">Averbação</a>
-                <a href="{% url 'listar_requerimentos' %}?q=cancelamento" class="filtro-tag">Cancelamento</a>
-                <a href="{% url 'listar_requerimentos' %}?q=alteração" class="filtro-tag">Alteração</a>
-                <a href="{% url 'listar_requerimentos' %}?q=construção" class="filtro-tag">Construção</a>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <span class="filtro-label">Filtros rápidos:</span>
+                <div class="filtro-tags">
+                    <a href="{% url 'listar_requerimentos' %}?q=averbação" class="filtro-tag">Averbação</a>
+                    <a href="{% url 'listar_requerimentos' %}?q=cancelamento" class="filtro-tag">Cancelamento</a>
+                    <a href="{% url 'listar_requerimentos' %}?q=alteração" class="filtro-tag">Alteração</a>
+                    <a href="{% url 'listar_requerimentos' %}?q=construção" class="filtro-tag">Construção</a>
+                </div>
             </div>
         </div>
     </div>
@@ -142,7 +145,7 @@ dsdsaasddas3123
                 {% endfor %}
             </div>
         {% else %}
-            <div class="requerimentos-vazio">
+            <div class="requerimentos-vazio" style="text-align: center;">
                 <div class="vazio-icon">
                     <i class="fas fa-search"></i>
                 </div>
