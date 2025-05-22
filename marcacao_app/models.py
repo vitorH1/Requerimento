@@ -31,3 +31,14 @@ class ArquivoPDF(models.Model):
 
     def __str__(self):
         return f"{self.nome_arquivo} ({self.cliente.nome})"
+    
+class TextoRequerimento(models.Model):
+    CHAVE_REQUERIMENTOS = models.AutoField(primary_key=True)
+    DESCRICAO = models.CharField(max_length=255)
+    TEXTO_REQUERIMENTOS = models.TextField()
+
+    class Meta:
+        db_table = 'texto_requerimento'
+
+        def __str__(self):
+            return self.CHAVE_REQUERIMENTOS

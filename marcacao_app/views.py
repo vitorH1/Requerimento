@@ -17,6 +17,8 @@ import tempfile
 from django.core.mail import EmailMessage
 from django.core.mail import get_connection
 from unicodedata import normalize
+from .forms import TextoRequerimentoForm
+from .models import TextoRequerimento
 
 # Create your views here.
 
@@ -258,3 +260,23 @@ def listar_requerimentos(request):
         'requerimentos': filtered_requerimentos,
         'search_query': search_query
     })
+
+def adicionar_texto_requerimento(request):
+    if request.method == 'POST':
+        form = TextoRequerimentoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('adicionar_texto_requerimento')
+    else:
+        form = TextoRequerimentoForm()
+    return render(request, 'adicionar_texto_requerimento.html', {'form': form})
+
+def listar_textos_requerimento(request):
+    textos = TextoRequerimento.objects.all().order_by('CHAVE_REQUERIMENTOS')
+    return render(request, 'listar_textos_requerimento.html', {'textos': textos})
+
+def detalhar_texto_requerimento(request, chave):
+    texto = TextoRequerimento.objects.get(CHAVE_REQUERIMENTOS=chave)
+    return render(request, 'detalhar_texto_requerimento.html', {'texto': texto})
+
+

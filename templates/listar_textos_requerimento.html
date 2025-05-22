@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Textos de Requerimento{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width:900px; margin:2rem auto;">
+    <h2>Textos de Requerimento Cadastrados</h2>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Chave</th>
+                <th>Descrição</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for texto in textos %}
+            <tr>
+                <td>{{ texto.CHAVE_REQUERIMENTOS }}</td>
+                <td>{{ texto.DESCRICAO }}</td>
+                <td>
+                    <a href="{% url 'detalhar_texto_requerimento' texto.CHAVE_REQUERIMENTOS %}" class="btn btn-info btn-sm">Ver texto</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">Nenhum texto cadastrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -12,4 +12,8 @@ urlpatterns = [
     path('consultar_pdfs/<str:cpf>/', views.consultar_pdfs, name='consultar_pdfs'),
     path('buscar_cliente_pdfs/', views.buscar_cliente_pdfs, name='buscar_cliente_pdfs'),
     path('enviar_pdf_email/', views.enviar_pdf_email, name='enviar_pdf_email'),
+    path('adicionar-texto-requerimento/', views.adicionar_texto_requerimento, name='adicionar_texto_requerimento'),
+    path('textos-requerimento/', views.listar_textos_requerimento, name='listar_textos_requerimento'),
+    path('texto-requerimento/<int:chave>/', views.detalhar_texto_requerimento, name='detalhar_texto_requerimento'),
+    
 ]
