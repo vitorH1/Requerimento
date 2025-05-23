@@ -15,5 +15,6 @@ urlpatterns = [
     path('adicionar-texto-requerimento/', views.adicionar_texto_requerimento, name='adicionar_texto_requerimento'),
     path('textos-requerimento/', views.listar_textos_requerimento, name='listar_textos_requerimento'),
     path('texto-requerimento/<int:chave>/', views.detalhar_texto_requerimento, name='detalhar_texto_requerimento'),
-    
+    path('declaracoes/', views.listar_declaracoes, name='listar_declaracoes'),
+    path('declaracoes/primeira-aquisicao-imobiliaria/', views.primeira_aquisicao_imobiliaria, name='primeira_aquisicao_imobiliaria'),
 ]

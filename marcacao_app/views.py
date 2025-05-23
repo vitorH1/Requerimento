@@ -280,3 +280,22 @@ def detalhar_texto_requerimento(request, chave):
     return render(request, 'detalhar_texto_requerimento.html', {'texto': texto})
 
 
+
+
+def listar_declaracoes(request):
+    from django.urls import reverse
+    declaracoes = [
+        {
+            "id": "primeira_aquisicao_imobiliaria",
+            "nome": "Primeira Aquisição Imobiliária",
+            "descricao": "Declaração para primeira aquisição de imóvel residencial com redução de emolumentos.",
+            "icone": "<img width='35' height='35' src='https://img.icons8.com/ios/50/signing-a-document.png' alt='signing-a-document'/>",
+            "url": reverse("primeira_aquisicao_imobiliaria")
+        }
+    ]
+    return render(request, "declaracoes/listar_declaracoes.html", {"declaracoes": declaracoes})
+
+
+
+def primeira_aquisicao_imobiliaria(request):
+    return render(request, "declaracoes/primeira_aquisicao_imobiliaria.html")

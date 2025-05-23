@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Declarações{% endblock %}
+
+{% block body_class %}pagina-requerimentos{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="{% static 'css/requerimentos_override.css' %}?v=1.1" id="requerimentos-override-css">
+<script src="{% static 'js/requerimentos.js' %}?v=1.1" defer></script>
+<script src="{% static 'js/fix_requerimentos.js' %}?v=1.0" defer></script>
+<style>
+    .requerimentos-container {
+        max-width: 1200px !important;
+        margin: 2rem auto !important;
+        padding: 0 1.5rem !important;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="requerimentos-container">
+    <div class="requerimentos-header">
+        <div class="header-content">
+            <h2 class="requerimentos-titulo">Declarações</h2>
+            <p class="requerimentos-subtitulo">Selecione o modelo de declaração para visualizar</p>
+        </div>
+        <div class="header-actions">
+            <button class="btn-ajuda" id="btnAjuda">
+                <i class="fas fa-question-circle"></i> Como usar
+            </button>
+        </div>
+    </div>
+    <!-- Campo de busca -->
+    <div class="requerimentos-busca">
+        <form action="" method="GET">
+            <div class="input-group">
+                <div class="search-wrapper">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" name="q" id="busca" placeholder="Buscar declarações..." value="{{ search_query }}" autocomplete="off">
+                    {% if search_query %}
+                    <button type="button" class="clear-search" id="clearSearch">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn-busca">
+                    <i class="fas fa-search"></i> Buscar
+                </button>
+                {% if search_query %}
+                <a href="" class="btn-limpar">
+                    <i class="fas fa-undo"></i> Limpar
+                </a>
+                {% endif %}
+            </div>
+        </form>
+        <!-- Filtros rápidos -->
+        <div class="filtros-rapidos">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <span class="filtro-label">Filtros rápidos:</span>
+                <div class="filtro-tags">
+                    <a href="?q=primeira" class="filtro-tag">Primeira Aquisição</a>
+                    <!-- Adicione mais filtros se desejar -->
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if declaracoes %}
+    <div class="resultados-info ">
+        <span class="resultados-contagem">
+        </span>
+    </div>
+    <div class="requerimentos-grid">
+        {% for declaracao in declaracoes %}
+        <a href="{{ declaracao.url }}" class="requerimento-card">
+            <div class="requerimento-icon">
+                {{ declaracao.icone|safe }}
+            </div>
+            <div class="requerimento-content">
+                <h3>{{ declaracao.nome }}</h3>
+                <p>{{ declaracao.descricao }}</p>
+            </div>
+            <div class="requerimento-arrow" style="margin-left:auto;">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="requerimentos-vazio" style="text-align: center;">
+        <div class="vazio-icon">
+            <i class="fas fa-search"></i>
+        </div>
+        <h3>Nenhum resultado encontrado</h3>
+        <p>Não encontramos declarações para "{{ search_query }}".</p>
+        <a href="" class="btn-principal">
+            <i class="fas fa-undo"></i> Ver todas as declarações
+        </a>
+    </div>
+    {% endif %}
+    <!-- Modal de Ajuda -->
+    <div class="modal" id="ajudaModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-info-circle"></i> Como usar as Declarações</h3>
+                <button class="close-modal" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="instrucao-item">
+                    <div class="instrucao-numero">1</div>
+                    <div class="instrucao-texto">
+                        <h4>Encontre o modelo necessário</h4>
+                        <p>Utilize a busca ou os filtros rápidos para encontrar a declaração que precisa.</p>
+                    </div>
+                </div>
+                <div class="instrucao-item">
+                    <div class="instrucao-numero">2</div>
+                    <div class="instrucao-texto">
+                        <h4>Preencha os dados solicitados</h4>
+                        <p>Após selecionar o modelo, você será direcionado para o formulário de preenchimento.</p>
+                    </div>
+                </div>
+                <div class="instrucao-item">
+                    <div class="instrucao-numero">3</div>
+                    <div class="instrucao-texto">
+                        <h4>Imprima ou salve seu documento</h4>
+                        <p>Ao concluir o preenchimento, você poderá imprimir ou salvar o documento em PDF.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Limpar busca com o botão X
+        const clearSearchButton = document.getElementById('clearSearch');
+        if (clearSearchButton) {
+            clearSearchButton.addEventListener('click', function() {
+                window.location.href = "";
+            });
+        }
+        // Modal de ajuda
+        const ajudaModal = document.getElementById('ajudaModal');
+        const btnAjuda = document.getElementById('btnAjuda');
+        const closeModal = document.getElementById('closeModal');
+        if (btnAjuda && ajudaModal && closeModal) {
+            btnAjuda.addEventListener('click', function() {
+                ajudaModal.classList.add('active');
+                ajudaModal.style.opacity = '1';
+                ajudaModal.style.visibility = 'visible';
+                document.body.style.overflow = 'hidden';
+            });
+            closeModal.addEventListener('click', function() {
+                ajudaModal.classList.remove('active');
+                ajudaModal.style.opacity = '0';
+                ajudaModal.style.visibility = 'hidden';
+                document.body.style.overflow = '';
+            });
+            window.addEventListener('click', function(event) {
+                if (event.target === ajudaModal) {
+                    ajudaModal.classList.remove('active');
+                    ajudaModal.style.opacity = '0';
+                    ajudaModal.style.visibility = 'hidden';
+                    document.body.style.overflow = '';
+                }
+            });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && ajudaModal.classList.contains('active')) {
+                    ajudaModal.classList.remove('active');
+                    ajudaModal.style.opacity = '0';
+                    ajudaModal.style.visibility = 'hidden';
+                    document.body.style.overflow = '';
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

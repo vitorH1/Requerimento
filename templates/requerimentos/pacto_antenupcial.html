@@ -127,7 +127,7 @@
     }
 
     .info-group p {
-        margin-bottom:6px;
+        margin-bottom: 6px;
     }
 
     .hint {
@@ -255,18 +255,22 @@
     .form-group {
         margin-bottom: 6px;
     }
+
     .form-row {
         gap: 7px;
         margin-bottom: 6px;
     }
+
     label {
         margin-bottom: 2px;
     }
+
     .form-control {
         padding: 5px 8px;
         font-size: 13px;
         margin-bottom: 2px;
     }
+
     /* Classe utilitária para ajuste fino de espaçamento */
     .espaco-reduzido {
         margin-bottom: 2px !important;
@@ -321,39 +325,49 @@
                     </div>
                 </div>
 
-                <p class="vem-requerer">vem requerer a V.S.:</p>
+                <p class="vem-requerer">Vem requerer a Vossa Senhoria:</p>
 
                 <div class="option-group">
+                    <!-- Opção 1 -->
                     <div class="option">
                         <input type="radio" id="opcao1" name="opcao" value="registro">
-                        <label for="opcao1">O REGISTRO DA INCLUSA ESCRITURA DE PACTO ANTENUPCIAL / UNIÃO ESTÁVEL no
-                            Livro n.
-                            3 – Registro Auxiliar do 5° Registro de Imóveis (apresentar a certidão de casamento em cópia
-                            autenticada).</label>
+                        <label for="opcao1">
+                            O registro da inclusa Escritura de Pacto Antenupcial / União Estável no Livro nº 3 –
+                            Registro Auxiliar do 5º Registro de Imóveis.
+                            (Apresentar a certidão de casamento em cópia autenticada ou original)
+                        </label>
                     </div>
 
                     <div class="info-group">
-                        <p>Declaro para os devidos fins que o primeiro domicílio conjugal foi estabelecido no seguinte
+                        <p>Declaro, para os devidos fins, que o primeiro domicílio conjugal foi estabelecido no seguinte
                             endereço:</p>
-                        <input type="text" id="domicilio1" name="domicilio1" class="form-control">
-                        <input type="text" id="domicilio2" name="domicilio2" class="form-control">
+                        <input type="text" id="domicilio1" name="domicilio1" class="form-control"
+                            placeholder="Rua, número, complemento">
+                        <input type="text" id="domicilio2" name="domicilio2" class="form-control"
+                            placeholder="Bairro, cidade, estado">
                     </div>
 
+                    <!-- Opção 2 -->
                     <div class="option">
                         <input type="radio" id="opcao2" name="opcao" value="averbacoes">
-                        <label for="opcao2">AVERBAÇÕES da escritura e registro do PACTO ANTENUPCIAL / UNIÃO ESTÁVEL, nas
-                            seguintes MATRÍCULAS dos imóveis onde os cônjuges / conviventes, figuram como
-                            PROPRIETÁRIOS:</label>
+                        <label for="opcao2">
+                            As averbações da escritura e do registro do Pacto Antenupcial / União Estável nas seguintes
+                            matrículas dos imóveis em que os cônjuges / conviventes figuram como proprietários:
+                        </label>
                     </div>
 
                     <div class="info-group">
-                        <input type="text" id="matricula1" name="matricula1" class="form-control">
+                        <input type="text" id="matricula1" name="matricula1" class="form-control"
+                            placeholder="Nº da matrícula 1">
                         <div class="form-row">
-                            <input type="text" id="matricula2" name="matricula2" class="form-control">
-                            <span class="hint">(mencionar as matrículas)</span>
+                            <input type="text" id="matricula2" name="matricula2" class="form-control"
+                                placeholder="Nº da matrícula 2 (se houver)">
+                            <span class="hint">(Mencionar as matrículas dos imóveis)</span>
                         </div>
                     </div>
                 </div>
+
+
 
                 <div class="form-footer">
 
@@ -380,12 +394,14 @@
                 <div class="observations">
                     <p><strong>Obs:</strong></p>
                     <ol>
-                        <li>Reconhecer a firma do requerente;</li>
-                        <li>Juntar original da Escritura de Pacto Antenupcial/regime de bens na união estável;</li>
-                        <li>Juntar original ou cópia autenticada da certidão de casamento;</li>
-                        <li>Juntar original ou cópia autenticada da certidão de união estável do "Livro E" (emitida pelo
-                            Registro Civil de Pessoas Naturais).</li>
+                        <li>Reconhecimento de firma do(a) requerente;</li>
+                        <li>Juntar o original da Escritura de Pacto Antenupcial ou do regime de bens na união estável;
+                        </li>
+                        <li>Juntar o original ou cópia autenticada da certidão de casamento;</li>
+                        <li>Juntar o original ou cópia autenticada da certidão de união estável extraída do Livro "E"
+                            (emitida pelo Registro Civil das Pessoas Naturais).</li>
                     </ol>
+
                 </div>
             </div>
 
@@ -640,38 +656,38 @@
 
     const cpfInput = document.getElementById('cpf');
     if (cpfInput) {
-        cpfInput.addEventListener('blur', function() {
+        cpfInput.addEventListener('blur', function () {
             const cpf = this.value;
             if (!cpf || cpf.length < 11) return; // Ignora CPFs incompletos
-            
+
             console.log("Buscando cliente com CPF:", cpf);
-            
+
             // Adiciona um indicador de carregamento (opcional)
             const form = document.getElementById('form-cadastro');
             if (form) form.classList.add('loading');
-            
+
             fetch(`/buscar_cliente/${cpf}`)
                 .then(response => {
                     // Registre o status da resposta para depuração
                     console.log("Status da resposta:", response.status);
-                    
+
                     if (response.status === 404) {
                         console.log("Cliente não encontrado");
                         return null;
                     }
-                    
+
                     if (!response.ok) {
                         throw new Error(`Erro na requisição: ${response.status}`);
                     }
-                    
+
                     return response.json();
                 })
                 .then(data => {
                     // Remove o indicador de carregamento
                     if (form) form.classList.remove('loading');
-                    
+
                     console.log("Dados recebidos:", data);
-                    
+
                     if (data) {
                         // Preencher os campos do formulário com os dados recebidos
                         document.getElementById('nome').value = data.nome || '';
@@ -687,73 +703,73 @@
                 });
         });
     }
-    
+
     // Configuração do envio do formulário
     const formCadastro = document.getElementById('form-cadastro');
     if (formCadastro) {
-        formCadastro.addEventListener('submit', function(e) {
+        formCadastro.addEventListener('submit', function (e) {
             e.preventDefault();
-            
+
             // Coletar todos os dados do formulário
             const formData = new FormData(this);
             const jsonData = {};
-            
-            formData.forEach((value, key) => { 
+
+            formData.forEach((value, key) => {
                 jsonData[key] = value;
             });
-            
+
             console.log("Enviando dados:", jsonData);
-            
+
             // Enviar requisição para salvar os dados
             fetch('/cadastro', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(jsonData)
             })
-            .then(response => {
-                console.log("Status da resposta:", response.status);
-                return response.json();
-            })
-            .then(function(data) {
-                console.log("Resposta do servidor:", data);
-                if (data.erro) {
-                    mostrarModal(`Erro: ${data.erro}`);
-                } else {
-                    mostrarModal(data.mensagem || 'Cadastro salvo com sucesso!');
-                }
-            })
-            .catch(error => {
-                console.error('Erro ao salvar:', error);
-                mostrarModal('Erro ao salvar os dados. Tente novamente.');
-            });
+                .then(response => {
+                    console.log("Status da resposta:", response.status);
+                    return response.json();
+                })
+                .then(function (data) {
+                    console.log("Resposta do servidor:", data);
+                    if (data.erro) {
+                        mostrarModal(`Erro: ${data.erro}`);
+                    } else {
+                        mostrarModal(data.mensagem || 'Cadastro salvo com sucesso!');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao salvar:', error);
+                    mostrarModal('Erro ao salvar os dados. Tente novamente.');
+                });
         });
     }
 
 
-// Função de validação e formatação do CPF
-function formatarCPF(e) {
-    let valor = e.target.value.replace(/\D/g, '');
-    if (valor.length > 11) valor = valor.slice(0, 11);
-    valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
-    valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
-    valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-    e.target.value = valor;
-}
+    // Função de validação e formatação do CPF
+    function formatarCPF(e) {
+        let valor = e.target.value.replace(/\D/g, '');
+        if (valor.length > 11) valor = valor.slice(0, 11);
+        valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+        valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+        valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+        e.target.value = valor;
+    }
 
-// Função para exibir modal
-function mostrarModal(mensagem) {
-    const modalElement = document.getElementById('modalSucesso');
-    const mensagemElement = document.getElementById('mensagemModal');
-    
-    if (mensagemElement) mensagemElement.textContent = mensagem;
-    if (modalElement) modalElement.style.display = 'flex';
-}
+    // Função para exibir modal
+    function mostrarModal(mensagem) {
+        const modalElement = document.getElementById('modalSucesso');
+        const mensagemElement = document.getElementById('mensagemModal');
 
-// Função para fechar modal
-function fecharModal() {
-    const modalElement = document.getElementById('modalSucesso');
-    if (modalElement) modalElement.style.display = 'none';
-}
+        if (mensagemElement) mensagemElement.textContent = mensagem;
+        if (modalElement) modalElement.style.display = 'flex';
+    }
+
+    // Função para fechar modal
+    function fecharModal() {
+        const modalElement = document.getElementById('modalSucesso');
+        if (modalElement) modalElement.style.display = 'none';
+    }
 
 </script>
 <script src="{% static 'js/validacoes.js' %}"></script>
@@ -761,39 +777,47 @@ function fecharModal() {
 
 <!-- CSS para PDF e impressão -->
 <style>
-.hide-on-pdf {
-    display: none !important;
-}
-.pdf-clean {
-    border: none !important;
-    box-shadow: none !important;
-}
-.pdf-clean, .pdf-clean * {
-    box-shadow: none !important;
-    background: white !important;
-}
-.pdf-clean .form-control {
-    border: none !important;
-    border-bottom: 1px solid #000 !important;
-    background: white !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-}
-.pdf-clean .form-wrapper,
-.pdf-clean .container {
-    border: none !important;
-}
-.pdf-clean .signature-line {
-    margin-top: 1.5cm !important; /* ajuste conforme necessário */
-}
-.pdf-clean .signature-line hr {
-    border: none !important;
-    border-top: 2px solid #000 !important;
-    height: 1px !important;
-    margin: 0 !important;
-    background: none !important;
-    display: block !important;
-}
+    .hide-on-pdf {
+        display: none !important;
+    }
+
+    .pdf-clean {
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    .pdf-clean,
+    .pdf-clean * {
+        box-shadow: none !important;
+        background: white !important;
+    }
+
+    .pdf-clean .form-control {
+        border: none !important;
+        border-bottom: 1px solid #000 !important;
+        background: white !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+    }
+
+    .pdf-clean .form-wrapper,
+    .pdf-clean .container {
+        border: none !important;
+    }
+
+    .pdf-clean .signature-line {
+        margin-top: 1.5cm !important;
+        /* ajuste conforme necessário */
+    }
+
+    .pdf-clean .signature-line hr {
+        border: none !important;
+        border-top: 2px solid #000 !important;
+        height: 1px !important;
+        margin: 0 !important;
+        background: none !important;
+        display: block !important;
+    }
 </style>
 
 <!-- Bibliotecas necessárias -->
@@ -805,57 +829,57 @@ function fecharModal() {
 
 <!-- SCRIPT PDF -->
 <script>
-document.getElementById('btn-gerar-pdf-html2pdf').onclick = function() {
-    const formWrapper = document.querySelector('.form-wrapper');
-    formWrapper.classList.add('pdf-clean');
+    document.getElementById('btn-gerar-pdf-html2pdf').onclick = function () {
+        const formWrapper = document.querySelector('.form-wrapper');
+        formWrapper.classList.add('pdf-clean');
 
-    // Oculta botões e elementos indesejados
-    document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.add('hide-on-pdf'));
+        // Oculta botões e elementos indesejados
+        document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.add('hide-on-pdf'));
 
-    const element = document.querySelector('.form-wrapper');
-    const cpf = document.getElementById('cpf').value.replace(/\D/g, '');
-    if (!cpf) {
-        alert('Preencha o CPF antes de gerar o PDF.');
-        document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
-        formWrapper.classList.remove('pdf-clean');
-        return;
-    }
+        const element = document.querySelector('.form-wrapper');
+        const cpf = document.getElementById('cpf').value.replace(/\D/g, '');
+        if (!cpf) {
+            alert('Preencha o CPF antes de gerar o PDF.');
+            document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
+            formWrapper.classList.remove('pdf-clean');
+            return;
+        }
 
-    const nome_pdf = `requerimento-averbacao-demolicao-${cpf}.pdf`;
-    const opt = {
-        margin: 0.2,
-        filename: nome_pdf,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, scrollY: 0 },
-        jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' },
-        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-    };
+        const nome_pdf = `requerimento-averbacao-demolicao-${cpf}.pdf`;
+        const opt = {
+            margin: 0.2,
+            filename: nome_pdf,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, scrollY: 0 },
+            jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' },
+            pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+        };
 
-    html2pdf().set(opt).from(element).outputPdf('blob').then(function(pdfBlob) {
-        const formData = new FormData();
-        formData.append('pdf', pdfBlob, nome_pdf);
-        formData.append('cpf', cpf);
+        html2pdf().set(opt).from(element).outputPdf('blob').then(function (pdfBlob) {
+            const formData = new FormData();
+            formData.append('pdf', pdfBlob, nome_pdf);
+            formData.append('cpf', cpf);
 
-        fetch('/upload_pdf/', {
-            method: 'POST',
-            body: formData
-        })
-        .then(r => r.json())
-        .then(data => {
-            if (data.erro) {
-                alert('Erro: ' + data.erro);
-            } else {
-                alert(data.mensagem || 'PDF gerado e enviado com sucesso!');
-            }
-        })
-        .catch(() => {
-            alert('Erro ao enviar o PDF.');
+            fetch('/upload_pdf/', {
+                method: 'POST',
+                body: formData
+            })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.erro) {
+                        alert('Erro: ' + data.erro);
+                    } else {
+                        alert(data.mensagem || 'PDF gerado e enviado com sucesso!');
+                    }
+                })
+                .catch(() => {
+                    alert('Erro ao enviar o PDF.');
+                });
+        }).finally(() => {
+            // Remove as classes após gerar o PDF
+            formWrapper.classList.remove('pdf-clean');
+            document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
         });
-    }).finally(() => {
-        // Remove as classes após gerar o PDF
-        formWrapper.classList.remove('pdf-clean');
-        document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
-    });
-};
+    };
 </script>
 {% endblock %}

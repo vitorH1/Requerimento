@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Declaração - Primeira Aquisição Imobiliária{% endblock %}
+
+{% block content %}
+<style>
+@media print {
+    /* Esconde absolutamente tudo do layout/base exceto a declaração */
+    header, nav, aside, footer, .sidebar, .navbar, .topbar, .main-header, .main-footer, .sidebar-menu, .sidebar-toggle, .sidebar-footer, .sidebar-header, .sidebar-brand, .sidebar-user, .navbar-header, .navbar-brand, .navbar-nav, .navbar-right, .navbar-toggle, .navbar-collapse, .navbar-fixed-top, .navbar-static-top, .navbar-inverse, .navbar-default, .pagina-requerimentos, .requerimentos-header, .requerimentos-busca, .filtros-rapidos, .resultados-info, .requerimentos-grid, .requerimentos-vazio, .modal, .modal-content, .modal-header, .modal-body, .btn-ajuda, .header-actions, .breadcrumb, .breadcrumbs, .menu, .menu-lateral, .menu-superior, .user-info, .user-menu, .logo, .logo-area, .footer, .rodape, #btn-imprimir-declaracao {
+        display: none !important;
+    }
+    .container {
+        display: block !important;
+        position: static !important;
+        box-shadow: none !important;
+        background: #fff !important;
+        margin: 0 !important;
+        padding: 0.5cm !important;
+        max-width: 100% !important;
+        border-radius: 0 !important;
+    }
+    html, body {
+        background: #fff !important;
+    }
+}
+</style>
+<div class="container" style="max-width:920px; margin:2rem auto; background:#fff; padding:2rem; border-radius:8px;">
+    <h5 class="text-center mb-4">Ilma. Sra. Oficiala do Cartorio de Registro de Imóveis de Monte Carmelo/ MG</h5>
+    <h3 class="text-center mb-4">Declaração</h3>
+    <p>
+        Eu, ___________________________________________________, <br><br>
+        portador da CI n. ____________________,
+        e do CPF n. ____________________________,<br>
+        <br>
+        <span style="letter-spacing:0.5em;">( )</span> Declaro para os devidos fins, que:
+        <ol>
+            <li><span style="letter-spacing:0.5em;">( )</span> esta é a minha primeira aquisição imobiliária;</li>
+            <li><span style="letter-spacing:0.5em;">( )</span> que o imóvel é para fins residenciais; e</li>
+            <li><span style="letter-spacing:0.5em;">( )</span> que o adquiro através de financiamento pelo Sistema Financeiro de Habitação, me enquadrando no disposto no art. 290 da Lei 6.015/73 que dispõe:</li>
+        </ol>
+        <blockquote style="background:#f8f9fa; border-left:4px solid #ccc; padding:0.5rem 1rem;">
+            “Os emolumentos devidos pelos atos relacionados com a primeira aquisição imobiliária para fins residenciais, financiada pelo Sistema Financeiro da Habitação, serão reduzidos em 50% (cinquenta por cento)”.
+        </blockquote>
+        <br>
+        <span style="letter-spacing:0.5em;">( )</span> Declaro ainda que tenho ciência que o não enquadramento nas condições acima resulta na perda dos benefícios supra mencionados e na obrigatoriedade da complementação dos emolumentos, bem como que inserir declaração falsa em documento público, com fim de prejudicar direito, criar obrigação ou alterar fato juridicamente relevante caracteriza crime de falsidade ideológica previsto no art. 299 do Código Penal com pena de 1 (um) a 5 (cinco) anos de reclusão, e multa, sem prejuízo das demais responsabilidades civis.
+        <br><br>
+        <span style="letter-spacing:0.5em;">( )</span> Declaro ter ciência de que não tenho direito à redução de emolumentos por não me enquadrar nos critérios legais para a concessão de tal benefício.
+    </p>
+    <br>
+    <div style="text-align:center;">    
+        Monte Carmelo, _______ de ____________________________ de 20 _______ .
+    </div>
+    <br><br>
+    <div style="text-align:center;">
+        ___________________________________________<br>
+        Assinatura do Adquirente
+    </div>
+    <br>
+    <div style="text-align:center;">
+        <button id="btn-imprimir-declaracao" onclick="window.print()" class="btn btn-primary" style="margin-top:1rem;">Imprimir Declaração</button>
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var btn = document.getElementById('btn-imprimir-declaracao');
+    if (btn) {
+        btn.addEventListener('click', function() {
+            setTimeout(function() {
+                btn.style.display = 'none';
+            }, 10);
+            setTimeout(function() {
+                btn.style.display = '';
+            }, 1000);
+        });
+    }
+});
+</script>
+{% endblock %}
