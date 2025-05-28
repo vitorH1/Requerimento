@@ -19,6 +19,7 @@ from django.core.mail import get_connection
 from unicodedata import normalize
 from .forms import TextoRequerimentoForm
 from .models import TextoRequerimento
+import os
 
 # Create your views here.
 
@@ -138,7 +139,15 @@ def buscar_cliente(request, cpf):
     except Cliente.DoesNotExist:
         return JsonResponse({"erro": "Cliente não encontrado"}, status=404)
 
-PDF_UPLOAD_DIR = r"C:\documentos_cartorio\pdfs"
+PDF_UPLOAD_DIR = r"C:\Aplicacoes\pdfs"
+
+# Garantir que a pasta de upload existe
+if not os.path.exists(PDF_UPLOAD_DIR):
+    try:
+        os.makedirs(PDF_UPLOAD_DIR)
+        print(f"Pasta de upload criada: {PDF_UPLOAD_DIR}")
+    except Exception as e:
+        print(f"Erro ao criar pasta de upload: {str(e)}")
 
 import re
 
@@ -158,6 +167,10 @@ def upload_pdf(request):
         if not arquivo or not arquivo.name.lower().endswith('.pdf'):
             return JsonResponse({'erro': 'Arquivo PDF não enviado'}, status=400)
         try:
+            # Garantir que a pasta existe
+            if not os.path.exists(PDF_UPLOAD_DIR):
+                os.makedirs(PDF_UPLOAD_DIR)
+                
             # Gera nome único para o arquivo
             nome_base = f"{cpf}.pdf"
             caminho = os.path.join(PDF_UPLOAD_DIR, nome_base)
@@ -176,14 +189,21 @@ def upload_pdf(request):
             ArquivoPDF.objects.create(cliente=cliente, nome_arquivo=nome_base)
             return JsonResponse({'mensagem': 'Upload realizado com sucesso!', 'nome_pdf': nome_base})
         except Exception as e:
+            import traceback
+            traceback.print_exc()
             return JsonResponse({'erro': f'Erro ao salvar PDF: {str(e)}'}, status=500)
     return JsonResponse({'erro': 'Arquivo não enviado'}, status=400)
 
 def exibir_pdf(request, nome_pdf):
     caminho = os.path.join(PDF_UPLOAD_DIR, nome_pdf)
     if os.path.exists(caminho):
-        return FileResponse(open(caminho, 'rb'), content_type='application/pdf')
-    return JsonResponse({'erro': 'Arquivo não encontrado'}, status=404)
+        try:
+            return FileResponse(open(caminho, 'rb'), content_type='application/pdf')
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            return JsonResponse({'erro': f'Erro ao abrir o arquivo: {str(e)}'}, status=500)
+    return JsonResponse({'erro': f'Arquivo não encontrado: {caminho}'}, status=404)
 
 def consultar_pdfs(request, cpf):
     try:

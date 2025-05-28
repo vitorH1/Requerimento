@@ -39,6 +39,6 @@ class TextoRequerimento(models.Model):
 
     class Meta:
         db_table = 'texto_requerimento'
-
-        def __str__(self):
-            return self.CHAVE_REQUERIMENTOS
+        
+    def __str__(self):
+        return str(self.DESCRICAO)

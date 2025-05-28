@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -25,8 +24,7 @@ SECRET_KEY = 'django-insecure-v+gjm_%*nt^thd9gn)o-800o%pkorr*c!x+@zw5k7e&#&w%2(e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.1.195', '0.0.0.0', '*']
 
 # Application definition
 
@@ -42,6 +40,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Adicionado WhiteNoise
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -70,21 +69,24 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'requerimento_django.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'requerimentodb',
+        'NAME': 'requerimentodb',  # Alterado de requerimentodb2
         'USER': 'postgres',
-        'PASSWORD': 'admin12',
+        'PASSWORD': 'admin',
         'HOST': 'localhost',
         'PORT': '5432',
+        'OPTIONS': {
+            'client_encoding': 'UTF8',
+            'connect_timeout': 30,
+            'options': '-c client_encoding=UTF8',
+        },
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -104,7 +106,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -116,13 +117,19 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [BASE_DIR / 'static']
+# Diretórios onde o Django procurará por arquivos estáticos (para desenvolvimento)
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
+
+# Onde o `collectstatic` irá juntar os arquivos para produção.
+# Esta linha é NECESSÁRIA para o comando `collectstatic` funcionar.
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Configurações de email para envio de PDF
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -130,8 +137,8 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
-EMAIL_HOST_USER = 'vitorateles@gmail.com'  # Altere para seu email
-EMAIL_HOST_PASSWORD = 'uzlq okzl quoa jgjr'  # Use senha de app se 2FA
+EMAIL_HOST_USER = 'vitorateles@gmail.com'
+EMAIL_HOST_PASSWORD = 'uzlq okzl quoa jgjr'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # Default primary key field type

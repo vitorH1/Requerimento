@@ -1,0 +1,16 @@
+# Byte-code compilado do Python
+__pycache__/
+*.pyc
+
+# Arquivos de log
+logs/
+
+# Arquivos estáticos coletados
+staticfiles/
+staticfiles_prod/
+
+# Arquivos de ambiente (se você usar .env para variáveis de ambiente)
+.env
+
+# Arquivos de IDE (exemplo para VSCode, pode adicionar outros se usar)
+# .vscode/
