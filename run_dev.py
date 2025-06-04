@@ -27,9 +27,8 @@ if __name__ == '__main__':
         print(f"⚠️ Não foi possível ler DEBUG de settings_dev: {e}")
     print("-" * 50)
     
-    try:
-        # CORREÇÃO: usar 'manage.py' como primeiro argumento
-        execute_from_command_line(['manage.py', 'runserver', '0.0.0.0:8001']) # Porta alterada
+    try:        # CORREÇÃO: usar 'manage.py' como primeiro argumento
+        execute_from_command_line(['manage.py', 'runserver', '127.0.0.1:8001']) # Porta alterada para localhost
     except Exception as e:
         print(f"❌ ERRO AO INICIAR O SERVIDOR (run_dev.py): {e}")
         import traceback

@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'marcacao_app',
+    "django_browser_reload",
+
 ]
 
 MIDDLEWARE = [
@@ -77,7 +79,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'requerimentodb',  # Alterado de requerimentodb2
         'USER': 'postgres',
-        'PASSWORD': 'admin',
+        'PASSWORD': 'admin12',
         'HOST': 'localhost',
         'PORT': '5432',
         'OPTIONS': {

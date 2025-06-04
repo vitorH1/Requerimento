@@ -16,7 +16,7 @@
     display: flex !important;
     flex-direction: column !important;
     background-color: white !important;
-    border-radius: 10px !important; 
+    border-radius: 10px !important;
     overflow: hidden !important;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04) !important;
     transition: transform 0.3s ease, box-shadow 0.3s ease !important;
@@ -33,7 +33,7 @@
     box-shadow: 0 12px 20px rgba(0, 0, 0, 0.08) !important;
     border-color: #bfdbfe !important;
     text-decoration: none !important;
-    
+
 }
 
 /* Force icon styles */
@@ -78,19 +78,38 @@
 }
 
 /* Force modal styles */
+.pagina-requerimentos .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 9999;
+}
+
 .pagina-requerimentos .modal.active {
-    opacity: 1 !important;
-    visibility: visible !important;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
 }
 
 .pagina-requerimentos .modal-content {
-    background-color: white !important; 
-    border-radius: 12px !important;
-    width: 90% !important;
-    max-width: 600px !important;
-    max-height: 90vh !important;
-    overflow-y: auto !important;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+    background: #fff;
+    padding: 32px 28px;
+    border-radius: 10px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+    text-align: center;
+    min-width: 280px;
+    max-width: 400px;
+    width: 100%;
 }
 
 /* Force filter tags styles */
@@ -116,7 +135,10 @@
 }
 
 /* Button styles */
-.btn-ajuda, .btn-principal, .btn-busca, .btn-limpar {
+.btn-ajuda,
+.btn-principal,
+.btn-busca,
+.btn-limpar {
     padding: 0.875rem 1.5rem;
     border-radius: 6px;
     font-weight: 500;
@@ -134,7 +156,7 @@
 .btn-ajuda {
     background-color: #e0e7ff;
     color: #4f46e5;
-}   
+}
 
 .btn-ajuda:hover {
     background-color: #c7d2fe;
@@ -182,7 +204,10 @@
     color: #334155;
 }
 
-.btn-busca:focus, .btn-limpar:focus, .btn-ajuda:focus, .btn-principal:focus {
+.btn-busca:focus,
+.btn-limpar:focus,
+.btn-ajuda:focus,
+.btn-principal:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
 }
@@ -321,53 +346,63 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Fundo escuro com transparência */
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    /* Fundo escuro com transparência */
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
     visibility: hidden;
+    pointer-events: none;
     transition: opacity 0.3s ease, visibility 0.3s ease;
-    z-index: 1000;
+    z-index: 9999;
 }
 
 .modal.active {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
 }
 
 .modal-content {
-    background: #ffffff; /* Fundo branco */
-    padding: 20px;
-    border-radius: 12px; /* Bordas arredondadas */
-    width: 90%;
-    max-width: 500px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Sombra mais suave */
-    animation: slide-down 0.3s ease; /* Animação ao abrir */
+    background: #ffffff;
+    /* Fundo branco */
+    padding: 32px 28px;
+    border-radius: 10px;
+    /* Bordas arredondadas */
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+    text-align: center;
+    min-width: 280px;
+    max-width: 400px;
+    width: 100%;
 }
 
+/* Header da modal */
 .modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
-    border-bottom: 1px solid #e5e7eb; /* Linha separadora */
+    border-bottom: 1px solid #e5e7eb;
+    /* Linha separadora */
     padding-bottom: 10px;
 }
 
 .modal-header h3 {
     margin: 0;
     font-size: 1.5rem;
-    color: #111827; /* Cor do título */
+    color: #111827;
+    /* Cor do título */
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
 .modal-header h3 i {
-    color: #2563eb; /* Ícone azul */
+    color: #2563eb;
+    /* Ícone azul */
 }
 
 .close-modal {
@@ -375,14 +410,17 @@
     border: none;
     font-size: 1.2rem;
     cursor: pointer;
-    color: #6b7280; /* Cinza */
+    color: #6b7280;
+    /* Cinza */
     transition: color 0.2s ease;
 }
 
 .close-modal:hover {
-    color: #111827; /* Cor mais escura ao passar o mouse */
+    color: #111827;
+    /* Cor mais escura ao passar o mouse */
 }
 
+/* Corpo da modal */
 .modal-body {
     margin-top: 15px;
 }
@@ -395,8 +433,10 @@
 }
 
 .instrucao-numero {
-    background: #2563eb; /* Azul */
-    color: #ffffff; /* Branco */
+    background: #2563eb;
+    /* Azul */
+    color: #ffffff;
+    /* Branco */
     font-size: 1.2rem;
     font-weight: bold;
     width: 32px;
@@ -404,20 +444,23 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%; /* Forma circular */
+    border-radius: 50%;
+    /* Forma circular */
     flex-shrink: 0;
 }
 
 .instrucao-texto h4 {
     margin: 0;
     font-size: 1.1rem;
-    color: #111827; /* Título escuro */
+    color: #111827;
+    /* Título escuro */
 }
 
 .instrucao-texto p {
     margin: 5px 0 0;
     font-size: 0.95rem;
-    color: #4b5563; /* Texto cinza */
+    color: #4b5563;
+    /* Texto cinza */
 }
 
 /* Animação ao abrir a modal */
@@ -426,8 +469,19 @@
         transform: translateY(-20px);
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
     }
+}
+
+#assinatura-preenchida {
+    font-size: 10px !important;
+    font-weight: bold !important;
+    display: inline-block !important;
+    min-width: 200px !important;
+    text-align: center !important;
+    margin-top: 4px !important;
+    color: #222 !important;
 }

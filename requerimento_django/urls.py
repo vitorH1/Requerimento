@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.http import HttpResponse
+from django.conf import settings
+from django.conf.urls.static import static
 
 def health_check(request):
     return HttpResponse('Django está funcionando e conectado ao banco de dados!')
@@ -26,3 +28,7 @@ urlpatterns = [
     path('', include('marcacao_app.urls')),
     path('health/', health_check),
 ]
+
+# Serve arquivos estáticos durante o desenvolvimento
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])

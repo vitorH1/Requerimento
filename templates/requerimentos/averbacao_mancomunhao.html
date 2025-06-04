@@ -1,0 +1,345 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Requerimentos{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/requerimentos_form.css' %}">
+    <link rel="stylesheet" href="{% static 'css/requerimentos_override.css' %}">
+    <style>
+        /* CSS exclusivo para este requerimento */
+        #form-cadastro .form-control {
+            font-size: 12px;
+            padding: 2px 6px;
+            height: 26px;
+        }
+        #form-cadastro label {
+            font-size: 12px;
+            margin-bottom: 1px;
+        }
+        #form-cadastro .form-row {
+            gap: 4px;
+            margin-bottom: 4px;
+        }
+        #form-cadastro .vem-requerer p,
+        #form-cadastro .option label {
+            font-size: 12px;
+        }
+        #form-cadastro .option input[type="checkbox"] {
+            width: 13px;
+            height: 13px;
+        }
+        #form-cadastro .option {
+            gap: 3px;
+            margin-bottom: 1px;
+        }
+        /* CORREÇÃO PARA IMPRESSÃO: força quebra de linha e impede corte do input */
+        #form-cadastro .vem-requerer {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+        #form-cadastro .vem-requerer p {
+            display: block !important;
+            max-width: 100%;
+            white-space: normal !important;
+            margin-bottom: 2px !important;
+        }
+        #form-cadastro .vem-requerer input.form-control {
+            display: block !important;
+            width: 100% !important;
+            margin-left: 0 !important;
+            margin-top: 2px !important;
+        }
+        @media print {
+            #form-cadastro .vem-requerer {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: flex-end;
+            }
+            #form-cadastro .vem-requerer p {
+                display: block !important;
+                max-width: 100%;
+                white-space: normal !important;
+                margin-bottom: 2px !important;
+            }
+            #form-cadastro .vem-requerer input.form-control {
+                display: block !important;
+                width: 100% !important;
+                margin-left: 0 !important;
+                margin-top: 2px !important;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="header-bar">
+        <h1>Averbação Mancomunhão</h1>
+    </div>
+
+    <div class="form-wrapper">
+        <div class="form-header">
+            <h2>REQUERIMENTO – AVERBAÇÃO DE MANCOMUNHÃO</h2>
+            <h3>ILUSTRÍSSIMA OFICIALA DE REGISTRO DE IMÓVEIS DE FORMIGA-MG</h3>
+        </div>
+
+        <form id="form-cadastro">
+            <!-- Requerente 1 -->
+            <div class="form-row">
+                <div class="half">
+                    <label for="nome">Nome:</label>
+                    <input type="text" name="nome" id="nome" class="form-control" required>
+                </div>
+                <div class="half">
+                    <label for="rg">RG:</label>
+                    <input type="text" name="rg" id="rg" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="half">
+                    <label for="cpf">CPF (MF):</label>
+                    <input type="text" name="cpf" id="cpf" class="form-control" required>
+                </div>
+                <div class="half">
+                    <label for="telefone">Whatsapp/Telefone:</label>
+                    <input type="text" name="telefone" id="telefone" class="form-control">
+                </div>
+            </div>
+            <div class="form-row">
+                <div style="flex: 1;">
+                    <label for="nacionalidade">Nacionalidade:</label>
+                    <input type="text" name="nacionalidade" id="nacionalidade" class="form-control" required>
+                </div>
+                <div style="flex: 1;">
+                    <label for="estado_civil">Estado Civil:</label>
+                    <input type="text" name="estado_civil" id="estado_civil" class="form-control" required>
+                </div>
+                <div style="flex: 1;">
+                    <label for="profissao">Profissão:</label>
+                    <input type="text" name="profissao" id="profissao" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div style="flex: 2;">
+                    <label for="endereco">Residente e domiciliado(a) na Av. /Rua /AL:</label>
+                    <input type="text" name="endereco" id="endereco" class="form-control" required>
+                </div>
+                <div style="flex: 0.2;">
+                    <label for="numero">Nº:</label>
+                    <input type="text" name="numero" id="numero" class="form-control" >
+                </div>
+                <div style="flex: 1;">
+                    <label for="complemento">Complemento:</label>
+                    <input type="text" name="complemento" id="complemento" class="form-control" >
+                </div>
+                <div style="flex: 1;">
+                    <label for="bairro">Bairro:</label>
+                    <input type="text" name="bairro" id="bairro" class="form-control" >
+                </div>
+            </div>
+            <div class="form-row">
+                <div style="flex: 1;">
+                    <label for="cidade">Cidade:</label>
+                    <input type="text" name="cidade" id="cidade" class="form-control" required>
+                </div>
+                <div style="flex: 0.2;">
+                    <label for="uf">UF:</label>
+                    <select name="uf" id="uf" class="form-control" required>
+                        <option value="">Selecione</option>
+                        <option value="MG">MG</option>
+                        <option value="SP">SP</option>
+                        <!-- outros estados -->
+                    </select>
+                </div>
+                <div style="flex: 1;">
+                    <label for="email">Email:</label>
+                    <input type="email" name="email" id="email" class="form-control" >
+                </div>
+            </div>
+
+            <!-- Requerente 2 -->
+            <div style="margin-top: 10px; margin-bottom: -20px;">
+                <p><strong>Requerente 2:</strong></p>
+            </div>
+            <div class="form-row">
+                <div class="half">
+                    <label for="nome2">Nome:</label>
+                    <input type="text" name="nome2" id="nome2" class="form-control" required>
+                </div>
+                <div class="half">
+                    <label for="rg2">RG:</label>
+                    <input type="text" name="rg2" id="rg2" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="half">
+                    <label for="cpf2">CPF (MF):</label>
+                    <input type="text" name="cpf2" id="cpf2" class="form-control" required>
+                </div>
+                <div class="half">
+                    <label for="telefone2">Whatsapp/Telefone:</label>
+                    <input type="text" name="telefone2" id="telefone2" class="form-control">
+                </div>
+            </div>
+            <div class="form-row">
+                <div style="flex: 1;">
+                    <label for="nacionalidade2">Nacionalidade:</label>
+                    <input type="text" name="nacionalidade2" id="nacionalidade2" class="form-control" required>
+                </div>
+                <div style="flex: 1;">
+                    <label for="estado_civil2">Estado Civil:</label>
+                    <input type="text" name="estado_civil2" id="estado_civil2" class="form-control" required>
+                </div>
+                <div style="flex: 1;">
+                    <label for="profissao2">Profissão:</label>
+                    <input type="text" name="profissao2" id="profissao2" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div style="flex: 2;">
+                    <label for="endereco2">Residente e domiciliado(a) na Av. /Rua /AL:</label>
+                    <input type="text" name="endereco2" id="endereco2" class="form-control" required>
+                </div>
+                <div style="flex: 0.2;">
+                    <label for="numero2">Nº:</label>
+                    <input type="text" name="numero2" id="numero2" class="form-control" >
+                </div>
+                <div style="flex: 1;">
+                    <label for="complemento2">Complemento:</label>
+                    <input type="text" name="complemento2" id="complemento2" class="form-control" >
+                </div>
+                <div style="flex: 1;">
+                    <label for="bairro2">Bairro:</label>
+                    <input type="text" name="bairro2" id="bairro2" class="form-control" >
+                </div>
+            </div>
+            <div class="form-row">
+                <div style="flex: 1;">
+                    <label for="cidade2">Cidade:</label>
+                    <input type="text" name="cidade2" id="cidade2" class="form-control" required>
+                </div>
+                <div style="flex: 0.2;">
+                    <label for="uf2">UF:</label>
+                    <select name="uf2" id="uf2" class="form-control" required>
+                        <option value="">Selecione</option>
+                        <option value="MG">MG</option>
+                        <option value="SP">SP</option>
+                        <!-- outros estados -->
+                    </select>
+                </div>
+                <div style="flex: 1;">
+                    <label for="email2">Email:</label>
+                    <input type="email" name="email2" id="email2" class="form-control" >
+                </div>
+            </div>
+
+            <!-- Averbação Mancomunhão -->
+            <div class="vem-requerer">
+                <p style="margin-bottom: 3px !important; display: inline;">
+                    vem requerer a Vossa Senhoria, SOB AS PENAS DA LEI, nos termos do art. 872 do Prov. Conj. 93/CGJ-MG/2020, que após a dissolução do casamento (ou da união estável), NÃO HOUVE A PARTILHA DOS BENS IMÓVEIS da(s) matrícula(s):
+                </p>
+                <input type="text" name="matriculas_sem_partilha" class="form-control" required style="display: inline; width: 350px; margin-left: 8px;">
+            </div>
+
+            <div class="vem-requerer">
+                <p style="margin-bottom: 3px !important; display: inline;">
+                    E NÃO SE ENCONTRA EM TRAMITAÇÃO NENHUM PROCESSO JUDICIAL OU EXTRAJUDICIAL COM O PROPÓSITO DE PROMOVÊ-LA, razão pela qual requeremos a averbação da MANCOMUNHÃO nas citadas matrículas.
+                </p>
+            </div>
+
+            <div class="option-group">
+                <p>Como prova do acima requerido anexa os seguintes documentos:</p>
+                <div class="option" style="display: flex; align-items: center;">
+                    <input type="checkbox" name="certidao" style="margin-right: 5px;">
+                    <label>- Certidao de casamento original(Ou copia autenticada)do divorcio sem divisão de bens.</label>
+                </div>
+            </div>
+
+            <div style="margin-top: -20px;"> 
+                <div class="row mb-3 print-date-row" style="text-align: center;">
+                    <div class="col-md-12">
+                        <p id="cidade-data" class="form-control-plaintext"></p>
+                    </div>
+                </div>
+            </div>    
+                <div style="margin-top: -20px;">
+                    <div class="signature-line">
+                        <hr>
+                        <span id="assinatura-preenchida"></span>
+                    </div>
+                </div>
+
+                <div style="margin-top: -20px;">
+                    <div class="signature-line">
+                        <hr>
+                        <span id="assinatura-preenchida2"></span>
+                    </div>
+                </div>
+            
+            
+        <div style="margin-top: 50px;"> 
+            <div class="observations"  >
+                <p><strong>Obs:</strong></p>
+                <ol>
+                    <li>Reconhecer a firma do(a) requerente ou assinar o requerimento perante funcionário do cartório</li>
+                    <li>Quando houver partilha de bens deve ser apresentado o respectivo Formal de Partilha ou Carta de Sentença para Registro</li>
+                </ol>
+            </div>
+        </div>    
+            <div class="no-print" style="display: flex; justify-content: center; gap: 10px; margin-top: 1rem;">
+                <button type="button" class="btn btn-primary" onclick="printRequerimento()">Imprimir</button>
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+                <button type="button" class="btn btn-primary" id="btn-gerar-upload-pdf">upload pdf</button>
+                <button type="button" class="btn btn-primary" id="btn-enviar-email">Enviar Email</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal de sucesso -->
+<div id="modalSucesso" class="modal">
+    <div class="modal-content">
+        <p id="mensagemModal">Cadastro salvo com sucesso!</p>
+        <button onclick="fecharModal()" class="btn-modal-ok">OK</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="{% static 'js/validacoes.js' %}"></script>
+    <script src="{% static 'js/upload_pdf.js' %}"></script>
+    <script src="{% static 'js/enviar_pdf_email.js' %}"></script>
+    <script src="{% static 'js/requerimentos_form.js' %}"></script>
+    <script src="{% static 'js/requerente_mancomunhao.js' %}"></script>
+    <script>
+// Atualiza assinatura do Requerente 2
+function atualizarAssinatura2() {
+    var nome2 = document.getElementById('nome2');
+    var cpf2 = document.getElementById('cpf2');
+    var assinatura2 = document.getElementById('assinatura-preenchida2');
+    if (nome2 && cpf2 && assinatura2) {
+        assinatura2.textContent = nome2.value && cpf2.value ? nome2.value + ' - CPF: ' + cpf2.value : '';
+        assinatura2.style.fontSize = '11px';
+        assinatura2.style.color = '#222'; // cor forte, quase preto
+        assinatura2.style.fontWeight = 'bold';
+    }
+}
+['nome2','cpf2'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) {
+        el.addEventListener('input', atualizarAssinatura2);
+        el.addEventListener('change', atualizarAssinatura2);
+        el.addEventListener('paste', function () { setTimeout(atualizarAssinatura2, 10); });
+    }
+});
+document.addEventListener('DOMContentLoaded', function() {
+    atualizarAssinatura2();
+    setTimeout(atualizarAssinatura2, 300);
+    setTimeout(atualizarAssinatura2, 1000);
+});
+</script>
+{% endblock %}

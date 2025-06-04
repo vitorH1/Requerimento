@@ -18,8 +18,8 @@ REQUERIMENTOS = [
                     #-------------------------REQUERIMENTOS AINDA NAO REVISADOS-------------------------#
 
     # {"id": "exame_calculo", "nome": "Exame e Cálculo", "descricao": "Requerimento para exame e cálculo"},
-    # {"id": "pacto_antenupcial", "nome": "Registro de Escritura de Pacto Antenupcial / União Estável", "descricao": "Requerimento para registro de escritura de pacto antenupcial ou união estável"},
-    # {"id": "cancelamento_usufruto", "nome": "Averbação de Acréscimo e/ou Cancelamento de Usufruto por Óbito", "descricao": "Requerimento para cancelamento de usufruto por óbito"},   
+     {"id": "pacto_antenupcial", "nome": "Registro de Escritura de Pacto Antenupcial / União Estável", "descricao": "Requerimento para registro de escritura de pacto antenupcial ou união estável"},
+     {"id": "cancelamento_usufruto", "nome": "Averbação de Cancelamento de Usufruto por Óbito", "descricao": "Requerimento para cancelamento de usufruto por óbito"},   
     # {"id": "alteracao_numero_iptu", "nome": "Alteração de Número de Contribuinte do IPTU", "descricao": "Requerimento para alteração de número de contribuinte do IPTU"},
     # {"id": "inscricao_locacao", "nome": "Inscrição de Locação", "descricao": "Requerimento para inscrição de locação"},
     # {"id": "outros_modelo_generico", "nome": "Outros Pedidos – Modelo Genérico", "descricao": "Requerimento genérico para outros pedidos"},
@@ -38,6 +38,7 @@ REQUERIMENTOS = [
     {"id": "averbacao_construcao", "nome": "Averbação de Construção", "descricao": "Requerimento para averbação de construção"},
     {"id": "averbacao_acrescimo_construcao", "nome": "Averbação de Acréscimo de Área Construída", "descricao": "Requerimento para averbação de acréscimo de área construída"},
     {"id": "cancelamento_hipoteca", "nome": "Cancelamento de Hipoteca / Alienação Fiduciária", "descricao": "Requerimento para cancelamento de hipoteca ou alienação fiduciária"}
+    #{"id": "averbacao_mancomunhao", "nome": "Averbação de Mancomunhão", "descricao": "Requerimento para averbação de Mancomunhão"}
 ]
 
 # {"id": "primeira_aquisicao_sfh", "nome": "Primeira Aquisição do Imóvel Residencial – SFH", "descricao": "Requerimento para primeira aquisição do imóvel residencial pelo SFH"}, #

@@ -66,14 +66,18 @@ def listar_requerimentos(request):
 # View para exibir detalhes de um requerimento específico
 def requerimento_detalhes(request, req_id):
     from config import REQUERIMENTOS as CONFIG_REQUERIMENTOS
-    
+    import datetime
     requerimento = next((req for req in CONFIG_REQUERIMENTOS if req['id'] == req_id), None)
     if requerimento:
         template_path = f"requerimentos/{req_id}.html"
         print(f"Tentando carregar template: {template_path}")
-        
+        context = {'requerimento': requerimento}
+        if req_id == 'averbacao_obito':
+            context['dias'] = range(1, 32)
+            ano_atual = datetime.date.today().year
+            context['anos'] = range(ano_atual, ano_atual - 120, -1)
         try:
-            return render(request, template_path, {'requerimento': requerimento})
+            return render(request, template_path, context)
         except TemplateDoesNotExist:
             print(f"Template {template_path} não encontrado. Usando template genérico.")
             return render(request, 'requerimentos/generico.html', {'requerimento': requerimento})

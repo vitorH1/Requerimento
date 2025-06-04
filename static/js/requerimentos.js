@@ -11,27 +11,27 @@ function reloadCSS(href) {
         newLink.rel = 'stylesheet';
         newLink.href = `${href}?v=${new Date().getTime()}`; // Add timestamp to bypass cache
         document.head.appendChild(newLink);
-        
+
         // Remove old link after new one loads
-        newLink.onload = function() {
+        newLink.onload = function () {
             oldLink.parentNode.removeChild(oldLink);
         };
     }
 }
 
 // Ensure styles are applied when page loads
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Check if grid layout is applied correctly
-    setTimeout(function() {
+    setTimeout(function () {
         const grid = document.querySelector('.requerimentos-grid');
         if (grid && window.getComputedStyle(grid).display !== 'grid') {
             // Try to reload CSS if the grid style isn't applied
             reloadCSS('/static/css/requerimentos.css');
             reloadCSS('/static/css/requerimentos_override.css');
-            
+
             // Apply inline styles as a fallback
             document.querySelectorAll('.requerimento-card').forEach(card => {
-                card.setAttribute('style', 
+                card.setAttribute('style',
                     'display: flex !important; ' +
                     'flex-direction: column !important; ' +
                     'background-color: white !important; ' +
