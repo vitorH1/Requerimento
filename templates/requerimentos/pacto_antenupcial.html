@@ -22,38 +22,80 @@
         </div>
         <form id="form-cadastro">
             <div class="form-content">
-                <div class="form-group">
+                <div class="form-row">
+                <div class="half">
                     <label for="nome">Nome:</label>
-                    <input type="text" id="nome" name="nome" class="form-control" required>
+                    <input type="text" name="nome" id="nome" class="form-control" required>
                 </div>
+                <div class="half">
+                    <label for="rg">RG:</label>
+                    <input type="text" name="rg" id="rg" class="form-control" required>
+                </div>
+            </div>
 
-                <div class="form-row">
-                    <div class="form-group half">
-                        <label for="cpf">CPF/MF:</label>
-                        <input type="text" id="cpf" name="cpf" class="form-control" required>
-                    </div>
-                    <div class="form-group half">
-                        <label for="rg">RG:</label>
-                        <input type="text" id="rg" name="rg" class="form-control"required>
-                    </div>
-                    
+            <div class="form-row">
+                <div class="half">
+                    <label for="cpf">CPF (MF):</label>
+                    <input type="text" name="cpf" id="cpf" class="form-control" required>
                 </div>
+                <div class="half">
+                    <label for="telefone">Whatsapp/Telefone:</label>
+                    <input type="text" name="telefone" id="telefone" class="form-control" >
+                </div>
+            </div>
 
-                <div class="form-group">
-                    <label for="endereco">Endereço:</label>
-                    <input type="text" id="endereco" name="endereco" class="form-control"required>
+            <div class="form-row">
+                <div style="flex: 1;">
+                    <label for="nacionalidade">Nacionalidade:</label>
+                    <input type="text" name="nacionalidade" id="nacionalidade" class="form-control" required>
                 </div>
+                <div style="flex: 1;">
+                    <label for="estado_civil">Estado Civil:</label>
+                    <input type="text" name="estado_civil" id="estado_civil" class="form-control" required>
+                </div>
+                <div style="flex: 1;">
+                    <label for="profissao">Profissão:</label>
+                    <input type="text" name="profissao" id="profissao" class="form-control" required>
+                </div>
+            </div>
 
-                <div class="form-row">
-                    <div class="form-group half">
-                        <label for="email">Email:</label>
-                        <input type="text" id="email" name="email" class="form-control">
-                    </div>
-                    <div class="form-group half">
-                        <label for="telefone">Whatsapp/Telefone:</label>
-                        <input type="text" id="telefone" name="telefone" class="form-control">
-                    </div>
+            <div class="form-row">
+                <div style="flex: 2;">
+                    <label for="endereco">Residente e domiciliado(a) na Av. /Rua /AL:</label>
+                    <input type="text" name="endereco" id="endereco" class="form-control" required>
                 </div>
+                <div style="flex: 0.2;">
+                    <label for="numero">Nº:</label>
+                    <input type="text" name="numero" id="numero" class="form-control" >
+                </div>
+                <div style="flex: 1;">
+                    <label for="complemento">Complemento:</label>
+                    <input type="text" name="complemento" id="complemento" class="form-control" >
+                </div>
+                <div style="flex: 1;">
+                    <label for="bairro">Bairro:</label>
+                    <input type="text" name="bairro" id="bairro" class="form-control" >
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div style="flex: 1;">
+                    <label for="cidade">Cidade:</label>
+                    <input type="text" name="cidade" id="cidade" class="form-control" required>
+                </div>
+                <div style="flex: 0.2;">
+                    <label for="uf">UF:</label>
+                    <select name="uf" id="uf" class="form-control" required>
+                        <option value="">Selecione</option>
+                        <option value="MG">MG</option>
+                        <option value="SP">SP</option>
+                    </select>
+                </div>
+                <div style="flex: 1;">
+                    <label for="email">Email:</label>
+                    <input type="email" name="email" id="email" class="form-control">
+                </div>
+            </div>
 
                 <p class="vem-requerer">Vem requerer a Vossa Senhoria:</p>
 
@@ -67,6 +109,12 @@
                         <input type="checkbox" name="certidao" style="margin-right: 5px; margin-top: -3px;">
                         <label>- Certidão de casamento em cópia autenticada ou original</label>
                     </div>
+                    <div class="option">
+                    <label>
+                        <input type="checkbox" name="certidao" >
+                        - Art.4°,§ 1º O pedido da inicial e o requerimento não serão indeferidos em decorrencia do não atendimento do dispositivo no Art.2° se a obtenção das informações tornar impossivel ou excessivamente onerosa o acesso à justiça ou aos serviços extrajudiciais.
+                    </label>
+                </div>
 
                     <div class="info-group">
                         <p>Declaro, para os devidos fins, que o primeiro domicílio conjugal foi estabelecido no seguinte
@@ -85,14 +133,11 @@
                     </div>
                 
 
-                    <div class="info-group">
-                        <input type="text" id="matricula1" name="matricula1" class="form-control"
-                            placeholder="Nº da matrícula 1">
-                        <div class="form-row">
-                            <input type="text" id="matricula2" name="matricula2" class="form-control"
-                                placeholder="Nº da matrícula 2 (se houver)">
-                            <span class="hint">(Mencionar as matrículas dos imóveis)</span>
-                        </div>
+                    <div class="info-group" style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                        <input type="text" id="matricula1" name="matricula1" class="form-control" placeholder="Nº da matrícula " style="width: 140px; min-width: 0; font-size: 13px; padding: 4px 8px;">
+                        <input type="text" id="matricula2" name="matricula2" class="form-control" placeholder=" " style="width: 140px; min-width: 0; font-size: 13px; padding: 4px 8px;">
+                        <input type="text" id="matricula1" name="matricula1" class="form-control" placeholder=" " style="width: 140px; min-width: 0; font-size: 13px; padding: 4px 8px;">
+                        <input type="text" id="matricula2" name="matricula2" class="form-control" placeholder=" " style="width: 140px; min-width: 0; font-size: 13px; padding: 4px 8px;"><strong >(Livro 2)</strong>
                     </div>
                 </div>
 

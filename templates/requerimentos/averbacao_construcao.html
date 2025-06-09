@@ -180,6 +180,13 @@
                 <div class="option" style="display: flex; align-items: center;">
                     <input type="checkbox" name="certidao" style="margin-right: 5px;">
                     <label>- Certidão de Avaliação(Terreno + Construção).</label>
+                </div>
+                <div class="option">
+                    <label>
+                        <input type="checkbox" name="certidao" >
+                        - Art.4°,§ 1º O pedido da inicial e o requerimento não serão indeferidos em decorrencia do não atendimento do dispositivo no Art.2° se a obtenção das informações tornar impossivel ou excessivamente onerosa o acesso à justiça ou aos serviços extrajudiciais.
+                    </label>
+                </div>
             </div>
 
             <p style="text-align: center;font-size: 13px;">Termos em que, P. Deferimento.</p>
@@ -230,61 +237,4 @@
 <script src="{% static 'js/upload_pdf.js' %}"></script>
 <script src="{% static 'js/enviar_pdf_email.js' %}"></script>
 <script src="{% static 'js/requerimentos_form.js' %}"></script>
-
-<script>
-    console.log('📄 HTML DEBUG: Script de debug inline carregado. Porto:', window.location.port);
-    window.addEventListener('DOMContentLoaded', function() {
-        console.log('📄 HTML DEBUG: DOM carregado. Porto:', window.location.port);
-        setTimeout(() => {
-            console.log('📄 HTML DEBUG: Verificação após 2s. Porto:', window.location.port);
-            console.log('📄 HTML DEBUG: typeof window.printRequerimento:', typeof window.printRequerimento);
-            console.log('📄 HTML DEBUG: typeof window.uploadPDF:', typeof window.uploadPDF);
-
-            if (typeof window.printRequerimento === 'undefined') {
-                alert('❌ ERRO: printRequerimento NÃO está disponível no window! Porto: ' + window.location.port);
-            }
-            if (typeof window.uploadPDF === 'undefined') {
-                alert('❌ ERRO: uploadPDF NÃO está disponível no window! Porto: ' + window.location.port);
-            }
-        }, 2000);
-
-        // Botão de Teste para uploadPDF
-        const testButton = document.createElement('button');
-        testButton.textContent = 'TESTAR UPLOADPDF DIRETO';
-        testButton.style.cssText = 'position: fixed; bottom: 10px; right: 10px; z-index: 10000; background-color: #ffc107; color: black; padding: 10px; border: none; border-radius: 5px; cursor: pointer;';
-        testButton.onclick = function() {
-            console.log('📄 HTML DEBUG: Botão TESTAR UPLOADPDF DIRETO clicado. Porto:', window.location.port);
-            if (typeof window.uploadPDF === 'function') {
-                try {
-                    window.uploadPDF(false).then(() => {
-                        alert('✅ Teste uploadPDF executado com sucesso! Porto: ' + window.location.port);
-                    }).catch(err => {
-                        alert('❌ Erro ao testar uploadPDF: ' + err + ' Porto: ' + window.location.port);
-                        console.error('📄 HTML DEBUG: Erro no teste uploadPDF:', err);
-                    });
-                } catch (error) {
-                    alert('❌ Exceção ao chamar uploadPDF: ' + error.message + ' Porto: ' + window.location.port);
-                    console.error('📄 HTML DEBUG: Exceção no teste uploadPDF:', error);
-                }
-            } else {
-                alert('❌ window.uploadPDF não é uma função! Porto: ' + window.location.port);
-            }
-        };
-        document.body.appendChild(testButton);
-        console.log('📄 HTML DEBUG: Botão de teste UPLOADPDF adicionado. Porto:', window.location.port);
-
-        // Interceptar cliques no botão Imprimir
-        const imprimirButton = Array.from(document.querySelectorAll('button')).find(btn => btn.textContent.includes('Imprimir'));
-        if (imprimirButton) {
-            imprimirButton.addEventListener('click', function(event) {
-                console.log('📄 HTML DEBUG: Botão Imprimir clicado (interceptado). Porto:', window.location.port);
-                console.log('📄 HTML DEBUG: Target:', event.target);
-                console.log('📄 HTML DEBUG: typeof window.printRequerimento no momento do clique:', typeof window.printRequerimento);
-                // alert('🖨️ Botão Imprimir clicado! Verifique o console. Porto: ' + window.location.port);
-            }, true); // Use capturing phase
-        } else {
-            console.error('📄 HTML DEBUG: Botão Imprimir não encontrado para interceptação. Porto:', window.location.port);
-        }
-    });
-</script>
 {% endblock %}

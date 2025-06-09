@@ -485,3 +485,21 @@
     margin-top: 4px !important;
     color: #222 !important;
 }
+
+/* Classe para alinhar checkbox de label longo em requerimentos, web e impressão */
+.checkbox-align-long {
+    display: flex;
+    align-items: flex-start;
+}
+
+.checkbox-align-long input[type="checkbox"] {
+    margin-top: 6px;
+    width: 16px;
+    height: 16px;
+    box-sizing: border-box;
+}
+
+.checkbox-align-long label {
+    padding-top: 2px;
+    line-height: 1.2;
+}
