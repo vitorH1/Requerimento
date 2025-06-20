@@ -1,907 +1,433 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load static %}
+
 {% block title %}Requerimentos{% endblock %}
 
 {% block styles %}
-{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/requerimentos_form.css' %}">
+<link rel="stylesheet" href="{% static 'css/requerimentos_override.css' %}">
 <style>
-  /* Estilo para o card principal */
-  .card {
-    border: 4px solid #dee2e6;
-    border-radius: 8px;
-    background-color: #ffffff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+/* CSS para quebra de linha no texto */
+.vem-requerer p {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    line-height: 1.4 !important;
+    max-width: 100% !important;
+    hyphens: auto !important;
+}
+
+/* CSS para geração de PDF */
+.pdf-generation .vem-requerer p {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    line-height: 1.4 !important;
+    max-width: 100% !important;
+    hyphens: auto !important;
+    width: 100% !important;
+}
+
+.pdf-generation * {
+    max-width: 100% !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    box-sizing: border-box !important;
+}
+
+.pdf-generation .container,
+.pdf-generation .form-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 20px !important;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 1cm;
   }
-
-  /* Estilo para o título */
-  h4 {
-    color: #343a40;
-    font-weight: 600;
-    padding: 10px 13px; /* reduzido */
-    margin: -14px -14px 14px -14px; /* reduzido */
-    border-bottom: 1px solid #dee2e6;
-    background-color: #f8f9fa;
+  
+  /* Remove scrollbar completamente */
+  html {
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
   }
-
-  /* Estilo para os labels */
-  .form-label {
-    color: #495057;
-    font-weight: 500;
-    margin-bottom: 1px;
+  
+  body {
+    overflow: hidden !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
   }
-
-  /* Estilo para os campos de entrada */
-  .form-control {
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    padding: 4px 8px;
-    color: #212529;
-    margin-bottom: 3px;
+  
+  html::-webkit-scrollbar, 
+  body::-webkit-scrollbar,
+  *::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    background: transparent !important;
   }
-
-  /* Estilo para o texto em destaque */
-  strong {
-    color: #343a40;
-    font-weight: 600;
+  
+  /* Força todos os elementos a não ultrapassarem a largura */
+  * {
+    max-width: 100% !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    box-sizing: border-box !important;
   }
-
-  /* Estilo para o texto cinza */
-  .text-muted {
-    color: #6c757d !important;
+  
+  .container {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
-
-  /* Estilo para o botão */
-  .btn-primary {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
-    padding: 4px 10px;
-    font-weight: 500;
+  
+  .form-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 20px !important;
+    box-shadow: none !important;
+    border: none !important;
   }
-
-  /* Estilo para a linha de assinatura */
-  .signature-line {
-    border-top: 1px solid #212529;
-    margin: 6px auto;
-    padding-top: 1px;
+  
+  /* Garante quebra de linha no texto longo */
+  .vem-requerer p {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    line-height: 1.4 !important;
+    max-width: 100% !important;
+    hyphens: auto !important;
   }
-
-  /* Melhor espaçamento geral */
-  .row.mb-3 {
-    margin-bottom: 0.5rem !important;
+  
+  /* Garante que inputs não ultrapassem */
+  input, select, textarea {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
   }
-  .mt-3, .mt-4 {
-    margin-top: 0.4rem !important;
+  
+  /* Força flex containers a não ultrapassarem */
+  .form-row, .vem-requerer {
+    max-width: 100% !important;
+    overflow: hidden !important;
+    flex-wrap: wrap !important;
   }
-  .mb-3, .mb-4 {
-    margin-bottom: 0.4rem !important;
-  }
-
-  /* Reduz altura do espaço impresso */
-  .espaco-impresso {
-    height: 40px !important;
-    display: block !important;
-  }
-
-  /* Classe utilitária para redução de espaçamento, caso queira aplicar em pontos específicos */
-  .espaco-reduzido {
-    margin-bottom: 0.3rem !important;
-    padding-top: 1px !important;
-    padding-bottom: 1px !important;
-  }
-
-  /* Estilos específicos para impressão */
-  @media print {
-
-    /* Esconder TUDO exceto o nosso formulário */
-    body * {
-      visibility: hidden;
-    }
-
-    /* Mostrar apenas o nosso card e seu conteúdo */
-    .card-requerimento,
-    .card-requerimento * {
-      visibility: visible;
-    }
-
-    /* Posicionamento absoluto para remover do fluxo normal do documento */
-    .card-requerimento {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      border: none;
-      box-shadow: none;
-      margin: 0;
-      padding: 10px;
-    }
-
-    /* Reset de cores e sombras para economizar tinta */
-    .card {
-      border: none;
-      box-shadow: none;
-      margin: 0;
-      padding: 10px;
-    }
-
-    /* Ajuste do tamanho da fonte para melhor aproveitamento do espaço */
-    body {
-      font-size: 11pt;
-    }
-
-    /* Esconder elementos desnecessários na impressão */
-    .btn-primary,
-    .no-print {
-      display: none !important;
-    }
-
-    /* Redução de margens para melhor aproveitamento do espaço */
-    .row.mb-3 {
-      margin-bottom: 0.8rem !important;
-    }
-
-    /* Ajuste no cabeçalho para impressão */
-    .title-header {
-      background-color: transparent !important;
-      color: #000 !important;
-      border-bottom: 1px solid #000;
-      padding: 5px 0;
-      margin: 0 0 10px 0;
-    }
-
-    /* Redução do tamanho dos inputs */
-    .form-control {
-      padding: 2px 5px;
-      height: auto;
-    }
-
-    /* Mostrar apenas a linha inferior nos inputs de texto */
-    input.form-control,
-    textarea.form-control {
-      border: none;
-      border-bottom: 1px solid #999;
-      border-radius: 0;
-      background-color: transparent;
-    }
-
-    /* Redução de espaçamento geral */
-    p,
-    .form-label {
-      margin-bottom: 3px;
-    }
-
-    /* Ajuste para texto da cidade e data */
-    #cidade-data {
-      font-size: 1rem;
-      margin-top: 1rem;
-      margin-bottom: 50px !important;
-      display: block;
-    }
-
-    /* Ajuste para área de assinatura */
-    .signature-line {
-      margin: 15px auto;
-    }
-
-    /* Define tamanho da página A4 */
-    @page {
-      size: A4;
-      margin: 1.5cm 1cm;
-    }
-
-    /* Garantir que o conteúdo caiba em uma página */
-    html,
-    body {
-      width: 210mm;
-      height: 297mm;
-    }
-
-    /* Reduzir altura dos textareas */
-    textarea.form-control {
-      height: auto !important;
-      min-height: 1.5em !important;
-      overflow: hidden;
-    }
-
-    /* Ajustes na largura das colunas para impressão */
-    .col-md-4 {
-      width: 33.33%;
-      float: left;
-    }
-
-    .col-md-12 {
-      width: 100%;
-    }
-
-    /* Ajuste nos checkboxes */
-    .form-check {
-      margin-bottom: 4px;
-    }
-
-    .print-spacing {
-      margin-top: 400px !important;
-      /* ou ajuste conforme necessário */
-    }
-
-    .print-date-row {
-      margin-bottom: 60px !important;
-    }
-
-    .faixa-titulo {
-      background-color: transparent !important;
-      -webkit-print-color-adjust: exact;
-      print-color-adjust: exact;
-    }
-
-    .espaco-impresso {
-      height: 150px !important;
-      /* ajuste o valor conforme o espaço desejado */
-      display: block !important;
-    }
-
-  }
+}
 </style>
-
 {% endblock %}
 
 {% block content %}
-{% load static %}
-<div class="card card-requerimento mt-4 p-4 shadow-sm cortexto">
-  <h4 class="mb-3 border-bottom pb-2 bg-light faixa-titulo" style="font-size: 15;text-align: center;">Requerimento – Exame e Cálculo</h4>
-
-  <p class="fw-bold text-dark" style="font-size: 14px; text-align: center;">Ilustríssima Senhora Oficiala de Registro de
-    Imóveis de Monte Carmelo</p>
-
-  <form id="form-cadastro">
-    <div class="row mb-3">
-      <div class="col-md-12">
-        <label class="form-label" for="nome">Nome:</label>
-        <input type="text" class="form-control" id="nome" name="nome">
-      </div>
+<div class="container">
+    <div class="header-bar">
+        <h1>Exame e Cálculo</h1>
     </div>
-
-    <div class="row mb-3">
-      <div class="col-md-4">
-        <label class="form-label" for="rg">RG:</label>
-        <input type="text" class="form-control" id="rg" name="rg">
-      </div>
-      <div class="col-md-4">
-        <label class="form-label" for="cpf">CPF (MF):</label>
-        <input type="text" class="form-control" id="cpf" name="cpf">
-      </div>
-      <div class="col-md-4">
-        <label class="form-label" for="telefone">Whatsapp / Telefone:</label>
-        <input type="text" class="form-control" id="telefone" name="telefone">
-      </div>
-    </div>
-
-    <div class="row mb-3">
-      <div class="col-md-12">
-        <label for="email">Email:</label>
-        <input type="email" name="email" id="email" class="form-control" required>
-      </div>
-    </div>
-
-    <p class="mt-4">
-      Vem requerer a Vossa Senhoria, apenas o <strong>EXAME e CÁLCULO</strong> do título anexo, ciente de que este
-      título
-      não gozará de prioridade prevista no art. 186 da Lei n.º 6.015/73, nos termos do Prov. N. 32/97 da Egrégia
-      Corregedoria Geral da Justiça.
-    </p>
-    <div class="espaco-impresso"></div>
-    <p class="mt-3">Complemento a presente requisição com as seguintes informações:</p>
-
-    <div class="row mb-3">
-      <div class="col-md-12">
-        <label class="form-label" for="titulo">Título:</label>
-        <input type="text" class="form-control" id="titulo" name="titulo">
-      </div>
-    </div>
-
-    <p class="fw-bold text-dark mt-4" style="font-size: 16px; text-align:justify;">*Documentos Necessários</p>
-    <div class="row mb-3">
-      <div class="col-12">
-        <div class="form-check mb-2">
-          <input type="checkbox" class="form-check-input" id="via_original" name="via_original">
-          <label class="form-check-label" for="via_original">- Via original</label>
+    <div class="form-wrapper">
+        <div class="form-header">
+            <h2>REQUERIMENTO – EXAME E CÁLCULO</h2>
+            <h3>ILUSTRÍSSIMA OFICIALA DE REGISTRO DE IMÓVEIS DE MONTE CARMELO-MG</h3>
         </div>
-        <div class="form-check">
-          <input type="checkbox" class="form-check-input" id="em_copia" name="em_copia">
-          <label class="form-check-label" for="em_copia">- Em cópia</label>
-        </div>
-      </div>
+        <form id="form-cadastro">
+            <div class="form-row">
+                <div class="half">
+                    <label for="nome">Nome:</label>
+                    <input type="text" name="nome" id="nome" class="form-control" required>
+                </div>
+                <div class="half">
+                    <label for="rg">RG:</label>
+                    <input type="text" name="rg" id="rg" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="half">
+                    <label for="cpf">CPF (MF):</label>
+                    <input type="text" name="cpf" id="cpf" class="form-control" required>
+                </div>
+                <div class="half">
+                    <label for="telefone">Whatsapp/Telefone:</label>
+                    <input type="text" name="telefone" id="telefone" class="form-control" >
+                </div>
+            </div>
+            <div class="form-row">
+                <div style="flex: 1;">
+                    <label for="nacionalidade">Nacionalidade:</label>
+                    <input type="text" name="nacionalidade" id="nacionalidade" class="form-control" required>
+                </div>
+                <div style="flex: 1;">
+                    <label for="estado_civil">Estado Civil:</label>
+                    <input type="text" name="estado_civil" id="estado_civil" class="form-control" required>
+                </div>
+                <div style="flex: 1;">
+                    <label for="profissao">Profissão:</label>
+                    <input type="text" name="profissao" id="profissao" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div style="flex: 2;">
+                    <label for="endereco">Residente e domiciliado(a) na Av. /Rua /AL:</label>
+                    <input type="text" name="endereco" id="endereco" class="form-control" required>
+                </div>
+                <div style="flex: 0.2;">
+                    <label for="numero">Nº:</label>
+                    <input type="text" name="numero" id="numero" class="form-control" >
+                </div>
+                <div style="flex: 1;">
+                    <label for="complemento">Complemento:</label>
+                    <input type="text" name="complemento" id="complemento" class="form-control" >
+                </div>
+                <div style="flex: 1;">
+                    <label for="bairro">Bairro:</label>
+                    <input type="text" name="bairro" id="bairro" class="form-control" >
+                </div>
+            </div>
+            <div class="form-row">
+                <div style="flex: 1;">
+                    <label for="cidade">Cidade:</label>
+                    <input type="text" name="cidade" id="cidade" class="form-control" required>
+                </div>
+                <div style="flex: 0.2;">
+                    <label for="uf">UF:</label>
+                    <select name="uf" id="uf" class="form-control" required>
+                        <option value="">Selecione</option>
+                        <option value="MG">MG</option>
+                        <option value="SP">SP</option>
+                    </select>
+                </div>
+                <div style="flex: 1;">
+                    <label for="email">Email:</label>
+                    <input type="email" name="email" id="email" class="form-control" >
+                </div>
+            </div>            <div class="vem-requerer" style="margin-bottom: 0;">
+                <p style="margin: 0; white-space: normal; word-wrap: break-word; overflow-wrap: break-word; line-height: 1.4;">Vem requerer a Vossa Senhoria, apenas o <strong>EXAME e CÁLCULO</strong> do título anexo, ciente de que este título não gozará<br> de prioridade prevista no art. 186 da Lei n.º 6.015/73, nos termos do Prov. N. 32/97 da Egrégia Corregedoria Geral da Justiça.</p>
+            </div>            <div class="form-row" style="margin-top: 0; margin-bottom: 0;">
+                <div style="flex: 1; display: flex; align-items: center; margin-bottom: 0;">
+                    <p style="margin: 0; white-space: nowrap; min-width: 160px; font-size: 13px;">Matrículas / Transcrição:</p>
+                    <input type="text" name="matriculas" class="form-control" style="width: 150px; max-width: 200px;">
+                </div>
+                <div style="flex: 2; display: flex; align-items: center ; margin-bottom: 0;">
+                    <p style="margin: 0; white-space: nowrap; min-width: 50px; font-size: 13px;">Título:</p>
+                    <input type="text" name="titulo" class="form-control" style="width: 150px; max-width: 200px;">
+                </div>
+            </div>
+            <div class="option-group">
+                <p>Como prova do acima requerido anexa os seguintes documentos:</p>
+                <div class="option" style="display: flex; align-items: center;">
+                    <input type="checkbox" name="via_original" style="margin-right: 5px;">
+                    <label>- Via original</label>
+                </div>
+                <div class="option" style="display: flex; align-items: center;">
+                    <input type="checkbox" name="em_copia" style="margin-right: 5px;">
+                    <label>- Em cópia</label>
+                </div>
+                <div class="option">
+                    <label>
+                        <input type="checkbox" name="art4">
+                        - Art.4°,§ 1º O pedido da inicial e o requerimento não serão indeferidos em decorrência do não atendimento do dispositivo no Art.2° se a obtenção das informações tornar impossível ou excessivamente oneroso o acesso à justiça ou aos serviços extrajudiciais.
+                    </label>
+                </div>
+            </div>
+            <p style="text-align: center;font-size: 13px;">Termos em que, P. Deferimento.</p>
+            <div class="row mb-3 print-date-row" style="text-align: center;">
+                <div class="col-md-12">
+                  <p id="cidade-data" class="form-control-plaintext"></p>
+                </div>
+            </div>
+            <div class="form-footer">
+                <div class="signature-line">
+                    <hr>
+                    <span id="assinatura-preenchida"></span>
+                </div>
+            </div>
+            <div class="observations">
+                <p><strong>Obs:</strong></p>
+                <ol>
+                    <li>1. Reconhecer a firma do(a) requerente ou assinar o requerimento perante oficial do cartório.</li>
+                </ol>
+            </div>
+            <div class="no-print" style="display: flex; justify-content: center; gap: 10px; margin-top: 1rem;">
+                <button type="button" class="btn btn-primary" onclick="printRequerimento()">Imprimir</button>
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+                <button type="button" class="btn btn-primary" id="btn-enviar-email">Enviar Email</button>
+            </div>
+        </form>
     </div>
-
-    <div class="espaco-impresso"></div>
-
-    <div class="row mb-3">
-      <div class="col-md-12">
-        <label class="form-label" for="matricula">Matrículas / Transcrição:</label>
-        <input type="text" class="form-control" id="matricula" name="matricula">
-      </div>
-    </div>
-
-    <div class="espaco-impresso"></div>
-
-    <div class="row mb-3 print-date-row" style="text-align: center;">
-      <div class="col-md-12">
-        <p id="cidade-data" class="form-control-plaintext"></p>
-      </div>
-    </div>
-
-    <div class="row mb-4 text-center signature-area">
-      <div class="col-12">
-        <div class="signature-line mx-auto" style="width: 450px;"></div>
-        <p class="text-muted mt-2">(assinatura)</p>
-      </div>
-    </div>
-
-    <p class="text-muted small">Obs.: Reconhecer a firma do(a) requerente ou assinar o requerimento perante o
-      funcionário do cartório.</p>
-
-    <div class="text-center mt-4 no-print">
-      <button type="button" class="btn btn-primary" onclick="printRequerimento()">Imprimir</button>
-      <button type="submit" class="btn btn-primary">Cadastrar</button>
-      <button type="button" class="btn btn-primary" id="btn-gerar-pdf-html2pdf">upload pdf</button>
-      <button type="button" class="btn btn-primary" id="btn-enviar-email">Enviar Email</button>
-    </div>
-  </form>
 </div>
-<div id="modalSucesso" style="display: none; position: fixed; top: 0; left: 0;
-     width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1000;
-     display: flex; align-items: center; justify-content: center;">
-
-    <div style="background: white; padding: 30px; border-radius: 10px; text-align: center; width: 300px;">
-        <p id="mensagemModal" style="margin-bottom: 20px; font-size: 18px;">Cadastro salvo com sucesso!</p>
-        <button onclick="fecharModal()"
-            style="padding: 8px 20px; border: none; background-color: #007bff; color: white; border-radius: 5px; cursor: pointer;">OK</button>
+<!-- Modal de sucesso -->
+<div id="modalSucesso" class="modal">
+    <div class="modal-content">
+        <p id="mensagemModal">Cadastro salvo com sucesso!</p>
+        <button onclick="fecharModal()" class="btn-modal-ok">OK</button>
     </div>
 </div>
-<script>
+{% endblock %}
 
-  function printRequerimento() {
-    // Criando um iframe oculto
-    var iframe = document.createElement('iframe');
-    iframe.style.height = '0px';
-    iframe.style.width = '0px';
-    iframe.style.position = 'absolute';
-    iframe.style.border = '0';
-    document.body.appendChild(iframe);
-
-    // Definindo o conteúdo do iframe
-    var content = document.querySelector('.card-requerimento').cloneNode(true);
-
-    // Transferindo os valores dos campos do formulário original para o clone
-    var originalForm = document.querySelector('.card-requerimento form');
-    var clonedForm = content.querySelector('form');
-
-    // Transferir valores de todos os inputs de texto, email, etc.
-    originalForm.querySelectorAll('input, textarea').forEach(function (input) {
-      var inputName = input.getAttribute('name');
-      var clonedInput = clonedForm.querySelector('[name="' + inputName + '"]');
-      if (clonedInput) {
-        if (input.type === "checkbox") {
-          clonedInput.checked = input.checked;
-          if (input.checked) {
-            clonedInput.setAttribute('checked', 'checked');
-          } else {
-            clonedInput.removeAttribute('checked');
-          }
-        } else if (input.tagName.toLowerCase() === "textarea") {
-          clonedInput.value = input.value;
-          clonedInput.textContent = input.value; // <-- ESSA LINHA É FUNDAMENTAL!
-        } else {
-          clonedInput.value = input.value;
-          clonedInput.setAttribute('value', input.value);
-        }
-      }
-    });
-
-    // Removendo o botão de impressão do clone
-    var buttonContainer = content.querySelector('.no-print');
-    if (buttonContainer) {
-      buttonContainer.remove();
-    }
-
-    // Criando o HTML completo para o iframe
-    var html = `
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <meta charset="utf-8">
-        <title>Requerimento de Impressão</title>
-        <style>
-          body {
-            font-family: "Open Sans", HelveticaNeue, Helvetica, Arial;
-            font-size: 11pt;
-            margin: 0;
-            padding: 10px;
-          }
-            .espaco-impresso {
-          height: 10px !important; /* ajuste o valor conforme o espaço desejado */
-          display: block !important;
-      }
-    
-          .card-requerimento {
-            padding: 10px;
-            max-width: 100%;
-          }
-          
-          .title-header {
-            background-color: transparent;
-            color: #000;
-            border-bottom: 1px solid #000;
-            padding: 5px 0;
-            margin-bottom: 10px;
-            font-weight: 600;
-          }
-          
-          .form-control {
-            width: 100%;
-            border: none;
-            border-bottom: 1px solid #999;
-            padding: 2px 0;
-            margin-bottom: 8px;
-            font-size: 11pt;
-          }
-          
-          textarea.form-control {
-            height: auto;
-            min-height: 1.5em;
-            resize: none;
-          }
-          
-          .form-label {
-            display: block;
-            margin-bottom: 3px;
-            font-weight: 500;
-          }
-          
-          .row {
-            display: block;
-            margin-bottom: 10px;
-          }
-          
-          .col-md-4 {
-            display: inline-block;
-            width: 33%;
-            vertical-align: top;
-          }
-          
-          .col-md-12 {
-            width: 100%;
-          }
-          
-          .form-check {
-            margin-bottom: 3px;
-          }
-          
-          .signature-line {
-            border-top: 1px solid #212529;
-            margin: 15px auto;
-            width: 450px;
-          }
-          
-          .text-center {
-            text-align: center;
-          }
-          
-          #cidade-data {
-            font-size: 1rem;
-            text-align: center;
-            margin-top: 15px;
-            margin-bottom: 25px; /* Aumentando o espaço abaixo da data */
-          }
-          
-          /* Adicionando espaço acima da área de assinatura */
-          .signature-area {
-            margin-top: 60px;
-          }
-          
-          p {
-            margin-bottom: 5px;
-          }
-          
-          /* Garantir que os valores dos campos apareçam na impressão */
-          input, textarea {
-            color: #000 !important;
-          }
-          
-          /* Estilos específicos para checkboxes marcados */
-          input[type="checkbox"]:checked::before {
-            content: "✓";
-            display: inline-block;
-            width: 100%;
-            text-align: center;
-            font-weight: bold;
-          }
-          
-          @page {
-            size: A4;
-            margin: 1.5cm 1cm;
-          }
-          
-          @media print {
-            html, body {
-              width: 210mm;
-              height: 297mm;
-            }
-          }
-        </style>
-      </head>
-      <body>
-        ${content.outerHTML}
-      </body>
-      </html>
-    `
-
-    iframe.contentWindow.document.open();
-    iframe.contentWindow.document.write(html);
-    iframe.contentWindow.document.close();
-
-    // Adicione o script dinamicamente após o documento estar pronto
-    iframe.contentWindow.onload = function () {
-      var script = iframe.contentWindow.document.createElement('script');
-      script.textContent = `
-        document.querySelectorAll('input[type="checkbox"]').forEach(function(checkbox) {
-          if (checkbox.checked) {
-            checkbox.setAttribute('checked', 'checked');
-          }
-        });
-      `;
-      iframe.contentWindow.document.body.appendChild(script);
-    };
-
-    setTimeout(function () {
-      iframe.contentWindow.print();
-
-
-      setTimeout(function () {
-        document.body.removeChild(iframe);
-      }, 100);
-    }, 500);
+{% block extra_styles %}
+<style media="print">
+  @page {
+    size: A4;
+    margin: 1cm;
   }
-  document.addEventListener('DOMContentLoaded', function () {
-    const cidade = "Monte Carmelo";  // Cidade fixa (pode ser modificada se necessário)
-
-    // Data atual
-    const hoje = new Date();
-    const dia = String(hoje.getDate()).padStart(2, '0');
-    const mes = String(hoje.getMonth() + 1).padStart(2, '0');
-    const ano = hoje.getFullYear();
-
-    // Formatação final da data
-    const dataFormatada = cidade + " - " + dia + "/" + mes + "/" + ano;
-
-    // Exibir a cidade e data no elemento <p>
-    document.getElementById('cidade-data').textContent = dataFormatada;
-  });
-
-
-  window.addEventListener('load', () => {
-    document.getElementById('modalSucesso').style.display = 'none';
-  });
-
-  const cpfInput = document.getElementById('cpf');
-    if (cpfInput) {
-        cpfInput.addEventListener('blur', function() {
-            const cpf = this.value;
-            if (!cpf || cpf.length < 11) return; // Ignora CPFs incompletos
-            
-            console.log("Buscando cliente com CPF:", cpf);
-            
-            // Adiciona um indicador de carregamento (opcional)
-            const form = document.getElementById('form-cadastro');
-            if (form) form.classList.add('loading');
-            
-            fetch(`/buscar_cliente/${cpf}`)
-                .then(response => {
-                    // Registre o status da resposta para depuração
-                    console.log("Status da resposta:", response.status);
-                    
-                    if (response.status === 404) {
-                        console.log("Cliente não encontrado");
-                        return null;
-                    }
-                    
-                    if (!response.ok) {
-                        throw new Error(`Erro na requisição: ${response.status}`);
-                    }
-                    
-                    return response.json();
-                })
-                .then(data => {
-                    // Remove o indicador de carregamento
-                    if (form) form.classList.remove('loading');
-                    
-                    console.log("Dados recebidos:", data);
-                    
-                    if (data) {
-                        // Preencher os campos do formulário com os dados recebidos
-                        document.getElementById('nome').value = data.nome || '';
-                        document.getElementById('rg').value = data.rg || '';
-                        document.getElementById('telefone').value = data.telefone || '';
-                        document.getElementById('email').value = data.email || '';
-                    }
-                })
-                .catch(error => {
-                    console.error("Erro ao buscar cliente:", error);
-                    if (form) form.classList.remove('loading');
-                });
-        });
-    }
-    
-    // Configuração do envio do formulário
-    const formCadastro = document.getElementById('form-cadastro');
-    if (formCadastro) {
-        formCadastro.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Coletar todos os dados do formulário
-            const formData = new FormData(this);
-            const jsonData = {};
-            
-            formData.forEach((value, key) => { 
-                jsonData[key] = value;
-            });
-            
-            console.log("Enviando dados:", jsonData);
-            
-            // Enviar requisição para salvar os dados
-            fetch('/cadastro', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(jsonData)
-            })
-            .then(response => {
-                console.log("Status da resposta:", response.status);
-                return response.json();
-            })
-            .then(function(data) {
-                console.log("Resposta do servidor:", data);
-                if (data.erro) {
-                    mostrarModal(`Erro: ${data.erro}`);
-                } else {
-                    mostrarModal(data.mensagem || 'Cadastro salvo com sucesso!');
-                }
-            })
-            .catch(error => {
-                console.error('Erro ao salvar:', error);
-                mostrarModal('Erro ao salvar os dados. Tente novamente.');
-            });
-        });
-    }
-
-
-// Função de validação e formatação do CPF
-function formatarCPF(e) {
-    let valor = e.target.value.replace(/\D/g, '');
-    if (valor.length > 11) valor = valor.slice(0, 11);
-    valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
-    valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
-    valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-    e.target.value = valor;
-}
-
-// Função para exibir modal
-function mostrarModal(mensagem) {
-    const modalElement = document.getElementById('modalSucesso');
-    const mensagemElement = document.getElementById('mensagemModal');
-    
-    if (mensagemElement) mensagemElement.textContent = mensagem;
-    if (modalElement) modalElement.style.display = 'flex';
-}
-
-// Função para fechar modal
-function fecharModal() {
-    const modalElement = document.getElementById('modalSucesso');
-    if (modalElement) modalElement.style.display = 'none';
-}
-
-</script>
-
-
-
-<!-- CSS para PDF e impressão -->
-<style>
-.hide-on-pdf {
-    display: none !important;
-}
-.pdf-clean {
-    border: none !important;
-    box-shadow: none !important;
-}
-.pdf-clean, .pdf-clean * {
-    box-shadow: none !important;
-    background: white !important;
-}
-.pdf-clean .form-control {
-    border: none !important;
-    border-bottom: 1px solid #000 !important;
-    background: white !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-}
-.pdf-clean .form-wrapper,
-.pdf-clean .container {
-    border: none !important;
-}
-.pdf-clean .signature-line {
-    margin-top: 1.5cm !important; /* ajuste conforme necessário */
-}
-.pdf-clean .signature-line hr {
-    border: none !important;
-    border-top: 2px solid #000 !important;
-    height: 1px !important;
+  
+  /* Remove scrollbar completamente */
+  html {
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+  
+  body {
+    overflow: hidden !important;
+    width: 100% !important;
+    max-width: 100% !important;
     margin: 0 !important;
-    background: none !important;
-    display: block !important;
-}
-</style>
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+  
+  html::-webkit-scrollbar, 
+  body::-webkit-scrollbar,
+  *::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    background: transparent !important;
+  }
+  
+  /* Força todos os elementos a não ultrapassarem a largura */
+  * {
+    max-width: 100% !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    box-sizing: border-box !important;
+  }
+  
+  .container {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .form-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 20px !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  
+  /* Garante quebra de linha no texto longo */
+  .vem-requerer p {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    line-height: 1.4 !important;
+    max-width: 100% !important;
+  }
+  {% endblock %}
 
-
-<!-- Bibliotecas necessárias -->
+{% block scripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="{% static 'js/validacoes.js' %}"></script>
 <script src="{% static 'js/upload_pdf.js' %}"></script>
 <script src="{% static 'js/enviar_pdf_email.js' %}"></script>
-
-<!-- SCRIPT PDF -->
+<script src="{% static 'js/requerimentos_form.js' %}"></script>
 <script>
-document.getElementById('btn-gerar-pdf-html2pdf').onclick = function() {
-    const formWrapper = document.querySelector('.card-requerimento');
-    formWrapper.classList.add('pdf-clean');
-    document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.add('hide-on-pdf'));
-    const element = document.querySelector('.card-requerimento');
-    const cpf = document.getElementById('cpf').value.replace(/\D/g, '');
-    if (!cpf) {
-        alert('Preencha o CPF antes de gerar o PDF.');
-        document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
-        formWrapper.classList.remove('pdf-clean');
-        return;
-    }
-    const nome_pdf = `requerimento-exame-calculo-${cpf}.pdf`;
-    const opt = {
-        margin: 0.2,
-        filename: nome_pdf,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, scrollY: 0 },
-        jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' },
-        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-    };
-
-    html2pdf().set(opt).from(element).outputPdf('blob').then(function(pdfBlob) {
-        const formData = new FormData();
-        formData.append('pdf', pdfBlob, nome_pdf);
-        formData.append('cpf', cpf);
-
-        fetch('/upload_pdf/', {
-            method: 'POST',
-            body: formData
-        })
-        .then(r => r.json())
-        .then(data => {
-            if (data.erro) {
-                alert('Erro: ' + data.erro);
-            } else {
-                alert(data.mensagem || 'PDF gerado e enviado com sucesso!');
-            }
-        })
-        .catch(() => {
-            alert('Erro ao enviar o PDF.');
+// Script para melhorar a geração de PDF
+document.addEventListener('DOMContentLoaded', function() {
+    // Se houver botão de gerar PDF, adicionar evento
+    const btnGerarPdf = document.getElementById('btn-gerar-pdf-html2pdf') || 
+                        document.querySelector('[onclick*="pdf"]') ||
+                        document.querySelector('.btn[data-pdf]');
+    
+    if (btnGerarPdf) {
+        btnGerarPdf.addEventListener('click', function() {
+            // Adiciona classe para CSS específico do PDF
+            document.body.classList.add('pdf-generation');
+            document.querySelector('.container').classList.add('pdf-generation');
+            document.querySelector('.form-wrapper').classList.add('pdf-generation');
+            
+            // Remove após 3 segundos (tempo suficiente para gerar o PDF)
+            setTimeout(() => {
+                document.body.classList.remove('pdf-generation');
+                document.querySelector('.container').classList.remove('pdf-generation');
+                document.querySelector('.form-wrapper').classList.remove('pdf-generation');
+            }, 3000);
         });
-    }).finally(() => {
-        formWrapper.classList.remove('pdf-clean');
-        document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
-    });
-};
+    }
+      // Função melhorada para geração de PDF (se não existir)
+    if (typeof window.gerarPDF === 'undefined') {
+        window.gerarPDF = function() {
+            // Adiciona classes para CSS específico
+            document.body.classList.add('pdf-generation');
+            document.querySelector('.container').classList.add('pdf-generation');
+            document.querySelector('.form-wrapper').classList.add('pdf-generation');
+            
+            // Força quebra de linha no texto longo para PDF
+            const textoLongo = document.querySelector('.vem-requerer p');
+            if (textoLongo) {
+                const textoOriginal = textoLongo.innerHTML;
+                // Força quebras em pontos específicos para o PDF
+                textoLongo.innerHTML = textoLongo.innerHTML
+                    .replace('de prioridade', 'de<br>prioridade')
+                    .replace('da Egrégia', 'da<br>Egrégia');
+            }
+            
+            const element = document.querySelector('.form-wrapper');
+            const opt = {
+                margin: [0.5, 0.5, 0.5, 0.5],
+                filename: 'exame-calculo.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 2, 
+                    scrollY: 0,
+                    useCORS: true,
+                    allowTaint: true,
+                    width: 794, // Largura A4 em pixels (210mm)
+                    windowWidth: 794,
+                    letterRendering: true
+                },
+                jsPDF: { 
+                    unit: 'mm', 
+                    format: 'a4', 
+                    orientation: 'portrait' 
+                },
+                pagebreak: { 
+                    mode: ['avoid-all', 'css', 'legacy']
+                }
+            };
 
-// Corrige o botão de upload PDF para funcionar com .card-requerimento
-const btnUpload = document.getElementById('btn-gerar-pdf-html2pdf');
-if (btnUpload) {
-  btnUpload.onclick = function() {
-    const formWrapper = document.querySelector('.card-requerimento');
-    formWrapper.classList.add('pdf-clean');
-    document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.add('hide-on-pdf'));
-    const element = document.querySelector('.card-requerimento');
-    const cpf = document.getElementById('cpf').value.replace(/\D/g, '');
-    if (!cpf) {
-      alert('Preencha o CPF antes de gerar o PDF.');
-      document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
-      formWrapper.classList.remove('pdf-clean');
-      return;
+            html2pdf().set(opt).from(element).save().then(() => {
+                // Restaura texto original e remove classes após geração
+                if (textoLongo) {
+                    textoLongo.innerHTML = textoOriginal;
+                }
+                document.body.classList.remove('pdf-generation');
+                document.querySelector('.container').classList.remove('pdf-generation');
+                document.querySelector('.form-wrapper').classList.remove('pdf-generation');
+            });
+        };
     }
-    const nome_pdf = `requerimento-exame-calculo-${cpf}.pdf`;
-    const opt = {
-      margin: 0.2,
-      filename: nome_pdf,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, scrollY: 0 },
-      jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' },
-      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-    };
-    html2pdf().set(opt).from(element).outputPdf('blob').then(function(pdfBlob) {
-      const formData = new FormData();
-      formData.append('pdf', pdfBlob, nome_pdf);
-      formData.append('cpf', cpf);
-      fetch('/upload_pdf/', {
-        method: 'POST',
-        body: formData
-      })
-      .then(r => r.json())
-      .then(data => {
-        if (data.erro) {
-          alert('Erro: ' + data.erro);
-        } else {
-          alert(data.mensagem || 'PDF gerado e enviado com sucesso!');
-        }
-      })
-      .catch(() => {
-        alert('Erro ao enviar o PDF.');
-      });
-    }).finally(() => {
-      formWrapper.classList.remove('pdf-clean');
-      document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
-    });
-  };
-}
-
-// Corrige o botão de enviar email PDF para funcionar com .card-requerimento
-const btnEmail = document.getElementById('btn-enviar-email');
-if (btnEmail) {
-  btnEmail.onclick = function() {
-    const formWrapper = document.querySelector('.card-requerimento');
-    formWrapper.classList.add('pdf-clean');
-    document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.add('hide-on-pdf'));
-    const element = document.querySelector('.card-requerimento');
-    const cpf = document.getElementById('cpf').value.replace(/\D/g, '');
-    const email = document.getElementById('email').value;
-    if (!cpf) {
-      mostrarModal('Preencha o CPF antes de enviar o PDF por email.');
-      document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
-      formWrapper.classList.remove('pdf-clean');
-      return;
-    }
-    if (!email) {
-      mostrarModal('Preencha o email antes de enviar o PDF.');
-      document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
-      formWrapper.classList.remove('pdf-clean');
-      return;
-    }
-    const nome_pdf = `requerimento-exame-calculo-${cpf}.pdf`;
-    const opt = {
-      margin: 0.2,
-      filename: nome_pdf,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, scrollY: 0 },
-      jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' },
-      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-    };
-    html2pdf().set(opt).from(element).outputPdf('blob').then(function(pdfBlob) {
-      const formData = new FormData();
-      formData.append('pdf', pdfBlob, nome_pdf);
-      formData.append('cpf', cpf);
-      formData.append('email', email);
-      fetch('/enviar_pdf_email/', {
-        method: 'POST',
-        body: formData
-      })
-      .then(r => r.json())
-      .then(data => {
-        if (data.erro) {
-          mostrarModal('Erro: ' + data.erro);
-        } else {
-          mostrarModal(data.mensagem || 'PDF enviado por email com sucesso!');
-        }
-      })
-      .catch(() => {
-        mostrarModal('Erro ao enviar o PDF por email.');
-      });
-    }).finally(() => {
-      formWrapper.classList.remove('pdf-clean');
-      document.querySelectorAll('.no-print, .nao-imprimir').forEach(el => el.classList.remove('hide-on-pdf'));
-    });
-  };
-}
+});
 </script>
 {% endblock %}

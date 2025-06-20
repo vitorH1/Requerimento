@@ -1,6 +1,14 @@
 // JS base para todos os formulários de requerimentos
 console.log("🚀 requerimentos_form.js carregado!");
 
+// Script para garantir que não apareça barra lateral na impressão
+window.addEventListener('beforeprint', function () {
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.width = '100%';
+    document.body.style.width = '100%';
+});
+
 document.addEventListener('DOMContentLoaded', function () {
     console.log("📋 DOMContentLoaded executado em requerimentos_form.js");
     // Exibe a data formatada na cidade
