@@ -1,0 +1,237 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Requerimentos{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/requerimentos_form.css' %}">
+    <link rel="stylesheet" href="{% static 'css/requerimentos_override.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="header-bar">
+        <h1>Novo_req</h1>
+    </div>
+
+    <div class="form-wrapper">
+    
+        <!-- Rest of your form content -->
+        <form id="form-cadastro">
+            <div class="form-row">
+                <div class="half">
+                    <label for="nome">Nome:</label>
+                    <input type="text" name="nome" id="nome" class="form-control" required>
+                </div>
+                <div class="half">
+                    <label for="rg">RG:</label>
+                    <input type="text" name="rg" id="rg" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="half">
+                    <label for="cpf">CPF (MF):</label>
+                    <input type="text" name="cpf" id="cpf" class="form-control" required>
+                </div>
+                <div class="half">
+                    <label for="telefone">Whatsapp/Telefone:</label>
+                    <input type="text" name="telefone" id="telefone" class="form-control" >
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div style="flex: 1;">
+                    <label for="nacionalidade">Nacionalidade:</label>
+                    <input type="text" name="nacionalidade" id="nacionalidade" class="form-control" required>
+                </div>
+                <div style="flex: 1;">
+                    <label for="estado_civil">Estado Civil:</label>
+                    <input type="text" name="estado_civil" id="estado_civil" class="form-control" required>
+                </div>
+                <div style="flex: 1;">
+                    <label for="profissao">Profissão:</label>
+                    <input type="text" name="profissao" id="profissao" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div style="flex: 2;">
+                    <label for="endereco">Residente e domiciliado(a) na Av. /Rua /AL:</label>
+                    <input type="text" name="endereco" id="endereco" class="form-control" required>
+                </div>
+                <div style="flex: 0.2;">
+                    <label for="numero">Nº:</label>
+                    <input type="text" name="numero" id="numero" class="form-control" >
+                </div>
+                <div style="flex: 1;">
+                    <label for="complemento">Complemento:</label>
+                    <input type="text" name="complemento" id="complemento" class="form-control">
+                </div>
+                <div style="flex: 1;">
+                    <label for="bairro">Bairro:</label>
+                    <input type="text" name="bairro" id="bairro" class="form-control" >
+                </div>
+            </div>
+
+            <div class="form-row">
+
+                <div style="flex: 1;">
+                    <label for="cidade">Cidade:</label>
+                    <input type="text" name="cidade" id="cidade" class="form-control" required>
+                </div>
+
+                <div style="flex: 0.2;">
+                    <label for="uf">UF:</label>
+                    <select name="uf" id="uf" class="form-control" required>
+                        <option value="">Selecione</option>
+                        <option value="MG">MG</option>
+                        <option value="SP">SP</option>
+                    </select>
+                </div>
+
+                <div style="flex: 1;">
+                    <label for="email">Email:</label>
+                    <input type="email" name="email" id="email" class="form-control">
+                </div>
+            </div>
+
+            <!-- BLOCO PADRÃO "VEM REQUERER" EM TEXTO CORRIDO (CORRIGE INPUT ATRÁS DE MAT) -->
+            <div class="vem-requerer bloco-padrao">
+                <p class="vem-requerer-paragrafo">
+                    vem, com o devido respeito, requerer a V.Sa. que faça determinar a averbação de construção à margem do
+                    <span style="white-space: nowrap;">R.<input type="text" name="registro" class="form-control vem-requerer-input-inline input-antes-mat"></span>
+                    <span style="white-space: nowrap;">Mat.<input type="text" name="matricula" class="form-control vem-requerer-input-inline" style="margin-left: 2px;"></span>
+                    do livro O2, que foi construído(a) uma casa
+                    <input type="text" name="tipo_construcao" class="form-control vem-requerer-input-inline"> e Padrão
+                    <input type="text" name="padrao_construcao" class="form-control vem-requerer-input-inline">, à (Rua/Av)
+                    <input type="text" name="rua" class="form-control vem-requerer-input-inline vem-requerer-input-endereco">, Bairro
+                    <input type="text" name="bairro" class="form-control vem-requerer-input-inline">, com a área construída de
+                    <input type="text" name="area_construida" class="form-control vem-requerer-input-inline"> m², orçado(a) no valor de R$
+                    <input type="text" name="valor_orcado" class="form-control vem-requerer-input-inline" oninput="formatarMoeda(this)"> e o valor do terreno total orçado no valor de R$
+                    <input type="text" name="valor_terreno" class="form-control vem-requerer-input-inline" oninput="formatarMoeda(this)">, para tanto, planta baixa, “Carta de Habite-se” de nº
+                    <input type="text" name="habite_se_num" class="form-control vem-requerer-input-inline">, fornecido pela Prefeitura Municipal, datada de
+                    <input type="text" name="habite_se_data" class="form-control vem-requerer-input-inline"> e Certidão Negativa de Débitos (CND) do INSS de nº
+                    <input type="text" name="cnd_inss_num" class="form-control vem-requerer-input-inline">, válida por
+                    <input type="text" name="cnd_inss_validade" class="form-control vem-requerer-input-inline"> dias da data de sua emissão, tudo conforme documentos que ficam arquivados em Cartório.
+                </p>
+            </div>
+            <style>
+            .vem-requerer.bloco-padrao {
+                margin-top: 25px !important;
+            }
+            .vem-requerer-paragrafo {
+                font-size: 14px;
+                text-align: justify;
+                line-height: 1.8;
+                margin-bottom: 0.7em;
+                word-break: break-word;
+            }
+            .vem-requerer-input-inline {
+                display: inline-block !important;
+                min-width: 70px;
+                max-width: 130px;
+                width: 100px;
+                font-size: 14px;
+                margin: 0 2px 2px 2px;
+                border: none;
+                border-bottom: 1px solid #222;
+                background: transparent;
+                box-shadow: none;
+                outline: none;
+                text-align: center;
+                vertical-align: baseline;
+                padding: 0 2px;
+                page-break-inside: avoid;
+            }
+            .input-antes-mat {
+                margin-left: 4px;
+            }
+            .vem-requerer-input-endereco {
+                min-width: 280px;
+                max-width: 450px;
+                width: 320px;
+                text-align: left;
+            }
+            .vem-requerer-input-inline:focus {
+                border-bottom: 1.5px solid #007bff;
+                background: #f5f7fa;
+            }
+            @media print {
+                .vem-requerer-paragrafo {
+                    font-size: 13px;
+                    line-height: 1.9 !important;
+                    word-break: break-word;
+                }
+                .vem-requerer-input-inline {
+                    display: inline-block !important;
+                    min-width: 60px;
+                    max-width: 110px;
+                    width: 85px;
+                    border: none !important;
+                    border-bottom: 1px solid #000 !important;
+                    background: transparent !important;
+                    color: #000 !important;
+                    font-size: 13px;
+                    -webkit-print-color-adjust: exact;
+                    print-color-adjust: exact;
+                    page-break-inside: avoid;
+                    box-shadow: none !important;
+                    border-radius: 0;
+                }
+                .input-antes-mat {
+                    margin-left: 4px;
+                }
+                .vem-requerer-input-endereco {
+                    min-width: 200px;
+                    max-width: 300px;
+                    width: 250px;
+                }
+                input.form-control {
+                    box-shadow: none !important;
+                }
+            }
+            </style>
+            <!-- FIM BLOCO PADRÃO "VEM REQUERER" -->
+
+            
+                <p style="text-align: center;font-size: 13px;">Termos em que, P. Deferimento.</p>
+            <div class="row mb-3 print-date-row" style="text-align: center;">
+                <div class="col-md-12">
+                    <p id="cidade-data" class="form-control-plaintext"></p>
+                </div>
+            </div>
+            <div class="form-footer">
+                <div class="signature-line">
+                    <hr>
+                    <span id="assinatura-preenchida"></span>
+                </div>
+            </div>
+            <div class="no-print" style="display: flex; justify-content: center; gap: 10px; margin-top: 1rem;">
+                <button type="button" class="btn btn-primary" onclick="printRequerimento()">Imprimir</button>
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+                
+                <button type="button" class="btn btn-primary" id="btn-enviar-email">Enviar Email</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal de sucesso -->
+<div id="modalSucesso" class="modal">
+    <div class="modal-content">
+        <p id="mensagemModal">Cadastro salvo com sucesso!</p>
+        <button onclick="fecharModal()" class="btn-modal-ok">OK</button>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="{% static 'js/validacoes.js' %}"></script>
+    <script src="{% static 'js/upload_pdf.js' %}"></script>
+    <script src="{% static 'js/enviar_pdf_email.js' %}"></script>
+    <script src="{% static 'js/requerimentos_form.js' %}"></script>
+{% endblock %}

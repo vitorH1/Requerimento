@@ -28,7 +28,7 @@ REQUERIMENTOS = [
      {"id": "averbacao_demolicao", "nome": "Averbação de Demolição", "descricao": "Requerimento para averbação de demolição"},
      {"id": "averbacao_demolicao_construcao", "nome": "Averbação de Demolição e Nova Construção", "descricao": "Requerimento para averbação de demolição e nova construção"},
      {"id": "pedido_providencias", "nome": "Pedido de Providências", "descricao": "Requerimento de pedido de providências"}, 
-    
+  {"id": "novo_req", "nome": "novo_req", "descricao": "novo_req"},
     {"id": "averbacao_casamento", "nome": "Averbação de Casamento", "descricao": "Requerimento para averbação de casamento"},
     {"id": "averbacao_separacao_judicial", "nome": "Averbação de Separação Judicial", "descricao": "Requerimento para averbação de separação judicial"},
     {"id": "averbacao_divorcio", "nome": "Averbação de Divórcio", "descricao": "Requerimento para averbação de divórcio"},

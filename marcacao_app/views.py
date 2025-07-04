@@ -96,25 +96,46 @@ def cadastro(request):
             data = json.loads(request.body)
             cpf_limpo = limpar_cpf(data.get('cpf', ''))
             # Verifica se já existe um cliente com esse CPF
-            if Cliente.objects.filter(cpf=cpf_limpo).exists():
-                return JsonResponse({'erro': 'CPF já cadastrado!'}, status=400)
-            cliente = Cliente.objects.create(
-                nome=data.get('nome', ''),
-                rg=data.get('rg', ''),
-                cpf=cpf_limpo,
-                telefone=data.get('telefone', ''),
-                nacionalidade=data.get('nacionalidade', ''),
-                estado_civil=data.get('estado_civil', ''),
-                profissao=data.get('profissao', ''),
-                endereco=data.get('endereco', ''),
-                numero=data.get('numero', ''),
-                complemento=data.get('complemento', ''),
-                bairro=data.get('bairro', ''),
-                cidade=data.get('cidade', ''),
-                uf=data.get('uf', ''),
-                email=data.get('email', '')
-            )
-            return JsonResponse({'mensagem': 'Cadastro salvo com sucesso!'})
+            try:
+                cliente = Cliente.objects.get(cpf=cpf_limpo)
+                # Comparar todos os campos relevantes
+                campos = [
+                    'nome', 'rg', 'telefone', 'nacionalidade', 'estado_civil', 'profissao',
+                    'endereco', 'numero', 'complemento', 'bairro', 'cidade', 'uf', 'email'
+                ]
+                dados_iguais = True
+                for campo in campos:
+                    valor_novo = data.get(campo, '') or ''
+                    valor_antigo = getattr(cliente, campo) or ''
+                    if valor_novo != valor_antigo:
+                        dados_iguais = False
+                        break
+                if dados_iguais:
+                    return JsonResponse({'erro': 'CPF já cadastrado!'}, status=400)
+                # Atualiza os campos diferentes
+                for campo in campos:
+                    setattr(cliente, campo, data.get(campo, '') or '')
+                cliente.save()
+                return JsonResponse({'mensagem': 'Cadastro atualizado com sucesso!'})
+            except Cliente.DoesNotExist:
+                # Não existe, cria novo
+                cliente = Cliente.objects.create(
+                    nome=data.get('nome', ''),
+                    rg=data.get('rg', ''),
+                    cpf=cpf_limpo,
+                    telefone=data.get('telefone', ''),
+                    nacionalidade=data.get('nacionalidade', ''),
+                    estado_civil=data.get('estado_civil', ''),
+                    profissao=data.get('profissao', ''),
+                    endereco=data.get('endereco', ''),
+                    numero=data.get('numero', ''),
+                    complemento=data.get('complemento', ''),
+                    bairro=data.get('bairro', ''),
+                    cidade=data.get('cidade', ''),
+                    uf=data.get('uf', ''),
+                    email=data.get('email', '')
+                )
+                return JsonResponse({'mensagem': 'Cadastro salvo com sucesso!'})
         except Exception as e:
             return JsonResponse({'erro': f'Erro ao salvar: {str(e)}'}, status=400)
     return JsonResponse({'erro': 'Método não permitido'}, status=405)
