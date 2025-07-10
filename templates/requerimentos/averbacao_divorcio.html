@@ -62,7 +62,7 @@
             <div class="form-row">
                 <div style="flex: 2;">
                     <label for="endereco">Residente e domiciliado(a) na Av. /Rua /AL:</label>
-                    <input type="text" name="endereco" id="endereco" class="form-control" required>
+                    <input type="text" name="endereco" id="endereco" class="form-control" >
                 </div>
                 <div style="flex: 0.2;">
                     <label for="numero">Nº:</label>
@@ -82,12 +82,12 @@
 
                 <div style="flex: 1;">
                     <label for="cidade">Cidade:</label>
-                    <input type="text" name="cidade" id="cidade" class="form-control" required>
+                    <input type="text" name="cidade" id="cidade" class="form-control" >
                 </div>
 
                 <div style="flex: 0.2;">
                     <label for="uf">UF:</label>
-                    <select name="uf" id="uf" class="form-control" required>
+                    <select name="uf" id="uf" class="form-control" >
                         <option value="">Selecione</option>
                         <option value="MG">MG</option>
                         <option value="SP">SP</option>
@@ -102,17 +102,17 @@
 
             <div class="vem-requerer">
                 <p style="margin-bottom: 3px !important; display: inline;">vem requerer a Vossa Senhoria se digne AVERBAR na(s) matrícula(s):</p>
-                <input type="text" name="matriculas_averbar" class="form-control" required style="display: inline; width: auto; margin-left: 8px; width: 350px;"required>
+                <input type="text" name="matriculas_averbar" class="form-control" required style="display: inline; width: auto; margin-left: 8px; width: 350px;">
             </div>
 
             <div class="vem-requerer">
                 <p style="margin-bottom: 3px !important; display: inline;">desse Registro o divórcio de:</p>
-                <input type="text" name="nome_conjuge_1" class="form-control" required style="display: inline; width: auto; margin-left: 8px;   width: 450px;"required>
+                <input type="text" name="nome_conjuge_1" class="form-control" required style="display: inline; width: auto; margin-left: 8px;   width: 450px;">
             </div>
 
             <div class="vem-requerer">
                 <p style="margin-bottom: 3px !important; display: inline;">e de:</p>
-                <input type="text" name="nome_conjuge_2" class="form-control" required style="display: inline; width: auto; margin-left: 8px;  width: 450px;"required>
+                <input type="text" name="nome_conjuge_2" class="form-control" required style="display: inline; width: auto; margin-left: 8px;  width: 450px;">
             </div>
 
             <div class="option-group">
@@ -177,6 +177,7 @@
 {% endblock %}
 
 {% block scripts %}
+    <script src="{% static 'js/cliente_autofill.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="{% static 'js/validacoes.js' %}"></script>

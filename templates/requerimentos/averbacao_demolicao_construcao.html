@@ -184,21 +184,21 @@
             <div class="form-row">
                 <div style="flex: 1;">
                     <label for="nacionalidade">Nacionalidade:</label>
-                    <input type="text" name="nacionalidade" id="nacionalidade" class="form-control" required>
+                    <input type="text" name="nacionalidade" id="nacionalidade" class="form-control" >
                 </div>
                 <div style="flex: 1;">
                     <label for="estado_civil">Estado Civil:</label>
-                    <input type="text" name="estado_civil" id="estado_civil" class="form-control" required>
+                    <input type="text" name="estado_civil" id="estado_civil" class="form-control" >
                 </div>
                 <div style="flex: 1;">
                     <label for="profissao">Profissão:</label>
-                    <input type="text" name="profissao" id="profissao" class="form-control" required>
+                    <input type="text" name="profissao" id="profissao" class="form-control" >
                 </div>
             </div>
             <div class="form-row">
                 <div style="flex: 2;">
                     <label for="endereco">Residente e domiciliado(a) na Av. /Rua /AL:</label>
-                    <input type="text" name="endereco" id="endereco" class="form-control" required>
+                    <input type="text" name="endereco" id="endereco" class="form-control" >
                 </div>
                 <div style="flex: 0.2;">
                     <label for="numero">Nº:</label>
@@ -216,7 +216,7 @@
             <div class="form-row">
                 <div style="flex: 1;">
                     <label for="cidade">Cidade:</label>
-                    <input type="text" name="cidade" id="cidade" class="form-control" required>
+                    <input type="text" name="cidade" id="cidade" class="form-control" >
                 </div>
                 <div style="flex: 0.2;">
                     <label for="uf">UF:</label>
@@ -339,6 +339,7 @@
 {% endblock %}
 
 {% block scripts %}
+<script src="{% static 'js/cliente_autofill.js' %}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="{% static 'js/validacoes.js' %}"></script>

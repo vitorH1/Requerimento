@@ -1,56 +1,68 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Requerimentos{% endblock %}
+{% block title %}Requerimento Averbação de Fusão{% endblock %}
 
 {% block styles %}
     <link rel="stylesheet" href="{% static 'css/requerimentos_form.css' %}">
     <link rel="stylesheet" href="{% static 'css/requerimentos_override.css' %}">
     <style>
-    @media print {
-      .form-row .date-separator {
-        border: none !important;
-        border-bottom: none !important;
-        outline: none !important;
-        background: #fff !important;
-        box-shadow: none !important;
-        display: inline !important;
-        padding: 0 4px !important;
-        margin: 0 !important;
-        position: relative !important;
-        z-index: 2 !important;
-      }
-      .form-row .date-day select,
-      .form-row .date-month select,
-      .form-row .date-year select {
-        border-bottom: 1.5px solid #000 !important;
-        border-radius: 0 !important;
-        background: transparent !important;
-        box-shadow: none !important;
-        display: inline-block !important;
-        min-width: 60px;
-        margin-right: 2px !important;
-        margin-left: 2px !important;
-        position: relative !important;
-        z-index: 1 !important;
-      }
-    }
+        #form-cadastro .form-control {
+            font-size: 12px;
+            padding: 2px 6px;
+            height: 26px;
+        }
+        #form-cadastro label {
+            font-size: 12px;
+            margin-bottom: 1px;
+        }
+        #form-cadastro .form-row {
+            gap: 4px;
+            margin-bottom: 4px;
+        }
+        #form-cadastro .vem-requerer p,
+        #form-cadastro .option label {
+            font-size: 12px;
+        }
+        #form-cadastro .option input[type="checkbox"] {
+            width: 13px;
+            height: 13px;
+        }
+        #form-cadastro .option {
+            gap: 3px;
+            margin-bottom: 1px;
+        }
+        #form-cadastro .vem-requerer {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+        #form-cadastro .vem-requerer p {
+            display: block !important;
+            max-width: 100%;
+            white-space: normal !important;
+            margin-bottom: 2px !important;
+        }
+        #form-cadastro .vem-requerer input.form-control {
+            display: inline-block !important;
+            width: 120px !important;
+            margin-left: 4px !important;
+            margin-right: 4px !important;
+            margin-top: 2px !important;
+        }
     </style>
 {% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="header-bar">
-        <h1>Averbação de óbito</h1>
+        <h1>Averbação de Fusão</h1>
     </div>
-
     <div class="form-wrapper">
         <div class="form-header">
-            <h2>REQUERIMENTO – AVERBAÇÃO DE ÓBITO</h2>
-            <h3>ILUSTRÍSSIMA OFICIALA DE REGISTRO DE IMÓVEIS DE MONTE CARMELO-MG</h3>
+            <h2>REQUERIMENTO – AVERBAÇÃO DE FUSÃO</h2>
+            <h3>ILUSTRÍSSIMA OFICIALA DE REGISTRO DE IMÓVEIS</h3>
         </div>
-
-        <!-- Rest of your form content -->
         <form id="form-cadastro">
             <div class="form-row">
                 <div class="half">
@@ -69,25 +81,23 @@
                 </div>
                 <div class="half">
                     <label for="telefone">Whatsapp/Telefone:</label>
-                    <input type="text" name="telefone" id="telefone" class="form-control" >
+                    <input type="text" name="telefone" id="telefone" class="form-control">
                 </div>
             </div>
-
             <div class="form-row">
                 <div style="flex: 1;">
                     <label for="nacionalidade">Nacionalidade:</label>
-                    <input type="text" name="nacionalidade" id="nacionalidade" class="form-control" >
+                    <input type="text" name="nacionalidade" id="nacionalidade" class="form-control">
                 </div>
                 <div style="flex: 1;">
                     <label for="estado_civil">Estado Civil:</label>
-                    <input type="text" name="estado_civil" id="estado_civil" class="form-control" >
+                    <input type="text" name="estado_civil" id="estado_civil" class="form-control">
                 </div>
                 <div style="flex: 1;">
                     <label for="profissao">Profissão:</label>
-                    <input type="text" name="profissao" id="profissao" class="form-control" >
+                    <input type="text" name="profissao" id="profissao" class="form-control">
                 </div>
             </div>
-
             <div class="form-row">
                 <div style="flex: 2;">
                     <label for="endereco">Residente e domiciliado(a) na Av. /Rua /AL:</label>
@@ -95,97 +105,80 @@
                 </div>
                 <div style="flex: 0.2;">
                     <label for="numero">Nº:</label>
-                    <input type="text" name="numero" id="numero" class="form-control" >
+                    <input type="text" name="numero" id="numero" class="form-control">
                 </div>
                 <div style="flex: 1;">
                     <label for="complemento">Complemento:</label>
-                    <input type="text" name="complemento" id="complemento" class="form-control" >
+                    <input type="text" name="complemento" id="complemento" class="form-control">
                 </div>
                 <div style="flex: 1;">
                     <label for="bairro">Bairro:</label>
-                    <input type="text" name="bairro" id="bairro" class="form-control" >
+                    <input type="text" name="bairro" id="bairro" class="form-control">
                 </div>
             </div>
-
             <div class="form-row">
-
                 <div style="flex: 1;">
                     <label for="cidade">Cidade:</label>
                     <input type="text" name="cidade" id="cidade" class="form-control" >
                 </div>
-
                 <div style="flex: 0.2;">
                     <label for="uf">UF:</label>
                     <select name="uf" id="uf" class="form-control" >
                         <option value="">Selecione</option>
                         <option value="MG">MG</option>
                         <option value="SP">SP</option>
+                        <!-- outros estados -->
                     </select>
                 </div>
-
                 <div style="flex: 1;">
                     <label for="email">Email:</label>
-                    <input type="email" name="email" id="email" class="form-control" >
+                    <input type="email" name="email" id="email" class="form-control">
                 </div>
             </div>
-
-            <div class="vem-requerer">
-                <p style="margin-bottom: 3px !important; display: inline;">Vem requerer a Vossa Senhoria se digne AVERBAR na(s) matrícula(s):</p>
-                <input type="text" name="matriculas_obito" class="form-control"  style="display: inline; width: 300px;">
+            <div class="vem-requerer" style="margin-top: 18px; align-items: flex-end; flex-wrap: wrap;">
+                <p style="margin-bottom: 3px !important; display: inline;">
+                    Vem, através deste, requerer que seja averbada a FUSÃO dos imóveis das matrículas nºs
+                </p>
+                <input type="text" name="matricula1" class="form-control">
+                <span>e</span>
+                <input type="text" name="matricula2" class="form-control" >
+                <p style="margin-bottom: 3px !important; display: inline; margin-left: 4px;">
+                    , Livro 02, Registro Geral, deste Ofício. O presente requerimento segue instruído com:
+                </p>
             </div>
-
-            <div class="vem-requerer">
-                <p style="margin-bottom: 3px !important; display: inline;">óbito de:</p>
-                <input type="text" name="nome_falecido" class="form-control"  style="display: inline; width: 500px; !important;">
-            </div>
-
-            <div class="vem-requerer">
-                <p style="margin-bottom: 3px !important;">Ocorrido em:</p>
-                <div class="form-row" style="align-items: center;">
-                    <div class="date-day">
-                        <select name="dia_obito" class="form-control" >
-                            <option value="">Dia</option>
-                            {# ATENÇÃO: a variável 'dias' deve ser passada pela view como range(1, 32) #}
-                            {% for dia in dias %}
-                            <option value="{{ dia }}">{{ dia }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <span class="date-separator">de</span>
-                    <div class="date-month">
-                        <select name="mes_obito" class="form-control" >
-                            <option value="">Mês</option>
-                            <option value="1">Janeiro</option>
-                            <option value="2">Fevereiro</option>
-                            <option value="3">Março</option>
-                            <option value="4">Abril</option>
-                            <option value="5">Maio</option>
-                            <option value="6">Junho</option>
-                            <option value="7">Julho</option>
-                            <option value="8">Agosto</option>
-                            <option value="9">Setembro</option>
-                            <option value="10">Outubro</option>
-                            <option value="11">Novembro</option>
-                            <option value="12">Dezembro</option>
-                        </select>
-                    </div>
-                    <span class="date-separator">de</span>
-                    <div class="date-year">
-                        <select name="ano_obito" class="form-control" id="ano_obito" >
-                            <option value="">Ano</option >
-                            {% for ano in anos %}
-                            <option value="{{ ano }}">{{ ano }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="option-group">
-                <p>Como prova do acima requerido anexa o(s) seguinte(s) documento(s):</p>
+            <div class="option-group" style="margin-top: 18px;">
+                <p>Como prova do acima requerido, anexa os seguintes documentos:</p>
                 <div class="option" style="display: flex; align-items: center;">
-                    <input type="checkbox" name="certidao" style="margin-right: 5px;">
-                    <label>- Certidão de óbito(Original ou cópia Auntenticada)</label>
+                    <input type="checkbox" name="planta" style="margin-right: 5px;">
+                    <label>- Planta (com firma reconhecida do responsável técnico);</label>
+                </div>
+                <div class="option" style="display: flex; align-items: center;">
+                    <input type="checkbox" name="memorial" style="margin-right: 5px;">
+                    <label>- Memorial descritivo (com firma reconhecida do responsável técnico);</label>
+                </div>
+                <div class="option" style="display: flex; align-items: center;">
+                    <input type="checkbox" name="art_rrt" style="margin-right: 5px;">
+                    <label>- ART/RRT (com firma reconhecida do responsável técnico);</label>
+                </div>
+                <div class="option" style="display: flex; align-items: center;">
+                    <input type="checkbox" name="certidao_prefeitura" style="margin-right: 5px;">
+                    <label>- Certidão de aprovação da prefeitura.</label>
+                </div>
+                <div class="option" style="display: flex; align-items: center;">
+                    <input type="checkbox" name="termo_verificacao" style="margin-right: 5px;">
+                    <label>- Termo de verificação</label>
+                </div>
+                <div class="option" style="display: flex; align-items: center;">
+                    <input type="checkbox" name="certidao_avaliacao" style="margin-right: 5px;">
+                    <label>- Certidão de avaliação</label>
+                </div>
+                <div class="option" style="display: flex; align-items: center;">
+                    <input type="checkbox" name="certidao_avaliacao_loteamento" style="margin-right: 5px;">
+                    <label>- Certidão de avaliação de alteração de loteamento</label>
+                </div>
+                <div class="option" style="display: flex; align-items: center;">
+                    <input type="checkbox" name="memorial_planilha" style="margin-right: 5px;">
+                    <label>- Memorial em planilha</label>
                 </div>
                 <div class="option">
                     <label>
@@ -194,7 +187,6 @@
                     </label>
                 </div>
             </div>
-
             <p style="text-align: center;font-size: 12PX;margin-bottom: 30PX;">Termos em que, P. Deferimento</p>
             <div class="row mb-3 print-date-row" style="text-align: center;">
                 <div class="col-md-12">
@@ -210,7 +202,6 @@
             <div class="observations">
                 <p><strong>Obs:</strong></p>
                 <ol>
-                    <li>Anexar certidão(ões) de óbito. As xerox devem ser autenticadas.</li>
                     <li> Reconhecer a firma do(a) requerente ou assinar o requerimento perante oficial do cartório.
                     </li>
                 </ol>
@@ -224,7 +215,6 @@
         </form>
     </div>
 </div>
-
 <!-- Modal de sucesso -->
 <div id="modalSucesso" class="modal">
     <div class="modal-content">
@@ -232,7 +222,6 @@
         <button onclick="fecharModal()" class="btn-modal-ok">OK</button>
     </div>
 </div>
-
 {% endblock %}
 
 {% block scripts %}

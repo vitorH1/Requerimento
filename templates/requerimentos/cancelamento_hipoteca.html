@@ -102,12 +102,12 @@
 
             <div class="vem-requerer">
                 <p style="margin-bottom: 3px !important;">Vem requerer a Vossa Senhoria se digne averbar o Cancelamento De Hipoteca/alienação Fiduciária na(s) matrícula(s):</p>
-                <input type="text" name="matriculas" class="form-control"required>
+                <input type="text" name="matriculas" class="form-control">
             </div>
 
             <div class="vem-requerer">
                 <p style="margin-bottom: 3px !important;">referente aos imóveis situados:</p>
-                <input type="text" name="conjuge" class="form-control"required>
+                <input type="text" name="conjuge" class="form-control">
             </div>
 
             <div class="option-group">
@@ -165,6 +165,7 @@
 {% endblock %}
 
 {% block scripts %}
+    <script src="{% static 'js/cliente_autofill.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="{% static 'js/validacoes.js' %}"></script>

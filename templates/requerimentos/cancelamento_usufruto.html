@@ -92,7 +92,7 @@
 
             <div class="vem-requerer" style="display: block; width: 100%;">
                 <p style="display: block; width: 100%; margin-bottom: 0 !important; page-break-inside: avoid !important;">Com relação ao(s) imóvel(eis) objeto da(s) seguinte(s) Matrícula(s)/Transcrição(ões):</p>
-                <input type="text" name="Matriculas" class="form-control" style="width: 100%; display: block; margin-top: 8px !important; clear: both; page-break-inside: avoid !important;" required>
+                <input type="text" name="Matriculas" class="form-control" style="width: 100%; display: block; margin-top: 8px !important; clear: both; page-break-inside: avoid !important;" >
             </div>
            
             <div class="option-group">
@@ -178,6 +178,7 @@
 {% endblock %}
 
 {% block scripts %}
+<script src="{% static 'js/cliente_autofill.js' %}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="{% static 'js/validacoes.js' %}"></script>

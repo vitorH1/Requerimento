@@ -111,13 +111,13 @@
 
             <div class="vem-requerer">
                 <p>Vem requerer a Vossa Senhoria se digne a averbar na(s) matrícula(s): 
-                    <input type="text" name="matricula" class="form-control" style="width: 100px; display: inline-block;" required>
+                    <input type="text" name="matricula" class="form-control" style="width: 100px; display: inline-block;" >
                 </p>
             </div>
 
             <div class="vem-requerer">
                 <p>O cancelamento das cláusulas restritivas constantes da(s) citada(s) matrícula(s), em virtude de: 
-                    <input type="text" name="justificativa_cancelamento" class="form-control" style="max-width: 500px; " required>
+                    <input type="text" name="justificativa_cancelamento" class="form-control" style="max-width: 500px; " >
                 </p>
             </div>
             
@@ -169,6 +169,7 @@
 {% endblock %}
 
 {% block scripts %}
+    <script src="{% static 'js/cliente_autofill.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="{% static 'js/validacoes.js' %}"></script>

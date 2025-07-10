@@ -62,7 +62,7 @@
             <div class="form-row">
                 <div style="flex: 2;">
                     <label for="endereco">Residente e domiciliado(a) na Av. /Rua /AL:</label>
-                    <input type="text" name="endereco" id="endereco" class="form-control" required>
+                    <input type="text" name="endereco" id="endereco" class="form-control" >
                 </div>
                 <div style="flex: 0.2;">
                     <label for="numero">Nº:</label>
@@ -82,12 +82,12 @@
 
                 <div style="flex: 1;">
                     <label for="cidade">Cidade:</label>
-                    <input type="text" name="cidade" id="cidade" class="form-control" required>
+                    <input type="text" name="cidade" id="cidade" class="form-control" >
                 </div>
 
                 <div style="flex: 0.2;">
                     <label for="uf">UF:</label>
-                    <select name="uf" id="uf" class="form-control" required>
+                    <select name="uf" id="uf" class="form-control" >
                         <option value="">Selecione</option>
                         <option value="MG">MG</option>
                         <option value="SP">SP</option>
@@ -102,19 +102,19 @@
 
             <div class="vem-requerer" style="display: flex; align-items: center; gap: 8px;">
                 <p style="margin-bottom: 3px !important; margin-right: 0;">Vem requerer a Vossa Senhoria se digne AVERBAR na(s) matrícula(s):</p>
-                <input type="text" name="matriculas" class="form-control" style="flex: 1;" required>
+                <input type="text" name="matriculas" class="form-control" style="flex: 1;" >
             </div>
 
         <div class="form">    
 
             <div class="vem-requerer" style="display: flex; align-items: center; gap: 8px;">
                 <p style="margin-bottom: 3px !important; margin-right: 0;">desse Registro a separação judicial de :</p>
-                <input type="text" name="conjuge" class="form-control" style="flex: 1;" required>
+                <input type="text" name="conjuge" class="form-control" style="flex: 1;" >
             </div>
 
             <div class="vem-requerer" style="display: flex; align-items: center; gap: 8px;">
                 <p style="margin-bottom: 3px !important; margin-right: 0;">e de :</p>
-                <input type="text" name="conjuge2" class="form-control" style="flex: 1;" required>
+                <input type="text" name="conjuge2" class="form-control" style="flex: 1;" >
             </div>
         </div>
             
@@ -185,6 +185,7 @@
 {% endblock %}
 
 {% block scripts %}
+    <script src="{% static 'js/cliente_autofill.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="{% static 'js/validacoes.js' %}"></script>
