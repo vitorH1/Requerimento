@@ -128,6 +128,9 @@
         padding: 0 !important;
         content: "";
     }
+    .predio-demolido-print {
+        width: 600px !important; 
+    }
 }
 .linha-valor-print-web {
     display: inline;
@@ -147,6 +150,7 @@
     padding: 2px 4px;
     font-size: 13px;
 }
+
 </style>
 {% endblock %}
 
@@ -238,11 +242,12 @@
             <div class="form-row">
                 <div class="vem-requerer" style="display: flex; align-items: center; gap: 10px;">
                     <p style="margin: 0;">desse Registro a demolição do prédio número</p>
-                    <input type="text" name="predio_demolido" class="form-control" style="flex: 1;">
+                    <input type="text" name="predio_demolido" class="form-control predio-demolido-print" style="flex: 1;">
                 </div>
+
                 <div class="vem-requerer" style="display: flex; align-items: center; gap: 10px;">
                     <p style="margin: 0;">e a construção no mesmo imóvel do(s) prédio(s) que recebeu(ram) o(s) número(s)</p>
-                    <input type="text" name="predios_novos" class="form-control" style="flex: 1;">
+                    <input type="text" name="predios_novos" class="form-control predios-novos-print" style="flex: 1;">
                 </div>
             </div>
             <div class="vem-requerer linha-area-valor" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
@@ -293,7 +298,11 @@
                 </div>
                 <div class="option" style="display: flex; align-items: center;">
                     <input type="checkbox" name="certidao" style="margin-right: 5px;">
-                    <label>- IPTU ou certidão de Valor Venal.</label>
+                    <label>- IPTU ou certidão de Valor Venal da obra.</label>
+                </div>
+                <div class="option" style="display: flex; align-items: center;">
+                    <input type="checkbox" name="certidao" style="margin-right: 5px;">
+                    <label>- Valor do terreno.</label>
                 </div>
                 <div class="option">
                     <label>

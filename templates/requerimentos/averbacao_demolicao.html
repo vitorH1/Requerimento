@@ -6,6 +6,32 @@
 {% block styles %}
 <link rel="stylesheet" href="{% static 'css/requerimentos_form.css' %}">
 <link rel="stylesheet" href="{% static 'css/requerimentos_override.css' %}">
+<style>
+    @media print {
+        .option-group .option.demolicao-flex-print {
+            display: inline-flex !important;
+            align-items: center !important;
+            flex-wrap: wrap !important;
+            width: 100%;
+            margin-bottom: 16px !important;
+        }
+        .option-group .option.demolicao-flex-print label {
+            white-space: normal !important;
+            flex: 0 1 auto;
+        }
+        .option-group .option .checkbox-demolicao {
+            vertical-align: top !important;
+            margin-top: px !important;
+        }
+        .option-group .option.demolicao-flex-print input[type="text"] {
+            display: inline-block !important;
+            flex: 1 1 75px !important;
+            min-width: 40px !important;
+            max-width: 50% !important;
+            margin-left: 6px !important;
+        }
+    }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -99,9 +125,12 @@
             </div>
             <div class="option-group">
                 <p>Como prova do acima requerido anexa os seguintes documentos:</p>
-                <div class="option" style="display: flex; align-items: center;">
-                    <input type="checkbox" name="certidao" style="margin-right: 5px;">
-                    <label>- Auto de Conclusão de Demolição ou documento equivalente expedido pela Prefeitura do Município de Monte Carmelo</label>
+                <div class="option demolicao-flex-print" style="display: flex; align-items: center;">
+                    <input type="checkbox" name="certidao" class="checkbox-demolicao" style="margin-right: 5px;">
+                    <label style="margin-bottom: 0;">
+                        - Auto de Conclusão de Demolição ou documento equivalente expedido pela Prefeitura do Município de
+                    </label>
+                    <input type="text" name="municipio_demolicao" id="municipio_demolicao" class="form-control" style="width: 150px; display: inline-block; margin-left: 6px;">
                 </div>
                 <div class="option" style="display: flex; align-items: center;">
                     <input type="checkbox" name="certidao" style="margin-right: 5px;">
@@ -117,7 +146,7 @@
             <p style="text-align: center;font-size: 13px;">Termos em que, P. Deferimento.</p>
             <div class="row mb-3 print-date-row" style="text-align: center;">
                 <div class="col-md-12">
-                  <p id="cidade-data" class="form-control-plaintext"></p>
+                    <p id="cidade-data" class="form-control-plaintext"></p>
                 </div>
             </div>
             <div class="form-footer">
@@ -141,7 +170,6 @@
         </form>
     </div>
 </div>
-<!-- Modal de sucesso -->
 <div id="modalSucesso" class="modal">
     <div class="modal-content">
         <p id="mensagemModal">Cadastro salvo com sucesso!</p>
